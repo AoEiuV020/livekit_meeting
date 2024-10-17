@@ -7,13 +7,13 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 class MockMeetingFlutterPlatform
     with MockPlatformInterfaceMixin
     implements MeetingFlutterPlatform {
-
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
 }
 
 void main() {
-  final MeetingFlutterPlatform initialPlatform = MeetingFlutterPlatform.instance;
+  final MeetingFlutterPlatform initialPlatform =
+      MeetingFlutterPlatform.instance;
 
   test('$MethodChannelMeetingFlutter is the default instance', () {
     expect(initialPlatform, isInstanceOf<MethodChannelMeetingFlutter>());

@@ -1,10 +1,25 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  exclude:
+    - '**/*.pb.dart'
+    - '**/*.pbenum.dart'
+    - '**/*.pbjson.dart'
+    - '**/*.pbserver.dart'
+
   errors:
     asset_directory_does_not_exist: error
     argument_type_not_assignable: warning
     prefer_relative_imports: error
+
 linter:
   rules:
-    - prefer_relative_imports
+    prefer_single_quotes: true
+    unnecessary_brace_in_string_interps: false
+    unawaited_futures: true
+
+    avoid_print: false
+    depend_on_referenced_packages: false
+    use_build_context_synchronously: false
+
+    prefer_relative_imports: true
