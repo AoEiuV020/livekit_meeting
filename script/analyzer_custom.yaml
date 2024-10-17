@@ -1,0 +1,9 @@
+
+analyzer:
+  errors:
+    asset_directory_does_not_exist: error
+    argument_type_not_assignable: warning
+    prefer_relative_imports: error
+linter:
+  rules:
+    - prefer_relative_imports

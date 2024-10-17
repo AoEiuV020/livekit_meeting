@@ -1,0 +1,30 @@
+name: new_project
+
+packages:
+  - .
+  - example
+  - apps/*
+  - packages/*
+  - packages/*/example
+
+scripts:
+  outdated:
+    exec: dart pub outdated
+  upgrade:
+    exec: dart pub upgrade
+  gen:
+    exec: dart run build_runner build --delete-conflicting-outputs
+    packageFilters:
+      dependsOn: build_runner
+  analyze:
+    exec: dart analyze .
+  fix:
+    exec: dart fix --apply
+  format:
+    exec: dart format .
+  test:
+    run: flutter test --no-pub --coverage
+    exec:
+      concurrency: 1
+    packageFilters:
+      dirExists: test

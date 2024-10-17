@@ -1,0 +1,21 @@
+# melos
+melos_overrides.yaml
+**/.idea
+**/*.iml
+lcov.info
+.packages
+.dart_tool/
+benchmark_results.json
+.flutter-plugins
+.flutter-plugins-dependencies
+flutter_export_environment.sh
+.netlify
+.DS_Store
+docs/**/*.g.dart
+**/build/
+**/pubspec.lock
+**/pubspec_overrides.yaml
+**.history/
+# dart to js 生成的调试文件，
+*.js.deps
+*.js.map
