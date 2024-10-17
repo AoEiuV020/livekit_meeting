@@ -162,7 +162,7 @@ extension LKExampleExt on BuildContext {
           title: const Text('Room recording reminder'),
           content: Text(isActiveRecording
               ? 'Room recording is active.'
-              : 'Room recording is stoped.'),
+              : 'Room recording is stopped.'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx, true),
