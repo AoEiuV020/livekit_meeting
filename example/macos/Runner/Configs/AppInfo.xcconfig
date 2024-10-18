@@ -8,7 +8,7 @@
 PRODUCT_NAME = meeting_flutter_example
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.meetingFlutterExample
+PRODUCT_BUNDLE_IDENTIFIER = com.aoeiuv020.meetingFlutterExample
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2024 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2024 com.aoeiuv020. All rights reserved.

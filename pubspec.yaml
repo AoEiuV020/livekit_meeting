@@ -51,7 +51,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.meeting_flutter
+        package: com.aoeiuv020.meeting_flutter
         pluginClass: MeetingFlutterPlugin
       ios:
         pluginClass: MeetingFlutterPlugin

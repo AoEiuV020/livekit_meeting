@@ -85,5 +85,5 @@ flutter:
   # identifiers, which may be completely independent or the same as these.
   module:
     androidX: true
-    androidPackage: com.example.meeting_module
-    iosBundleIdentifier: com.example.meetingModule
+    androidPackage: com.aoeiuv020.meeting_module
+    iosBundleIdentifier: com.aoeiuv020.meetingModule

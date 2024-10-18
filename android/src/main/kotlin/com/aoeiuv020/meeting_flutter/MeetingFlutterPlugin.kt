@@ -1,4 +1,4 @@
-package com.example.meeting_flutter
+package com.aoeiuv020.meeting_flutter
 
 import androidx.annotation.NonNull
 
