@@ -19,6 +19,7 @@ dependencyResolutionManagement {
         maven("$storageUrl/download.flutter.io")
         google()
         mavenCentral()
+        maven("https://jitpack.io")
     }
 }
 
