@@ -25,8 +25,12 @@ dependencies:
   dropdown_button2: ^2.3.6
   collection: '>=1.16.0'
 
+  intl: ^0.19.0
+  flutter_window_close: ^1.0.0
+
   livekit_client: ^2.2.6
 
+  flutter_webrtc: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -95,3 +99,6 @@ flutter:
   #
   # For details regarding fonts in packages, see
   # https://flutter.dev/to/font-from-package
+
+  assets:
+    - images/logo-dark.svg

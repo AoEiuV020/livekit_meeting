@@ -211,6 +211,7 @@ class _ConnectPageState extends State<ConnectPage> {
                     padding: const EdgeInsets.only(bottom: 70),
                     child: SvgPicture.asset(
                       'images/logo-dark.svg',
+                      package: 'meeting_flutter',
                     ),
                   ),
                   Padding(
