@@ -3,9 +3,9 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:logging/logging.dart';
 import 'package:intl/intl.dart';
-import 'rpc/external_api.dart';
-import 'pages/connect.dart';
+import 'pages/livekit_demo.dart';
 import 'pages/prejoin.dart';
+import 'rpc/external_api.dart';
 import 'rpc/meeting_rpc.dart';
 import 'utils.dart';
 import 'theme.dart';
@@ -78,6 +78,6 @@ class _LiveKitExampleAppState extends State<LiveKitExampleApp> {
   Widget build(BuildContext context) => MaterialApp(
         title: 'LiveKit Flutter Example',
         theme: LiveKitTheme().buildThemeData(context),
-        home: const ConnectPage(),
+        home: const LivekitDemoPage(),
       );
 }
