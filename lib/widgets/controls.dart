@@ -8,6 +8,7 @@ import 'package:flutter_background/flutter_background.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
+import '../rpc/external_api.dart';
 import '../exts.dart';
 
 class ControlsWidget extends StatefulWidget {
@@ -224,6 +225,8 @@ class _ControlsWidgetState extends State<ControlsWidget> {
   }
 
   void _onTapDisconnect() async {
+    final externalIntercept = await ExternalApi.instance.interceptHangup();
+    if (externalIntercept) return;
     final result = await context.showDisconnectDialog();
     if (result == true) await widget.room.disconnect();
   }

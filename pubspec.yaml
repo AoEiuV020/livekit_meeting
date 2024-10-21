@@ -31,6 +31,7 @@ dependencies:
   livekit_client: ^2.2.6
 
   flutter_webrtc: any
+  json_rpc_2: ^3.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

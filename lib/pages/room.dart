@@ -7,6 +7,7 @@ import 'package:livekit_client/livekit_client.dart';
 import '../method_channels/replay_kit_channel.dart';
 
 import '../exts.dart';
+import '../rpc/meeting_rpc.dart';
 import '../utils.dart';
 import '../widgets/controls.dart';
 import '../widgets/participant.dart';
@@ -60,6 +61,8 @@ class _RoomPageState extends State<RoomPage> {
             duration: const Duration(seconds: 5));
       };
     }
+    MeetingRpc.instance
+        .registerMethod('hangup', () => widget.room.disconnect());
   }
 
   @override
