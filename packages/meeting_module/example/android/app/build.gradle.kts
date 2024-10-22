@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.datastore.core.android)
     debugImplementation("com.aoeiuv020.meeting_module:flutter_debug:1.0")
     "profileImplementation"("com.aoeiuv020.meeting_module:flutter_profile:1.0")
     releaseImplementation("com.aoeiuv020.meeting_module:flutter_release:1.0")
