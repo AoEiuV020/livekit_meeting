@@ -1,3 +1,5 @@
+import 'package:args/args.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -10,8 +12,10 @@ import 'package:permission_handler/permission_handler.dart';
 import '../exts.dart';
 
 class LivekitDemoPage extends StatefulWidget {
+  final List<String> args;
   //
-  const LivekitDemoPage({
+  const LivekitDemoPage(
+    this.args, {
     super.key,
   });
 
@@ -38,10 +42,24 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
   @override
   void initState() {
     super.initState();
-    _readPrefs();
     if (lkPlatformIs(PlatformType.android)) {
       _checkPermissions();
     }
+    _initInput();
+  }
+
+  void _initInput() async {
+    await _readPrefs();
+    if (kIsWeb) return;
+    var parser = ArgParser();
+    parser.addOption('serverUrl');
+    parser.addOption('room');
+    parser.addOption('name');
+    // example/build/macos/Build/Products/Debug/meeting_flutter_example.app/Contents/MacOS/meeting_flutter_example --serverUrl https://meet.livekit.io --room 123456 --name mac
+    var results = parser.parse(widget.args);
+    _uriCtrl.text = results['serverUrl'] ?? '';
+    _roomCtrl.text = results['room'] ?? '';
+    _nameCtrl.text = results['name'] ?? '';
   }
 
   @override

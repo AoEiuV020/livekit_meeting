@@ -33,6 +33,7 @@ dependencies:
   flutter_webrtc: any
   json_rpc_2: ^3.0.2
   dio: ^5.7.0
+  args: ^2.6.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

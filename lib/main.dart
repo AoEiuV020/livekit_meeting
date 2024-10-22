@@ -10,7 +10,7 @@ import 'rpc/meeting_rpc.dart';
 import 'utils.dart';
 import 'theme.dart';
 
-void meetingMain() async {
+void meetingMain(List<String> args) async {
   final format = DateFormat('HH:mm:ss');
   // configure logs for debugging
   Logger.root.level = Level.FINE;
@@ -29,12 +29,15 @@ void meetingMain() async {
 
   await ExternalApi.instance.init();
 
-  runApp(const LiveKitExampleApp());
+  runApp(LiveKitExampleApp(args));
 }
 
 class LiveKitExampleApp extends StatefulWidget {
+  final List<String> args;
+
   //
-  const LiveKitExampleApp({
+  const LiveKitExampleApp(
+    this.args, {
     super.key,
   });
 
@@ -78,6 +81,6 @@ class _LiveKitExampleAppState extends State<LiveKitExampleApp> {
   Widget build(BuildContext context) => MaterialApp(
         title: 'LiveKit Flutter Example',
         theme: LiveKitTheme().buildThemeData(context),
-        home: const LivekitDemoPage(),
+        home: LivekitDemoPage(widget.args),
       );
 }
