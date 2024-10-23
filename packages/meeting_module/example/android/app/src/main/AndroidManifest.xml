@@ -29,6 +29,18 @@
             android:hardwareAccelerated="true"
             android:theme="@style/Theme.MeetingModuleExample"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.aoeiuv020.meeting_flutter.MeetingFragmentActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:theme="@style/Theme.MeetingModuleExample"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.aoeiuv020.meeting_flutter.MeetingActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:theme="@style/Theme.Compat"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

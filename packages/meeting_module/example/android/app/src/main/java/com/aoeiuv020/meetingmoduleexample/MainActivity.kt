@@ -1,7 +1,6 @@
 package com.aoeiuv020.meetingmoduleexample
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,14 +23,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.aoeiuv020.meeting_flutter.MeetingActivity
+import com.aoeiuv020.meeting_flutter.MeetingFragmentActivity
+import com.aoeiuv020.meeting_flutter.MeetingOptions
 import com.aoeiuv020.meetingmoduleexample.ui.theme.MeetingModuleExampleTheme
-import io.flutter.embedding.android.FlutterActivity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -56,6 +56,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 @Composable
@@ -102,17 +103,7 @@ fun Connect(modifier: Modifier = Modifier) {
                         settings[stringPreferencesKey("name")] = name
                     }
                 }
-                // 启动FlutterActivity并传递参数
-                context.startActivity(
-                    FlutterActivity
-                        .withNewEngine()
-                        .dartEntrypointArgs(listOf(
-                            "--serverUrl", serverUrl,
-                            "--room", room,
-                            "--name", name
-                        ))
-                        .build(context)
-                )
+                MeetingActivity.start(context, MeetingOptions(serverUrl, room, name))
             }
         ) {
             Text("CONNECT")

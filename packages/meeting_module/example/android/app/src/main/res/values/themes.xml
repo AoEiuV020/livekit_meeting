@@ -2,4 +2,6 @@
 <resources>
 
     <style name="Theme.MeetingModuleExample" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Compat" parent="Theme.AppCompat.Light.NoActionBar" />
 </resources>
