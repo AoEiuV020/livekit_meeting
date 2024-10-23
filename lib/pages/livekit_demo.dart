@@ -57,9 +57,9 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
     parser.addOption('name');
     // example/build/macos/Build/Products/Debug/meeting_flutter_example.app/Contents/MacOS/meeting_flutter_example --serverUrl https://meet.livekit.io --room 123456 --name mac
     var results = parser.parse(widget.args);
-    _uriCtrl.text = results['serverUrl'] ?? '';
-    _roomCtrl.text = results['room'] ?? '';
-    _nameCtrl.text = results['name'] ?? '';
+    _uriCtrl.text = results['serverUrl'] ?? _uriCtrl.text;
+    _roomCtrl.text = results['room'] ?? _roomCtrl.text;
+    _nameCtrl.text = results['name'] ?? _nameCtrl.text;
   }
 
   @override
