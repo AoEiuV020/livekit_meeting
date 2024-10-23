@@ -29,13 +29,8 @@ include(":app")
 
 apply("./gradle/props.gradle.kts")
 apply("./gradle/project.gradle.kts")
+apply("./gradle/flutter.gradle.kts")
 
 gradle.extra.properties.toSortedMap().forEach { (key, value) ->
     println("$key => $value")
-}
-
-findProject(":flutter")?.let {
-    val flutterSdkPath = gradle.extra["flutter.sdk"]
-    assert(flutterSdkPath != null) { "flutter.sdk not set in local.properties" }
-    apply("$flutterSdkPath/packages/flutter_tools/gradle/module_plugin_loader.gradle")
 }
