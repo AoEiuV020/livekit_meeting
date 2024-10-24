@@ -4,11 +4,8 @@ import 'pages/livekit_demo.dart';
 import 'theme.dart';
 
 class MeetingApp extends StatefulWidget {
-  final List<String> args;
-
   //
-  const MeetingApp(
-    this.args, {
+  const MeetingApp({
     super.key,
   });
 
@@ -26,6 +23,6 @@ class _MeetingAppState extends State<MeetingApp> {
   Widget build(BuildContext context) => MaterialApp(
         title: 'LiveKit Flutter Example',
         theme: LiveKitTheme().buildThemeData(context),
-        home: LivekitDemoPage(widget.args),
+        home: const LivekitDemoPage(),
       );
 }

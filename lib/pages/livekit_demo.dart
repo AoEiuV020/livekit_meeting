@@ -1,9 +1,9 @@
-import 'package:args/args.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:livekit_client/livekit_client.dart';
+import 'package:provider/provider.dart';
 import '../api/livekit_service.dart';
+import '../options/livekit_demo_options.dart';
 import 'prejoin.dart';
 import '../widgets/text_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,10 +12,8 @@ import 'package:permission_handler/permission_handler.dart';
 import '../exts.dart';
 
 class LivekitDemoPage extends StatefulWidget {
-  final List<String> args;
   //
-  const LivekitDemoPage(
-    this.args, {
+  const LivekitDemoPage({
     super.key,
   });
 
@@ -49,17 +47,11 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
   }
 
   void _initInput() async {
-    await _readPrefs();
-    if (kIsWeb) return;
-    var parser = ArgParser();
-    parser.addOption('serverUrl');
-    parser.addOption('room');
-    parser.addOption('name');
-    // example/build/macos/Build/Products/Debug/meeting_flutter_example.app/Contents/MacOS/meeting_flutter_example --serverUrl https://meet.livekit.io --room 123456 --name mac
-    var results = parser.parse(widget.args);
-    _uriCtrl.text = results['serverUrl'] ?? _uriCtrl.text;
-    _roomCtrl.text = results['room'] ?? _roomCtrl.text;
-    _nameCtrl.text = results['name'] ?? _nameCtrl.text;
+    final prefs = await SharedPreferences.getInstance();
+    final options = context.read<LivekitDemoOptions?>();
+    _uriCtrl.text = options?.serverUrl ?? prefs.getString(_storeKeyUri) ?? '';
+    _roomCtrl.text = options?.room ?? prefs.getString(_storeKeyRoom) ?? '';
+    _nameCtrl.text = options?.name ?? prefs.getString(_storeKeyName) ?? '';
   }
 
   @override
@@ -93,12 +85,7 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
   }
 
   // Read saved URL and Token
-  Future<void> _readPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    _uriCtrl.text = prefs.getString(_storeKeyUri) ?? '';
-    _roomCtrl.text = prefs.getString(_storeKeyRoom) ?? '';
-    _nameCtrl.text = prefs.getString(_storeKeyName) ?? '';
-  }
+  Future<void> _readPrefs() async {}
 
   // Save URL and Token
   Future<void> _writePrefs() async {

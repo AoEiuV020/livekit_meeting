@@ -3,7 +3,9 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:logging/logging.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'app.dart';
+import 'options/parse.dart';
 import 'rpc/external_api.dart';
 import 'utils.dart';
 
@@ -15,6 +17,7 @@ void meetingMain(List<String> args) async {
     print('${format.format(record.time)}: ${record.message}');
   });
 
+  final options = await parseLiveKitOptionsOptions(args);
   WidgetsFlutterBinding.ensureInitialized();
 
   if (lkPlatformIsDesktop()) {
@@ -26,5 +29,8 @@ void meetingMain(List<String> args) async {
 
   await ExternalApi.instance.init();
 
-  runApp(MeetingApp(args));
+  runApp(Provider.value(
+    value: options,
+    child: const MeetingApp(),
+  ));
 }
