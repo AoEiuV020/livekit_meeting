@@ -28,9 +28,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.aoeiuv020.meeting_flutter.MeetingActivity
-import com.aoeiuv020.meeting_flutter.MeetingFragmentActivity
-import com.aoeiuv020.meeting_flutter.MeetingOptions
+import com.aoeiuv020.meeting_flutter.LivekitDemoActivity
+import com.aoeiuv020.meeting_flutter.LivekitDemoOptions
 import com.aoeiuv020.meetingmoduleexample.ui.theme.MeetingModuleExampleTheme
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -103,7 +102,7 @@ fun Connect(modifier: Modifier = Modifier) {
                         settings[stringPreferencesKey("name")] = name
                     }
                 }
-                MeetingActivity.start(context, MeetingOptions(serverUrl, room, name))
+                LivekitDemoActivity.start(context, LivekitDemoOptions(serverUrl, room, name))
             }
         ) {
             Text("CONNECT")

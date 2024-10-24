@@ -2,11 +2,11 @@ package com.aoeiuv020.meeting_flutter
 
 import io.flutter.embedding.android.FlutterFragment
 
-class MeetingFragment : FlutterFragment() {
+class LivekitDemoFragment : FlutterFragment() {
     companion object {
         @JvmStatic
-        fun create(options: MeetingOptions): MeetingFragment =
-            NewEngineFragmentBuilder(MeetingFragment::class.java)
+        fun create(options: LivekitDemoOptions): LivekitDemoFragment =
+            NewEngineFragmentBuilder(LivekitDemoFragment::class.java)
                 .dartEntrypointArgs(
                     listOf(
                         "--serverUrl", options.serverUrl,

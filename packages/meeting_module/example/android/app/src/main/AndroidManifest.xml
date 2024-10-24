@@ -30,13 +30,13 @@
             android:theme="@style/Theme.MeetingModuleExample"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.aoeiuv020.meeting_flutter.MeetingFragmentActivity"
+            android:name="com.aoeiuv020.meeting_flutter.LivekitDemoFragmentActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:theme="@style/Theme.MeetingModuleExample"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.aoeiuv020.meeting_flutter.MeetingActivity"
+            android:name="com.aoeiuv020.meeting_flutter.LivekitDemoActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:theme="@style/Theme.Compat"

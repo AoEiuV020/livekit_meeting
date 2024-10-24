@@ -13,15 +13,15 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.plugins.util.GeneratedPluginRegister
 
 @SuppressLint("MissingSuperCall")
-class MeetingActivity : AppCompatActivity(), FlutterEngineConfigurator {
+class LivekitDemoActivity : AppCompatActivity(), FlutterEngineConfigurator {
     private val TAG_FLUTTER_FRAGMENT = "flutter_fragment"
-    private lateinit var options: MeetingOptions
-    private lateinit var fragment: MeetingFragment
+    private lateinit var options: LivekitDemoOptions
+    private lateinit var fragment: LivekitDemoFragment
 
     companion object {
         @JvmStatic
-        fun start(context: Context, options: MeetingOptions) {
-            val starter = Intent(context, MeetingActivity::class.java)
+        fun start(context: Context, options: LivekitDemoOptions) {
+            val starter = Intent(context, LivekitDemoActivity::class.java)
                 .putExtra("options", options)
             context.startActivity(starter)
         }
@@ -36,10 +36,10 @@ class MeetingActivity : AppCompatActivity(), FlutterEngineConfigurator {
 
     private fun initArgs() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            options = intent.getSerializableExtra("options", MeetingOptions::class.java)!!
+            options = intent.getSerializableExtra("options", LivekitDemoOptions::class.java)!!
         } else {
             @Suppress("DEPRECATION")
-            options = intent.getSerializableExtra("options") as MeetingOptions
+            options = intent.getSerializableExtra("options") as LivekitDemoOptions
         }
     }
 
@@ -47,10 +47,10 @@ class MeetingActivity : AppCompatActivity(), FlutterEngineConfigurator {
         val fragmentManager: FragmentManager = supportFragmentManager
 
         val existsFragment = fragmentManager
-            .findFragmentByTag(TAG_FLUTTER_FRAGMENT) as MeetingFragment?
+            .findFragmentByTag(TAG_FLUTTER_FRAGMENT) as LivekitDemoFragment?
 
         if (existsFragment == null) {
-            val newFlutterFragment = MeetingFragment.create(options)
+            val newFlutterFragment = LivekitDemoFragment.create(options)
             fragment = newFlutterFragment
             fragmentManager
                 .beginTransaction()

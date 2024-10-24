@@ -1,14 +1,16 @@
+@file:Suppress("unused")
+
 package com.aoeiuv020.meeting_flutter
 
 import android.content.Context
 import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MeetingFragmentActivity : FlutterFragmentActivity() {
+class LivekitDemoFragmentActivity : FlutterFragmentActivity() {
     companion object {
         @JvmStatic
-        fun start(context: Context, options: MeetingOptions) {
+        fun start(context: Context, options: LivekitDemoOptions) {
             NewEngineIntentBuilder(
-                MeetingFragmentActivity::class.java,
+                LivekitDemoFragmentActivity::class.java,
             ).dartEntrypointArgs(
                 listOf(
                     "--serverUrl", options.serverUrl,
