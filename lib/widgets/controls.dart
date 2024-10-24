@@ -47,6 +47,8 @@ class _ControlsWidgetState extends State<ControlsWidget> {
       _loadDevices(devices);
     });
     Hardware.instance.enumerateDevices().then(_loadDevices);
+    position =
+        widget.room.roomOptions.defaultCameraCaptureOptions.cameraPosition;
   }
 
   @override

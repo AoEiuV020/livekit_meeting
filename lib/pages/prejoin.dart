@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:collection/collection.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:livekit_client/livekit_client.dart';
+import '../ext/media_device_ext.dart';
 import '../exts.dart';
 
 import '../theme.dart';
@@ -88,7 +90,9 @@ class _PreJoinPageState extends State<PreJoinPage> {
 
     if (_videoInputs.isNotEmpty) {
       if (_selectedVideoDevice == null) {
-        _selectedVideoDevice = _videoInputs.first;
+        // 优先选择前置摄像头
+        _selectedVideoDevice = _videoInputs.firstWhereOrNull((d) => d.front);
+        _selectedVideoDevice ??= _videoInputs.first;
         Future.delayed(const Duration(milliseconds: 100), () async {
           await _changeLocalVideoTrack();
           setState(() {});
@@ -143,6 +147,10 @@ class _PreJoinPageState extends State<PreJoinPage> {
     if (_selectedVideoDevice != null) {
       _videoTrack =
           await LocalVideoTrack.createCameraTrack(CameraCaptureOptions(
+        // 默认认为是后置摄像头避免被镜像，
+        cameraPosition: _selectedVideoDevice?.front ?? false
+            ? CameraPosition.front
+            : CameraPosition.back,
         deviceId: _selectedVideoDevice!.deviceId,
         params: _selectedVideoParameters,
       ));
@@ -189,9 +197,12 @@ class _PreJoinPageState extends State<PreJoinPage> {
           defaultAudioPublishOptions: const AudioPublishOptions(
             name: 'custom_audio_track_name',
           ),
-          defaultCameraCaptureOptions: const CameraCaptureOptions(
+          defaultCameraCaptureOptions: CameraCaptureOptions(
+              cameraPosition: _selectedVideoDevice?.front ?? false
+                  ? CameraPosition.front
+                  : CameraPosition.back,
               maxFrameRate: 30,
-              params: VideoParameters(
+              params: const VideoParameters(
                 dimensions: VideoDimensions(1280, 720),
               )),
           defaultScreenShareCaptureOptions: const ScreenShareCaptureOptions(
