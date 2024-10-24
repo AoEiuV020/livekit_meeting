@@ -11,7 +11,8 @@ class LivekitDemoFragment : FlutterFragment() {
                     listOf(
                         "--serverUrl", options.serverUrl,
                         "--room", options.room,
-                        "--name", options.name
+                        "--name", options.name,
+                        if (options.autoConnect) "--autoConnect" else "",
                     )
                 ).build()
     }

@@ -8,4 +8,5 @@ class LivekitDemoOptions(
     val serverUrl: String,
     val room: String,
     val name: String,
+    val autoConnect: Boolean = true,
 ) : Serializable
