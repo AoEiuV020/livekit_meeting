@@ -4,9 +4,11 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:livekit_client/livekit_client.dart';
+import 'package:provider/provider.dart';
 import '../method_channels/replay_kit_channel.dart';
 
 import '../exts.dart';
+import '../options/livekit_demo_options.dart';
 import '../rpc/meeting_rpc.dart';
 import '../utils.dart';
 import '../widgets/controls.dart';
@@ -86,8 +88,15 @@ class _RoomPageState extends State<RoomPage> {
       if (event.reason != null) {
         print('Room disconnected: reason => ${event.reason}');
       }
-      WidgetsBindingCompatible.instance?.addPostFrameCallback((timeStamp) =>
-          Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false));
+      WidgetsBindingCompatible.instance?.addPostFrameCallback((timeStamp) {
+        final options = context.read<LivekitDemoOptions?>();
+        final autoConnect = options?.autoConnect ?? false;
+        if (autoConnect) {
+          Navigator.popUntil(context, (_) => false);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
+        }
+      });
     })
     ..on<ParticipantEvent>((event) {
       // sort participants on many track events as noted in documentation linked above

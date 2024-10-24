@@ -92,9 +92,6 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
     }
   }
 
-  // Read saved URL and Token
-  Future<void> _readPrefs() async {}
-
   // Save URL and Token
   Future<void> _writePrefs() async {
     final prefs = await SharedPreferences.getInstance();
