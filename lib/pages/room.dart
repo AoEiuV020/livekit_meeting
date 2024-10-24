@@ -86,8 +86,8 @@ class _RoomPageState extends State<RoomPage> {
       if (event.reason != null) {
         print('Room disconnected: reason => ${event.reason}');
       }
-      WidgetsBindingCompatible.instance?.addPostFrameCallback(
-          (timeStamp) => Navigator.popUntil(context, (route) => route.isFirst));
+      WidgetsBindingCompatible.instance?.addPostFrameCallback((timeStamp) =>
+          Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false));
     })
     ..on<ParticipantEvent>((event) {
       print('Participant event');

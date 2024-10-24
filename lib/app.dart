@@ -23,6 +23,19 @@ class _MeetingAppState extends State<MeetingApp> {
   Widget build(BuildContext context) => MaterialApp(
         title: 'LiveKit Flutter Example',
         theme: LiveKitTheme().buildThemeData(context),
-        home: const LivekitDemoPage(),
+        onGenerateRoute: (RouteSettings routeSettings) {
+          return MaterialPageRoute<void>(
+            settings: routeSettings,
+            builder: (BuildContext context) {
+              switch (routeSettings.name) {
+                case '/livekitDemo':
+                  return const LivekitDemoPage();
+                case '/':
+                default:
+                  return const LivekitDemoPage();
+              }
+            },
+          );
+        },
       );
 }
