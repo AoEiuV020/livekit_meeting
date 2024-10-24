@@ -90,7 +90,6 @@ class _RoomPageState extends State<RoomPage> {
           Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false));
     })
     ..on<ParticipantEvent>((event) {
-      print('Participant event');
       // sort participants on many track events as noted in documentation linked above
       _sortParticipants();
     })
