@@ -49,9 +49,13 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
   void _initInput() async {
     final prefs = await SharedPreferences.getInstance();
     final options = context.read<LivekitDemoOptions?>();
-    _uriCtrl.text = options?.serverUrl ?? prefs.getString(_storeKeyUri) ?? '';
-    _roomCtrl.text = options?.room ?? prefs.getString(_storeKeyRoom) ?? '';
-    _nameCtrl.text = options?.name ?? prefs.getString(_storeKeyName) ?? '';
+    _uriCtrl.text = options?.serverUrl ??
+        prefs.getString(_storeKeyUri) ??
+        'https://meet.livekit.io';
+    _roomCtrl.text =
+        options?.room ?? prefs.getString(_storeKeyRoom) ?? '123456';
+    _nameCtrl.text =
+        options?.name ?? prefs.getString(_storeKeyName) ?? lkPlatform().name;
   }
 
   @override
