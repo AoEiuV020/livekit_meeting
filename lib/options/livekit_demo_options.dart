@@ -6,21 +6,25 @@ class LivekitDemoOptions {
   final String? serverUrl;
   final String? room;
   final String? name;
+  final bool autoConnect;
   LivekitDemoOptions({
     this.serverUrl,
     this.room,
     this.name,
+    this.autoConnect = false,
   });
 
   LivekitDemoOptions copyWith({
     ValueGetter<String?>? serverUrl,
     ValueGetter<String?>? room,
     ValueGetter<String?>? name,
+    bool? autoConnect,
   }) {
     return LivekitDemoOptions(
       serverUrl: serverUrl != null ? serverUrl() : this.serverUrl,
       room: room != null ? room() : this.room,
       name: name != null ? name() : this.name,
+      autoConnect: autoConnect ?? this.autoConnect,
     );
   }
 
@@ -29,6 +33,7 @@ class LivekitDemoOptions {
       'serverUrl': serverUrl,
       'room': room,
       'name': name,
+      'autoConnect': autoConnect,
     };
   }
 
@@ -37,6 +42,7 @@ class LivekitDemoOptions {
       serverUrl: map['serverUrl'],
       room: map['room'],
       name: map['name'],
+      autoConnect: map['autoConnect'] ?? false,
     );
   }
 
@@ -46,8 +52,9 @@ class LivekitDemoOptions {
       LivekitDemoOptions.fromMap(json.decode(source));
 
   @override
-  String toString() =>
-      'LivekitDemoOptions(serverUrl: $serverUrl, room: $room, name: $name)';
+  String toString() {
+    return 'LivekitDemoOptions(serverUrl: $serverUrl, room: $room, name: $name, autoConnect: $autoConnect)';
+  }
 
   @override
   bool operator ==(Object other) {
@@ -56,9 +63,15 @@ class LivekitDemoOptions {
     return other is LivekitDemoOptions &&
         other.serverUrl == serverUrl &&
         other.room == room &&
-        other.name == name;
+        other.name == name &&
+        other.autoConnect == autoConnect;
   }
 
   @override
-  int get hashCode => serverUrl.hashCode ^ room.hashCode ^ name.hashCode;
+  int get hashCode {
+    return serverUrl.hashCode ^
+        room.hashCode ^
+        name.hashCode ^
+        autoConnect.hashCode;
+  }
 }

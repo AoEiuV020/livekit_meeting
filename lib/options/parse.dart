@@ -10,12 +10,14 @@ Future<LivekitDemoOptions?> parseLiveKitOptionsOptions(
   parser.addOption('serverUrl');
   parser.addOption('room');
   parser.addOption('name');
-  // example/build/macos/Build/Products/Debug/meeting_flutter_example.app/Contents/MacOS/meeting_flutter_example --serverUrl https://meet.livekit.io --room 123456 --name mac
+  parser.addFlag('autoConnect', defaultsTo: false);
+  // example/build/macos/Build/Products/Debug/meeting_flutter_example.app/Contents/MacOS/meeting_flutter_example --autoConnect --serverUrl https://meet.livekit.io --room 123456 --name mac
   // example\build\windows\x64\runner\Debug\meeting_flutter_example.exe --serverUrl https://meet.livekit.io --room 123456 --name pc
   var results = parser.parse(args);
   return LivekitDemoOptions(
     serverUrl: results['serverUrl'],
     room: results['room'],
     name: results['name'],
+    autoConnect: results.flag('autoConnect'),
   );
 }

@@ -100,6 +100,8 @@ class _PreJoinPageState extends State<PreJoinPage> {
       }
     }
     setState(() {});
+    // 自动加入会议不等用户切换，
+    _join(context);
   }
 
   Future<void> _setEnableVideo(value) async {
@@ -238,9 +240,10 @@ class _PreJoinPageState extends State<PreJoinPage> {
         ),
       );
 
-      await Navigator.push<void>(
+      await Navigator.pushAndRemoveUntil<void>(
         context,
         MaterialPageRoute(builder: (_) => RoomPage(room, listener)),
+        (route) => false,
       );
     } catch (error) {
       print('Could not connect $error');

@@ -56,6 +56,10 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
         options?.room ?? prefs.getString(_storeKeyRoom) ?? '123456';
     _nameCtrl.text =
         options?.name ?? prefs.getString(_storeKeyName) ?? lkPlatform().name;
+    if (options?.autoConnect ?? false) {
+      await _connect(context);
+      Navigator.pop(context);
+    }
   }
 
   @override
