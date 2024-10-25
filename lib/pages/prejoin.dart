@@ -96,12 +96,14 @@ class _PreJoinPageState extends State<PreJoinPage> {
         Future.delayed(const Duration(milliseconds: 100), () async {
           await _changeLocalVideoTrack();
           setState(() {});
+          // 自动加入会议不等用户切换，
+          _join(context);
         });
       }
+      setState(() {});
+    } else {
+      _join(context);
     }
-    setState(() {});
-    // 自动加入会议不等用户切换，
-    _join(context);
   }
 
   Future<void> _setEnableVideo(value) async {
