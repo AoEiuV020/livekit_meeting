@@ -472,10 +472,14 @@ class _ControlsWidgetState extends State<ControlsWidget> {
               onPressed: () => _enableScreenShare(),
               tooltip: 'share screen (experimental)',
             ),
-          IconButton(
-            onPressed: _onTapDisconnect,
-            icon: const Icon(Icons.close_sharp),
-            tooltip: 'disconnect',
+          PopScope(
+            canPop: false,
+            onPopInvokedWithResult: (didPop, result) => _onTapDisconnect(),
+            child: IconButton(
+              onPressed: _onTapDisconnect,
+              icon: const Icon(Icons.close_sharp),
+              tooltip: 'disconnect',
+            ),
           ),
           IconButton(
             onPressed: _onTapSendData,
