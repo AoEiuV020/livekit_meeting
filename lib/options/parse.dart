@@ -20,7 +20,7 @@ Future<GlobalOptions> parseGlobalOptions(List<String> args) async {
     ..addOption('livekitDemoOptions')
     ..addFlag('autoConnect', defaultsTo: false);
   var results = parser.parse(args);
-  final LivekitDemoOptions livekitDemoOptions;
+  LivekitDemoOptions? livekitDemoOptions;
   final bool autoConnect;
   if (results.wasParsed('livekitDemoOptions')) {
     livekitDemoOptions = LivekitDemoOptions.fromJson(
