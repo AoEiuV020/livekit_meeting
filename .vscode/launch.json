@@ -11,7 +11,10 @@
             "type": "dart",
             "env": {
                 "DISPLAY": ":0"
-            }
+            },
+            "args": [
+                "--web-browser-flag=--disable-web-security",
+            ]
         },
         {
             "name": "example(livekit)",
@@ -22,6 +25,7 @@
                 "DISPLAY": ":0"
             },
             "args": [
+                "--web-browser-flag=--disable-web-security",
                 "--dart-entrypoint-args=--autoConnect",
                 "--dart-entrypoint-args=--serverUrl",
                 "--dart-entrypoint-args=https://meet.livekit.io",
