@@ -6,35 +6,33 @@ import 'livekit_demo_options.dart';
 
 class GlobalOptions {
   final bool autoConnect;
-  final LivekitDemoOptions? options;
+  final LivekitDemoOptions? livekitDemoOptions;
   GlobalOptions({
     this.autoConnect = false,
-    this.options,
+    this.livekitDemoOptions,
   });
 
   GlobalOptions copyWith({
     bool? autoConnect,
-    ValueGetter<LivekitDemoOptions?>? options,
+    ValueGetter<LivekitDemoOptions?>? livekitDemoOptions,
   }) {
     return GlobalOptions(
       autoConnect: autoConnect ?? this.autoConnect,
-      options: options != null ? options() : this.options,
+      livekitDemoOptions: livekitDemoOptions != null ? livekitDemoOptions() : this.livekitDemoOptions,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'autoConnect': autoConnect,
-      'options': options?.toMap(),
+      'livekitDemoOptions': livekitDemoOptions?.toMap(),
     };
   }
 
   factory GlobalOptions.fromMap(Map<String, dynamic> map) {
     return GlobalOptions(
       autoConnect: map['autoConnect'] ?? false,
-      options: map['options'] != null
-          ? LivekitDemoOptions.fromMap(map['options'])
-          : null,
+      livekitDemoOptions: map['livekitDemoOptions'] != null ? LivekitDemoOptions.fromMap(map['livekitDemoOptions']) : null,
     );
   }
 
@@ -44,8 +42,7 @@ class GlobalOptions {
       GlobalOptions.fromMap(json.decode(source));
 
   @override
-  String toString() =>
-      'GlobalOptions(autoConnect: $autoConnect, options: $options)';
+  String toString() => 'GlobalOptions(autoConnect: $autoConnect, livekitDemoOptions: $livekitDemoOptions)';
 
   @override
   bool operator ==(Object other) {
@@ -53,9 +50,9 @@ class GlobalOptions {
 
     return other is GlobalOptions &&
         other.autoConnect == autoConnect &&
-        other.options == options;
+        other.livekitDemoOptions == livekitDemoOptions;
   }
 
   @override
-  int get hashCode => autoConnect.hashCode ^ options.hashCode;
+  int get hashCode => autoConnect.hashCode ^ livekitDemoOptions.hashCode;
 }

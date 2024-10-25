@@ -21,6 +21,6 @@ Future<GlobalOptions> parseGlobalOptions(List<String> args) async {
   );
   return GlobalOptions(
     autoConnect: results.flag('autoConnect'),
-    options: options,
+    livekitDemoOptions: options,
   );
 }

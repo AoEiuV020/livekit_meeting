@@ -49,7 +49,7 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
   void _initInput() async {
     final prefs = await SharedPreferences.getInstance();
     final globalOptions = context.read<GlobalOptions>();
-    final options = globalOptions.options;
+    final options = globalOptions.livekitDemoOptions;
     _uriCtrl.text = options?.serverUrl ??
         prefs.getString(_storeKeyUri) ??
         'https://meet.livekit.io';
