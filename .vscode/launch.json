@@ -8,13 +8,19 @@
             "name": "example",
             "cwd": "example",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "env": {
+                "DISPLAY": ":0"
+            }
         },
         {
             "name": "example(livekit)",
             "cwd": "example",
             "request": "launch",
             "type": "dart",
+            "env": {
+                "DISPLAY": ":0"
+            },
             "args": [
                 "--dart-entrypoint-args=--autoConnect",
                 "--dart-entrypoint-args=--serverUrl",
