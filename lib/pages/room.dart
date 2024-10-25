@@ -4,6 +4,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:provider/provider.dart';
 import '../method_channels/replay_kit_channel.dart';
@@ -94,7 +95,11 @@ class _RoomPageState extends State<RoomPage> {
         final autoConnect = globalOptions.autoConnect;
         if (autoConnect) {
           Navigator.popUntil(context, (_) => false);
-          SystemNavigator.pop();
+          if (lkPlatformIsDesktop()) {
+            FlutterWindowClose.closeWindow();
+          } else {
+            SystemNavigator.pop();
+          }
         } else {
           Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
         }
