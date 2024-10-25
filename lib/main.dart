@@ -5,6 +5,7 @@ import 'package:logging/logging.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'app.dart';
+import 'options/global_options.dart';
 import 'options/parse.dart';
 import 'rpc/external_api.dart';
 import 'utils.dart';
@@ -17,7 +18,14 @@ void meetingMain(List<String> args) async {
     print('${format.format(record.time)}: ${record.message}');
   });
 
-  final options = await parseLiveKitOptionsOptions(args);
+  GlobalOptions globalOptions;
+  try {
+    globalOptions = await parseGlobalOptions(args);
+  } catch (error, stackTrace) {
+    print('Could not parse global options: $error\n$stackTrace');
+    globalOptions = GlobalOptions();
+  }
+
   WidgetsFlutterBinding.ensureInitialized();
 
   if (lkPlatformIsDesktop()) {
@@ -29,8 +37,10 @@ void meetingMain(List<String> args) async {
 
   await ExternalApi.instance.init();
 
-  runApp(Provider.value(
-    value: options,
+  runApp(MultiProvider(
+    providers: [
+      Provider.value(value: globalOptions),
+    ],
     child: const MeetingApp(),
   ));
 }

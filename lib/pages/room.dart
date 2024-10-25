@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../method_channels/replay_kit_channel.dart';
 
 import '../exts.dart';
-import '../options/livekit_demo_options.dart';
+import '../options/global_options.dart';
 import '../rpc/meeting_rpc.dart';
 import '../utils.dart';
 import '../widgets/controls.dart';
@@ -89,8 +89,8 @@ class _RoomPageState extends State<RoomPage> {
         print('Room disconnected: reason => ${event.reason}');
       }
       WidgetsBindingCompatible.instance?.addPostFrameCallback((timeStamp) {
-        final options = context.read<LivekitDemoOptions?>();
-        final autoConnect = options?.autoConnect ?? false;
+        final globalOptions = context.read<GlobalOptions>();
+        final autoConnect = globalOptions.autoConnect;
         if (autoConnect) {
           Navigator.popUntil(context, (_) => false);
         } else {

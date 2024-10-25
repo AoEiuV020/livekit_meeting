@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:provider/provider.dart';
 import '../api/livekit_service.dart';
-import '../options/livekit_demo_options.dart';
+import '../options/global_options.dart';
 import 'prejoin.dart';
 import '../widgets/text_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,7 +48,8 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
 
   void _initInput() async {
     final prefs = await SharedPreferences.getInstance();
-    final options = context.read<LivekitDemoOptions?>();
+    final globalOptions = context.read<GlobalOptions>();
+    final options = globalOptions.options;
     _uriCtrl.text = options?.serverUrl ??
         prefs.getString(_storeKeyUri) ??
         'https://meet.livekit.io';
@@ -56,7 +57,7 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
         options?.room ?? prefs.getString(_storeKeyRoom) ?? '123456';
     _nameCtrl.text =
         options?.name ?? prefs.getString(_storeKeyName) ?? lkPlatform().name;
-    if (options?.autoConnect ?? false) {
+    if (globalOptions.autoConnect) {
       await _connect(context);
       Navigator.pop(context);
     }

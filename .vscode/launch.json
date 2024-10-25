@@ -9,6 +9,21 @@
             "cwd": "example",
             "request": "launch",
             "type": "dart"
+        },
+        {
+            "name": "example(livekit)",
+            "cwd": "example",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-entrypoint-args=--autoConnect",
+                "--dart-entrypoint-args=--serverUrl",
+                "--dart-entrypoint-args=https://meet.livekit.io",
+                "--dart-entrypoint-args=--room",
+                "--dart-entrypoint-args=123456",
+                "--dart-entrypoint-args=--name",
+                "--dart-entrypoint-args=vscode"
+            ]
         }
     ]
 }
