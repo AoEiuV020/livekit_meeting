@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:args/args.dart';
 
 import 'global_options.dart';
@@ -12,15 +14,25 @@ Future<GlobalOptions> parseGlobalOptions(List<String> args) async {
     ..addOption('serverUrl')
     ..addOption('room')
     ..addOption('name')
+    ..addOption('livekitDemoOptions')
     ..addFlag('autoConnect', defaultsTo: false);
   var results = parser.parse(args);
-  final options = LivekitDemoOptions(
-    serverUrl: results['serverUrl'],
-    room: results['room'],
-    name: results['name'],
-  );
+  final LivekitDemoOptions livekitDemoOptions;
+  final bool autoConnect;
+  if (results.wasParsed('livekitDemoOptions')) {
+    livekitDemoOptions = LivekitDemoOptions.fromJson(
+        utf8.decode(base64Decode(results['livekitDemoOptions'])));
+    autoConnect = true;
+  } else {
+    livekitDemoOptions = LivekitDemoOptions(
+      serverUrl: results['serverUrl'],
+      room: results['room'],
+      name: results['name'],
+    );
+    autoConnect = results.flag('autoConnect');
+  }
   return GlobalOptions(
-    autoConnect: results.flag('autoConnect'),
-    livekitDemoOptions: options,
+    autoConnect: autoConnect,
+    livekitDemoOptions: livekitDemoOptions,
   );
 }
