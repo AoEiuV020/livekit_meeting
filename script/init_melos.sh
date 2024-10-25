@@ -5,7 +5,7 @@
 if ! command -v melos > /dev/null; then
     echo "melos is not installed. Installing..."
     dart pub global activate melos
-    if [[ ":$PATH:" != *":$HOME/.pub-cache/bin:"* ]]; then
+    if echo ":$PATH:" | grep -qv ":$HOME/.pub-cache/bin:"; then
         export PATH="$PATH:$HOME/.pub-cache/bin"
     fi
 fi
