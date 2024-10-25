@@ -18,7 +18,9 @@ class GlobalOptions {
   }) {
     return GlobalOptions(
       autoConnect: autoConnect ?? this.autoConnect,
-      livekitDemoOptions: livekitDemoOptions != null ? livekitDemoOptions() : this.livekitDemoOptions,
+      livekitDemoOptions: livekitDemoOptions != null
+          ? livekitDemoOptions()
+          : this.livekitDemoOptions,
     );
   }
 
@@ -32,7 +34,9 @@ class GlobalOptions {
   factory GlobalOptions.fromMap(Map<String, dynamic> map) {
     return GlobalOptions(
       autoConnect: map['autoConnect'] ?? false,
-      livekitDemoOptions: map['livekitDemoOptions'] != null ? LivekitDemoOptions.fromMap(map['livekitDemoOptions']) : null,
+      livekitDemoOptions: map['livekitDemoOptions'] != null
+          ? LivekitDemoOptions.fromMap(map['livekitDemoOptions'])
+          : null,
     );
   }
 
@@ -42,7 +46,8 @@ class GlobalOptions {
       GlobalOptions.fromMap(json.decode(source));
 
   @override
-  String toString() => 'GlobalOptions(autoConnect: $autoConnect, livekitDemoOptions: $livekitDemoOptions)';
+  String toString() =>
+      'GlobalOptions(autoConnect: $autoConnect, livekitDemoOptions: $livekitDemoOptions)';
 
   @override
   bool operator ==(Object other) {
