@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:provider/provider.dart';
 import '../method_channels/replay_kit_channel.dart';
@@ -16,6 +14,7 @@ import '../utils.dart';
 import '../widgets/controls.dart';
 import '../widgets/participant.dart';
 import '../widgets/participant_info.dart';
+import 'room_util.dart' if (dart.library.html) 'room_util_web.dart';
 
 class RoomPage extends StatefulWidget {
   final Room room;
@@ -95,11 +94,7 @@ class _RoomPageState extends State<RoomPage> {
         final autoConnect = globalOptions.autoConnect;
         if (autoConnect) {
           Navigator.popUntil(context, (_) => false);
-          if (lkPlatformIsDesktop()) {
-            FlutterWindowClose.closeWindow();
-          } else {
-            SystemNavigator.pop();
-          }
+          roomCloseApp();
         } else {
           Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
         }
