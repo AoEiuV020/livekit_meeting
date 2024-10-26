@@ -9,3 +9,21 @@ For help getting started with Flutter development, view the online
 
 For instructions integrating Flutter modules to your existing applications,
 see the [add-to-app documentation](https://flutter.dev/to/add-to-app).
+
+### android
+```shell
+flutter build aar
+```
+
+### ios
+```shell
+flutter build ios-framework
+```
+> Error: The plugin "meeting_flutter" requires a higher minimum iOS deployment version than your application is targeting.
+To build, increase your application's deployment target to at least 13.0 as described at https://flutter.dev/to/ios-deploy
+Error running pod install
+
+报错后手动编辑生成的.ios/Podfile，第一行指定最低版本13，
+```
+platform :ios, '13.0'
+```
