@@ -12,6 +12,7 @@
 		BE2B5A112CCD3CB500DA0D63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE2B5A0C2CCD3CB500DA0D63 /* Assets.xcassets */; };
 		BE2B5A122CCD3CB500DA0D63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2B5A0D2CCD3CB500DA0D63 /* ContentView.swift */; };
 		BE2B5A132CCD3CB500DA0D63 /* meetingmoduleexampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2B5A0E2CCD3CB500DA0D63 /* meetingmoduleexampleApp.swift */; };
+		BE2B5A1A2CCD504400DA0D63 /* MyObjectiveCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE2B5A192CCD504400DA0D63 /* MyObjectiveCViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,9 @@
 		BE2B5A0C2CCD3CB500DA0D63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BE2B5A0D2CCD3CB500DA0D63 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BE2B5A0E2CCD3CB500DA0D63 /* meetingmoduleexampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = meetingmoduleexampleApp.swift; sourceTree = "<group>"; };
+		BE2B5A152CCD4FDE00DA0D63 /* MyObjectiveCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyObjectiveCViewController.h; sourceTree = "<group>"; };
+		BE2B5A182CCD504400DA0D63 /* meetingmoduleexample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "meetingmoduleexample-Bridging-Header.h"; sourceTree = "<group>"; };
+		BE2B5A192CCD504400DA0D63 /* MyObjectiveCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyObjectiveCViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +91,9 @@
 				BE2B5A0C2CCD3CB500DA0D63 /* Assets.xcassets */,
 				BE2B5A0D2CCD3CB500DA0D63 /* ContentView.swift */,
 				BE2B5A0E2CCD3CB500DA0D63 /* meetingmoduleexampleApp.swift */,
+				BE2B5A152CCD4FDE00DA0D63 /* MyObjectiveCViewController.h */,
+				BE2B5A192CCD504400DA0D63 /* MyObjectiveCViewController.m */,
+				BE2B5A182CCD504400DA0D63 /* meetingmoduleexample-Bridging-Header.h */,
 			);
 			path = meetingmoduleexample;
 			sourceTree = "<group>";
@@ -128,6 +135,7 @@
 				TargetAttributes = {
 					BE188E2D2CCD3BD5005D083A = {
 						CreatedOnToolsVersion = 16.0;
+						LastSwiftMigration = 1600;
 					};
 				};
 			};
@@ -246,6 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE2B5A122CCD3CB500DA0D63 /* ContentView.swift in Sources */,
+				BE2B5A1A2CCD504400DA0D63 /* MyObjectiveCViewController.m in Sources */,
 				BE2B5A132CCD3CB500DA0D63 /* meetingmoduleexampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -378,6 +387,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"meetingmoduleexample/Preview Content\"";
@@ -397,6 +407,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aoeiuv020.meetingmoduleexample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "meetingmoduleexample/meetingmoduleexample-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -408,6 +420,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"meetingmoduleexample/Preview Content\"";
@@ -427,6 +440,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aoeiuv020.meetingmoduleexample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "meetingmoduleexample/meetingmoduleexample-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

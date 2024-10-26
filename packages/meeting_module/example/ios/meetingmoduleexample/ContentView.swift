@@ -15,15 +15,28 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Button(action: {
+                openObjectiveCPage()
+            }) {
+                Text("start object c")
+            }
+            Button(action: {
                 openFlutterPage()
             }) {
-                Text("Hello, world!")
+                Text("start flutter")
             }
         }
         .padding()
     }
 }
 
+// 跳转到 Objective-C 页面
+func openObjectiveCPage() {
+    let myObjectiveCViewController = MyObjectiveCViewController()
+    myObjectiveCViewController.modalPresentationStyle = .fullScreen // 设置全屏展示
+    if let window = UIApplication.shared.windows.first {
+        window.rootViewController?.present(myObjectiveCViewController, animated: true, completion: nil)
+    }
+}
 // 打开 Flutter 页面的函数
 func openFlutterPage() {
     let flutterViewController = FlutterViewController()
