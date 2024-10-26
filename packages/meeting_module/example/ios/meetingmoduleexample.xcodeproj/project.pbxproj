@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B1536B8A1196C7B8EF0E39A4 /* Pods_meetingmoduleexample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9509334706B85A779FD70C88 /* Pods_meetingmoduleexample.framework */; };
 		BE2B5A102CCD3CB500DA0D63 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE2B5A0A2CCD3CB500DA0D63 /* Preview Assets.xcassets */; };
 		BE2B5A112CCD3CB500DA0D63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE2B5A0C2CCD3CB500DA0D63 /* Assets.xcassets */; };
 		BE2B5A122CCD3CB500DA0D63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2B5A0D2CCD3CB500DA0D63 /* ContentView.swift */; };
@@ -14,6 +15,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		33AD46C47DC0493C5122843E /* Pods-meetingmoduleexample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meetingmoduleexample.debug.xcconfig"; path = "Target Support Files/Pods-meetingmoduleexample/Pods-meetingmoduleexample.debug.xcconfig"; sourceTree = "<group>"; };
+		9509334706B85A779FD70C88 /* Pods_meetingmoduleexample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_meetingmoduleexample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D6BB69BB11275347129FA58 /* Pods-meetingmoduleexample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meetingmoduleexample.release.xcconfig"; path = "Target Support Files/Pods-meetingmoduleexample/Pods-meetingmoduleexample.release.xcconfig"; sourceTree = "<group>"; };
 		BE188E2E2CCD3BD5005D083A /* meetingmoduleexample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = meetingmoduleexample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE2B5A0A2CCD3CB500DA0D63 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BE2B5A0C2CCD3CB500DA0D63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -26,17 +30,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1536B8A1196C7B8EF0E39A4 /* Pods_meetingmoduleexample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A389441C4A1496AE4915263 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				33AD46C47DC0493C5122843E /* Pods-meetingmoduleexample.debug.xcconfig */,
+				9D6BB69BB11275347129FA58 /* Pods-meetingmoduleexample.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		69B8BF9F77AD73F065263ABB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9509334706B85A779FD70C88 /* Pods_meetingmoduleexample.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BE188E252CCD3BD5005D083A = {
 			isa = PBXGroup;
 			children = (
 				BE2B5A0F2CCD3CB500DA0D63 /* meetingmoduleexample */,
 				BE188E2F2CCD3BD5005D083A /* Products */,
+				4A389441C4A1496AE4915263 /* Pods */,
+				69B8BF9F77AD73F065263ABB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,17 +99,20 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BE188E3C2CCD3BD6005D083A /* Build configuration list for PBXNativeTarget "meetingmoduleexample" */;
 			buildPhases = (
+				D82E9B5766ECB3BA6DF1BCFB /* [CP] Check Pods Manifest.lock */,
+				A114B6162074762DE172DA21 /* [CP-User] Run Flutter Build meeting_module Script */,
 				BE188E2A2CCD3BD5005D083A /* Sources */,
 				BE188E2B2CCD3BD5005D083A /* Frameworks */,
 				BE188E2C2CCD3BD5005D083A /* Resources */,
+				45E8BC2463BF8CE405CF2203 /* [CP] Embed Pods Frameworks */,
+				AC1482829D12A58484EF808F /* [CP] Copy Pods Resources */,
+				2B95AE2C42038A74AB82A604 /* [CP-User] Embed Flutter Build meeting_module Script */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = meetingmoduleexample;
-			packageProductDependencies = (
-			);
 			productName = meetingmoduleexample;
 			productReference = BE188E2E2CCD3BD5005D083A /* meetingmoduleexample.app */;
 			productType = "com.apple.product-type.application";
@@ -112,8 +140,6 @@
 				Base,
 			);
 			mainGroup = BE188E252CCD3BD5005D083A;
-			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = BE188E2F2CCD3BD5005D083A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -134,6 +160,85 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2B95AE2C42038A74AB82A604 /* [CP-User] Embed Flutter Build meeting_module Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "[CP-User] Embed Flutter Build meeting_module Script";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\nset -u\nsource \"${SRCROOT}/../../.ios/Flutter/flutter_export_environment.sh\"\nexport VERBOSE_SCRIPT_LOGGING=1 && \"$FLUTTER_ROOT\"/packages/flutter_tools/bin/xcode_backend.sh embed_and_thin";
+		};
+		45E8BC2463BF8CE405CF2203 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-meetingmoduleexample/Pods-meetingmoduleexample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-meetingmoduleexample/Pods-meetingmoduleexample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-meetingmoduleexample/Pods-meetingmoduleexample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A114B6162074762DE172DA21 /* [CP-User] Run Flutter Build meeting_module Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "[CP-User] Run Flutter Build meeting_module Script";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\nset -u\nsource \"${SRCROOT}/../../.ios/Flutter/flutter_export_environment.sh\"\nexport VERBOSE_SCRIPT_LOGGING=1 && \"$FLUTTER_ROOT\"/packages/flutter_tools/bin/xcode_backend.sh build";
+		};
+		AC1482829D12A58484EF808F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-meetingmoduleexample/Pods-meetingmoduleexample-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-meetingmoduleexample/Pods-meetingmoduleexample-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-meetingmoduleexample/Pods-meetingmoduleexample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D82E9B5766ECB3BA6DF1BCFB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-meetingmoduleexample-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BE188E2A2CCD3BD5005D083A /* Sources */ = {
@@ -269,6 +374,7 @@
 		};
 		BE188E3D2CCD3BD6005D083A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 33AD46C47DC0493C5122843E /* Pods-meetingmoduleexample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -298,6 +404,7 @@
 		};
 		BE188E3E2CCD3BD6005D083A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9D6BB69BB11275347129FA58 /* Pods-meetingmoduleexample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
