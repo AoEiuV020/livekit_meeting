@@ -1,7 +1,7 @@
-import Flutter
 import UIKit
+import Flutter
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate {
     
     var replayKitChannel: FlutterMethodChannel! = nil
