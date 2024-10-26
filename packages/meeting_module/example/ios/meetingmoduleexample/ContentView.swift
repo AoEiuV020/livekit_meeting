@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Flutter
+import FlutterPluginRegistrant
 
 struct ContentView: View {
     var body: some View {
@@ -39,7 +40,10 @@ func openObjectiveCPage() {
 }
 // 打开 Flutter 页面的函数
 func openFlutterPage() {
-    let flutterViewController = FlutterViewController()
+    let flutterEngine = FlutterEngine(name: "my flutter engine")
+    flutterEngine.run()
+    GeneratedPluginRegistrant.register(with: flutterEngine)
+    let flutterViewController = FlutterViewController(engine: flutterEngine, nibName: nil, bundle: nil)
     flutterViewController.modalPresentationStyle = .fullScreen // 设置全屏展示
     if let window = UIApplication.shared.windows.first {
         window.rootViewController?.present(flutterViewController, animated: true, completion: nil)
