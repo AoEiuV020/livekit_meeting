@@ -6,23 +6,80 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor]; // 设置背景颜色为白色
-
-    // 创建按钮
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    [button setTitle:@"Open Flutter Page" forState:UIControlStateNormal];
-    button.frame = CGRectMake(100, 100, 200, 50); // 设置按钮位置和大小
-    [button addTarget:self action:@selector(openFlutterPage:) forControlEvents:UIControlEventTouchUpInside];
-
-    [self.view addSubview:button]; // 将按钮添加到视图中
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    // 初始化文本框和按钮
+    [self setupUI];
+    // 加载已保存的输入内容
+    [self loadSavedInputs];
 }
 
-- (void)openFlutterPage:(UIButton *)sender {
+- (void)setupUI {
+    // 设置 serverUrl 输入框
+    self.serverUrlTextField = [[UITextField alloc] initWithFrame:CGRectMake(20, 100, self.view.frame.size.width - 40, 40)];
+    self.serverUrlTextField.placeholder = @"Enter Server URL";
+    self.serverUrlTextField.borderStyle = UITextBorderStyleRoundedRect;
+    [self.view addSubview:self.serverUrlTextField];
+    
+    // 设置 room 输入框
+    self.roomTextField = [[UITextField alloc] initWithFrame:CGRectMake(20, 160, self.view.frame.size.width - 40, 40)];
+    self.roomTextField.placeholder = @"Enter Room";
+    self.roomTextField.borderStyle = UITextBorderStyleRoundedRect;
+    [self.view addSubview:self.roomTextField];
+    
+    // 设置 name 输入框
+    self.nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(20, 220, self.view.frame.size.width - 40, 40)];
+    self.nameTextField.placeholder = @"Enter Name";
+    self.nameTextField.borderStyle = UITextBorderStyleRoundedRect;
+    [self.view addSubview:self.nameTextField];
+    
+    // 设置 connect 按钮
+    self.connectButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.connectButton.frame = CGRectMake(20, 280, self.view.frame.size.width - 40, 50);
+    [self.connectButton setTitle:@"Connect" forState:UIControlStateNormal];
+    [self.connectButton addTarget:self action:@selector(connectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    self.connectButton.backgroundColor = [UIColor blueColor];
+    [self.connectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.connectButton.layer.cornerRadius = 8;
+    [self.view addSubview:self.connectButton];
+}
+
+- (void)loadSavedInputs {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    // 读取已保存的内容并填充输入框
+    self.serverUrlTextField.text = [defaults stringForKey:@"serverUrl"] ?: @"https://meet.livekit.io";
+    self.roomTextField.text = [defaults stringForKey:@"room"] ?: @"123456";
+    self.nameTextField.text = [defaults stringForKey:@"name"] ?: @"iosOc";
+}
+
+- (void)connectButtonTapped {
+    // 获取输入的文本
+    NSString *serverUrl = self.serverUrlTextField.text ?: @"";
+    NSString *room = self.roomTextField.text ?: @"";
+    NSString *name = self.nameTextField.text ?: @"";
+    
+    // 将输入内容保存到 NSUserDefaults
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:serverUrl forKey:@"serverUrl"];
+    [defaults setObject:room forKey:@"room"];
+    [defaults setObject:name forKey:@"name"];
+    [defaults synchronize];
+    
+    // 设置 entrypointArgs 数组
+    NSArray<NSString *> *entrypointArgs = @[
+        @"--autoConnect",
+        [@"--serverUrl=" stringByAppendingString:serverUrl],
+        [@"--room=" stringByAppendingString:room],
+        [@"--name=" stringByAppendingString:name]
+    ];
+
     // 创建 FlutterEngine
     FlutterEngine *flutterEngine = [[FlutterEngine alloc] initWithName:@"my flutter engine"];
     
-    // 启动 FlutterEngine
-    [flutterEngine run];
+    // 启动 FlutterEngine 并传递参数
+    [flutterEngine runWithEntrypoint:nil libraryURI:nil initialRoute:nil entrypointArgs:entrypointArgs];
 
     // 注册生成的插件
     [GeneratedPluginRegistrant registerWithRegistry:flutterEngine];
