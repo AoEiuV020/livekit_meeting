@@ -83,27 +83,18 @@ struct ContentView: View {
     }
     // 跳转到 Objective-C 页面
     private func openObjectiveCPage() {
-        let myObjectiveCViewController = MyObjectiveCViewController()
-        myObjectiveCViewController.modalPresentationStyle = .fullScreen // 设置全屏展示
+        let vc = MyObjectiveCViewController()
+        vc.modalPresentationStyle = .fullScreen // 设置全屏展示
         if let window = UIApplication.shared.windows.first {
-            window.rootViewController?.present(myObjectiveCViewController, animated: true, completion: nil)
+            window.rootViewController?.present(vc, animated: true, completion: nil)
         }
     }
     // 打开 Flutter 页面的函数
     private func openFlutterPage() {
-        let flutterEngine = FlutterEngine(name: "my flutter engine")
-        let entrypointArgs: [String] = [
-            "--autoConnect",
-            "--serverUrl=" + inputServerUrl,
-            "--room=" + inputRoom,
-            "--name=" + inputName,
-        ]
-        flutterEngine.run(withEntrypoint: nil, libraryURI: nil, initialRoute: nil, entrypointArgs: entrypointArgs)
-        GeneratedPluginRegistrant.register(with: flutterEngine)
-        let flutterViewController = FlutterViewController(engine: flutterEngine, nibName: nil, bundle: nil)
-        flutterViewController.modalPresentationStyle = .fullScreen // 设置全屏展示
+        let vc = LivekitDemoViewController(serverUrl: inputServerUrl, room: inputRoom, name: inputName)
+        vc.modalPresentationStyle = .fullScreen // 设置全屏展示
         if let window = UIApplication.shared.windows.first {
-            window.rootViewController?.present(flutterViewController, animated: true, completion: nil)
+            window.rootViewController?.present(vc, animated: true, completion: nil)
         }
     }
 }
