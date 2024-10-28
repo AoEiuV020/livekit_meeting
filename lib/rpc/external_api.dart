@@ -20,4 +20,12 @@ class ExternalApi {
     if (!interceptHangupEnabled) return false;
     return await MeetingRpc.instance.sendRequest('interceptHangup');
   }
+
+  void onAudioMuteChanged(bool muted) {
+    MeetingRpc.instance.sendRequest('onAudioMuteChanged', {'muted': muted});
+  }
+
+  void onVideoMuteChanged(bool muted) {
+    MeetingRpc.instance.sendRequest('onVideoMuteChanged', {'muted': muted});
+  }
 }

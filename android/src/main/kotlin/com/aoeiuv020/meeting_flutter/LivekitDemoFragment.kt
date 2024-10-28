@@ -86,4 +86,16 @@ class LivekitDemoFragment : FlutterFragment() {
         invokeMethod("setInterceptHangupEnabled", mapOf("enabled" to true), null)
     }
 
+    fun setAudioMute(muted: Boolean) {
+        invokeMethod("setAudioMute", mapOf("muted" to muted), null)
+    }
+
+    fun setVideoMute(muted: Boolean) {
+        invokeMethod("setVideoMute", mapOf("muted" to muted), null)
+    }
+
+    fun toggleCamera() {
+        invokeMethod("toggleCamera", null, null)
+    }
+
 }

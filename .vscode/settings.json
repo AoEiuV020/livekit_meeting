@@ -5,6 +5,7 @@
         "livekit",
         "Prefs",
         "prejoin",
+        "Unmuted",
         "videocam"
     ]
 }

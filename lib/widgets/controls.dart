@@ -10,6 +10,7 @@ import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 import '../rpc/external_api.dart';
 import '../exts.dart';
+import '../rpc/meeting_rpc.dart';
 
 class ControlsWidget extends StatefulWidget {
   //
@@ -38,6 +39,9 @@ class _ControlsWidgetState extends State<ControlsWidget> {
 
   bool _speakerphoneOn = Hardware.instance.preferSpeakerOutput;
 
+  late final EventsListener<ParticipantEvent> _listener =
+      widget.participant.createListener();
+
   @override
   void initState() {
     super.initState();
@@ -49,13 +53,55 @@ class _ControlsWidgetState extends State<ControlsWidget> {
     Hardware.instance.enumerateDevices().then(_loadDevices);
     position =
         widget.room.roomOptions.defaultCameraCaptureOptions.cameraPosition;
+    MeetingRpc.instance
+        .registerMethod('setAudioMute', (param) => _setAudioMute(param));
+    MeetingRpc.instance
+        .registerMethod('setVideoMute', (param) => _setVideoMute(param));
+    MeetingRpc.instance.registerMethod('toggleCamera', () => _toggleCamera());
+    _listener
+      ..on<TrackMutedEvent>((event) {
+        if (event.participant != participant) return;
+        if (event.publication.kind == TrackType.AUDIO) {
+          ExternalApi.instance.onAudioMuteChanged(true);
+        } else if (event.publication.kind == TrackType.VIDEO) {
+          ExternalApi.instance.onVideoMuteChanged(true);
+        }
+      })
+      ..on<TrackUnmutedEvent>((event) {
+        if (event.participant != participant) return;
+        if (event.publication.kind == TrackType.AUDIO) {
+          ExternalApi.instance.onAudioMuteChanged(false);
+        } else if (event.publication.kind == TrackType.VIDEO) {
+          ExternalApi.instance.onVideoMuteChanged(false);
+        }
+      });
   }
 
   @override
   void dispose() {
+    _listener.dispose();
+    MeetingRpc.instance.unregisterMethod('setAudioMute');
+    MeetingRpc.instance.unregisterMethod('setVideoMute');
+    MeetingRpc.instance.unregisterMethod('toggleCamera');
     _subscription?.cancel();
     participant.removeListener(_onChange);
     super.dispose();
+  }
+
+  Future<void> _setAudioMute(param) {
+    if (param['muted'] == true) {
+      return _disableAudio();
+    } else {
+      return _enableAudio();
+    }
+  }
+
+  Future<void> _setVideoMute(param) {
+    if (param['muted'] == true) {
+      return _disableVideo();
+    } else {
+      return _enableVideo();
+    }
   }
 
   LocalParticipant get participant => widget.participant;
@@ -72,14 +118,14 @@ class _ControlsWidgetState extends State<ControlsWidget> {
     setState(() {});
   }
 
-  void _unpublishAll() async {
+  Future<void> _unpublishAll() async {
     final result = await context.showUnPublishDialog();
     if (result == true) await participant.unpublishAllTracks();
   }
 
   bool get isMuted => participant.isMuted;
 
-  void _disableAudio() async {
+  Future<void> _disableAudio() async {
     await participant.setMicrophoneEnabled(false);
   }
 
@@ -87,11 +133,11 @@ class _ControlsWidgetState extends State<ControlsWidget> {
     await participant.setMicrophoneEnabled(true);
   }
 
-  void _disableVideo() async {
+  Future<void> _disableVideo() async {
     await participant.setCameraEnabled(false);
   }
 
-  void _enableVideo() async {
+  Future<void> _enableVideo() async {
     await participant.setCameraEnabled(true);
   }
 
@@ -116,7 +162,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
     setState(() {});
   }
 
-  void _toggleCamera() async {
+  Future<void> _toggleCamera() async {
     //
     final track = participant.videoTrackPublications.firstOrNull?.track;
     if (track == null) return;
@@ -133,7 +179,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
     }
   }
 
-  void _enableScreenShare() async {
+  Future<void> _enableScreenShare() async {
     if (lkPlatformIsDesktop()) {
       try {
         final source = await showDialog<DesktopCapturerSource>(
@@ -214,7 +260,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
     await participant.setScreenShareEnabled(true, captureScreenAudio: true);
   }
 
-  void _disableScreenShare() async {
+  Future<void> _disableScreenShare() async {
     await participant.setScreenShareEnabled(false);
     if (lkPlatformIs(PlatformType.android)) {
       // Android specific
@@ -226,7 +272,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
     }
   }
 
-  void _onTapDisconnect() async {
+  Future<void> _onTapDisconnect() async {
     final externalIntercept = await ExternalApi.instance.interceptHangup();
     if (externalIntercept) return;
     final result = await context.showDisconnectDialog();
