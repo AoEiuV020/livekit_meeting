@@ -1,6 +1,8 @@
 import 'package:flutter/services.dart';
 
-class ChannelService {
+import 'service.dart';
+
+class ChannelService implements Service {
   static const methodChannel = MethodChannel('meeting_rpc');
   final Map<String, Function> _handlers = {};
 
@@ -24,10 +26,12 @@ class ChannelService {
     _handlers[method] = handler;
   }
 
+  @override
   void registerMethod(String method, Function callback) {
     _addMethodCallHandler(method, callback);
   }
 
+  @override
   Future sendRequest(String method, parameters) {
     if (parameters is Iterable) parameters = parameters.toList();
     if (parameters is! Map && parameters is! List && parameters != null) {
