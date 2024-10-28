@@ -242,11 +242,11 @@ class _PreJoinPageState extends State<PreJoinPage> {
         ),
       );
 
-      await Navigator.pushAndRemoveUntil<void>(
+      unawaited(Navigator.pushAndRemoveUntil<void>(
         context,
         MaterialPageRoute(builder: (_) => RoomPage(room, listener)),
         (route) => false,
-      );
+      ));
     } catch (error) {
       print('Could not connect $error');
       await context.showErrorDialog(error);
