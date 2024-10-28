@@ -70,6 +70,7 @@ class _RoomPageState extends State<RoomPage> {
 
   @override
   void dispose() {
+    MeetingRpc.instance.unregisterMethod('hangup');
     // always dispose listener
     (() async {
       if (lkPlatformIs(PlatformType.iOS)) {

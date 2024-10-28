@@ -11,7 +11,7 @@ class ChannelService implements Service {
       final handler = _handlers[call.method];
       if (handler != null) {
         if (call.arguments == null) {
-          handler();
+          await handler();
         } else {
           await handler(call.arguments);
         }
