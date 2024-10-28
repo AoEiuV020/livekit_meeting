@@ -33,6 +33,37 @@
                 "--dart-entrypoint-args=--room=123456",
                 "--dart-entrypoint-args=--name=vscode",
             ]
+        },
+        {
+            "name": "example(dart)",
+            "cwd": "example",
+            "type": "dart",
+            "request": "launch",
+            "program": "bin/meeting_example.dart",
+            "args": [
+                "--web-browser-flag=--disable-web-security",
+                "--web-port=9080",
+                "--web-launch-url=http://localhost:9080/?autoConnect&serverUrl=https%3A%2F%2Fmeet.livekit.io&room=123456&name=vscode",
+                "--dart-entrypoint-args=--autoConnect",
+                "--dart-entrypoint-args=--serverUrl=https://meet.livekit.io",
+                "--dart-entrypoint-args=--room=123456",
+                "--dart-entrypoint-args=--name=vscode",
+            ]
+        },
+        {
+            "name": "dart",
+            "type": "dart",
+            "request": "launch",
+            "program": "bin/meeting_flutter.dart",
+            "args": [
+                "--web-browser-flag=--disable-web-security",
+                "--web-port=9080",
+                "--web-launch-url=http://localhost:9080/?autoConnect&serverUrl=https%3A%2F%2Fmeet.livekit.io&room=123456&name=vscode",
+                "--dart-entrypoint-args=--autoConnect",
+                "--dart-entrypoint-args=--serverUrl=https://meet.livekit.io",
+                "--dart-entrypoint-args=--room=123456",
+                "--dart-entrypoint-args=--name=vscode",
+            ]
         }
     ]
 }
