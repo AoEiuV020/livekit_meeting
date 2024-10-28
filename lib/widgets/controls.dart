@@ -474,7 +474,10 @@ class _ControlsWidgetState extends State<ControlsWidget> {
             ),
           PopScope(
             canPop: false,
-            onPopInvokedWithResult: (didPop, result) => _onTapDisconnect(),
+            onPopInvokedWithResult: (didPop, result) {
+              if (didPop) return;
+              _onTapDisconnect();
+            },
             child: IconButton(
               onPressed: _onTapDisconnect,
               icon: const Icon(Icons.close_sharp),
