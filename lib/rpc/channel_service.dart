@@ -2,18 +2,16 @@ import 'package:flutter/services.dart';
 
 class ChannelService {
   static const methodChannel = MethodChannel('meeting_rpc');
-  final Map<String, List<Function>> _handlers = {};
+  final Map<String, Function> _handlers = {};
 
   ChannelService() {
     methodChannel.setMethodCallHandler((call) async {
-      final handlers = _handlers[call.method];
-      if (handlers != null) {
-        for (final handler in handlers) {
-          if (call.arguments == null) {
-            handler();
-          } else {
-            await handler(call.arguments);
-          }
+      final handler = _handlers[call.method];
+      if (handler != null) {
+        if (call.arguments == null) {
+          handler();
+        } else {
+          await handler(call.arguments);
         }
       } else {
         // 没有匹配的 handler，
@@ -23,7 +21,7 @@ class ChannelService {
   }
 
   void _addMethodCallHandler(String method, Function handler) {
-    _handlers.putIfAbsent(method, () => []).add(handler);
+    _handlers[method] = handler;
   }
 
   void registerMethod(String method, Function callback) {
