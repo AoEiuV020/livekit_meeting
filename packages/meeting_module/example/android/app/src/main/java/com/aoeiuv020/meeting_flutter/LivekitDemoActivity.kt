@@ -8,12 +8,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.aoeiuv020.meetingmoduleexample.R
-import io.flutter.embedding.android.FlutterEngineConfigurator
-import io.flutter.embedding.engine.FlutterEngine
-import io.flutter.embedding.engine.plugins.util.GeneratedPluginRegister
 
 @SuppressLint("MissingSuperCall")
-class LivekitDemoActivity : AppCompatActivity(), FlutterEngineConfigurator {
+class LivekitDemoActivity : AppCompatActivity() {
     private val TAG_FLUTTER_FRAGMENT = "flutter_fragment"
     private lateinit var options: LivekitDemoOptions
     private lateinit var fragment: LivekitDemoFragment
@@ -113,12 +110,5 @@ class LivekitDemoActivity : AppCompatActivity(), FlutterEngineConfigurator {
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
         fragment.onTrimMemory(level)
-    }
-    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
-        // 必须加上这个才能在fragment中使用flutter插件，
-        GeneratedPluginRegister.registerGeneratedPlugins(flutterEngine)
-    }
-
-    override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
     }
 }
