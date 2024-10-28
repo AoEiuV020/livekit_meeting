@@ -1,6 +1,7 @@
 package com.aoeiuv020.meeting_flutter
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -29,6 +30,28 @@ class LivekitDemoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_meeting)
         initArgs()
         initFragment()
+        fragment.postOnChannelReady {
+            initEvent()
+        }
+    }
+
+    private fun initEvent() {
+        fragment.interceptHangup(::interceptHangup)
+    }
+
+    private fun interceptHangup(): Boolean {
+        AlertDialog.Builder(this)
+            .setTitle("确认挂断")
+            .setMessage("确定离开当前会议吗？")
+            .setPositiveButton("是") { dialog, _ ->
+                fragment.hangup()
+                dialog.dismiss()
+            }
+            .setNegativeButton("否") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+        return true
     }
 
     private fun initArgs() {
