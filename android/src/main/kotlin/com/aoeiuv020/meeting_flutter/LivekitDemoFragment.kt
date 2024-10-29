@@ -6,9 +6,9 @@ import com.aoeiuv020.meeting_flutter.util.JsonUtil
 import io.flutter.embedding.android.FlutterFragment
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.plugins.util.GeneratedPluginRegister
-import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
+@Suppress("MemberVisibilityCanBePrivate")
 class LivekitDemoFragment : FlutterFragment() {
     companion object {
         @JvmStatic
@@ -27,8 +27,7 @@ class LivekitDemoFragment : FlutterFragment() {
 
     private var _channel: MethodChannel? = null
     val channel get() = _channel!!
-    private var onReady: Runnable? = null
-    private val handlers = mutableMapOf<String, MethodChannel.MethodCallHandler>()
+    var eventListener: EventListener? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -42,26 +41,21 @@ class LivekitDemoFragment : FlutterFragment() {
         _channel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "meeting_rpc")
         channel.setMethodCallHandler { call, result ->
             // 处理来自Flutter端的调用
-            val handler = handlers[call.method]
-            handler?.onMethodCall(call, result)
-                ?: result.notImplemented()
+            try {
+                var ret = eventListener?.onEvent(call.method, call.arguments)
+                if (ret is Unit) {
+                    ret = null
+                }
+                result.success(ret)
+            } catch (e: NoSuchMethodException) {
+                result.notImplemented()
+            } catch (e: MeetingRpcException) {
+                result.error(e.errorCode, e.message, e.errorDetails)
+            } catch (e: Exception) {
+                result.error("-1", e.message, null)
+            }
         }
-        if (onReady != null) {
-            onReady?.run()
-            onReady = null
-        }
-    }
-
-    fun postOnChannelReady(onReady: Runnable) {
-        if (_channel != null) {
-            onReady.run()
-        } else {
-            this.onReady = onReady
-        }
-    }
-
-    fun registerMethod(method: String, callback: MethodChannel.MethodCallHandler) {
-        handlers[method] = callback
+        invokeMethod("setInterceptHangupEnabled", mapOf("enabled" to true), null)
     }
 
     @UiThread
@@ -71,19 +65,6 @@ class LivekitDemoFragment : FlutterFragment() {
 
     fun hangup() {
         invokeMethod("hangup", null, null)
-    }
-
-    fun interceptHangup(function: () -> Boolean) {
-        registerMethod("interceptHangup", object : MethodChannel.MethodCallHandler {
-            override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
-                if (function.invoke()) {
-                    result.success(true)
-                } else {
-                    result.success(false)
-                }
-            }
-        })
-        invokeMethod("setInterceptHangupEnabled", mapOf("enabled" to true), null)
     }
 
     fun setAudioMute(muted: Boolean) {
@@ -96,6 +77,33 @@ class LivekitDemoFragment : FlutterFragment() {
 
     fun toggleCamera() {
         invokeMethod("toggleCamera", null, null)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    abstract class EventListener {
+        private fun obj(arguments: Any?): Map<String, Any> = (arguments as Map<String, Any>)
+        open fun onEvent(method: String, arguments: Any?): Any? = when (method) {
+            "interceptHangup" -> interceptHangup()
+            "onHangup" -> onHangup()
+            "onAudioMuteChanged" -> onAudioMuteChanged(obj(arguments)["muted"] as Boolean)
+            "onVideoMuteChanged" -> onVideoMuteChanged(obj(arguments)["muted"] as Boolean)
+            else -> throw NoSuchMethodException()
+        }
+
+        open fun interceptHangup(): Boolean {
+            return false
+        }
+
+        open fun onVideoMuteChanged(muted: Boolean) {
+
+        }
+
+        open fun onAudioMuteChanged(muted: Boolean) {
+
+        }
+
+        open fun onHangup() {
+        }
     }
 
 }

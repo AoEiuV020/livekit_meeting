@@ -6,17 +6,21 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.aoeiuv020.meetingmoduleexample.R
 
+@Suppress("OVERRIDE_DEPRECATION")
 @SuppressLint("MissingSuperCall")
 class LivekitDemoActivity : AppCompatActivity() {
-    private val TAG_FLUTTER_FRAGMENT = "flutter_fragment"
     private lateinit var options: LivekitDemoOptions
     private lateinit var fragment: LivekitDemoFragment
 
     companion object {
+        private const val TAG_FLUTTER_FRAGMENT = "flutter_fragment"
+        private const val TAG = "LivekitDemo"
         @JvmStatic
         fun start(context: Context, options: LivekitDemoOptions) {
             val starter = Intent(context, LivekitDemoActivity::class.java)
@@ -30,28 +34,23 @@ class LivekitDemoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_meeting)
         initArgs()
         initFragment()
-        fragment.postOnChannelReady {
-            initEvent()
-        }
+        initEvent()
     }
 
     private fun initEvent() {
-        fragment.interceptHangup(::interceptHangup)
+        fragment.eventListener = EventListener()
     }
 
-    private fun interceptHangup(): Boolean {
-        AlertDialog.Builder(this)
-            .setTitle("确认挂断")
-            .setMessage("确定离开当前会议吗？")
-            .setPositiveButton("是") { dialog, _ ->
-                fragment.hangup()
-                dialog.dismiss()
-            }
-            .setNegativeButton("否") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
-        return true
+    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_1 -> fragment.hangup()
+            KeyEvent.KEYCODE_2 -> fragment.setVideoMute(true)
+            KeyEvent.KEYCODE_3 -> fragment.setVideoMute(false)
+            KeyEvent.KEYCODE_4 -> fragment.setAudioMute(true)
+            KeyEvent.KEYCODE_5 -> fragment.setAudioMute(false)
+            KeyEvent.KEYCODE_6 -> fragment.toggleCamera()
+        }
+        return super.onKeyUp(keyCode, event)
     }
 
     private fun initArgs() {
@@ -134,4 +133,27 @@ class LivekitDemoActivity : AppCompatActivity() {
         super.onTrimMemory(level)
         fragment.onTrimMemory(level)
     }
+
+    inner class EventListener : LivekitDemoFragment.EventListener() {
+        override fun onEvent(method: String, arguments: Any?) {
+            super.onEvent(method, arguments)
+            Log.e(TAG, "onEvent: $method, $arguments")
+        }
+
+        override fun interceptHangup(): Boolean {
+            AlertDialog.Builder(this@LivekitDemoActivity)
+                .setTitle("确认挂断")
+                .setMessage("确定离开当前会议吗？")
+                .setPositiveButton("是") { dialog, _ ->
+                    fragment.hangup()
+                    dialog.dismiss()
+                }
+                .setNegativeButton("否") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+            return true
+        }
+    }
+
 }

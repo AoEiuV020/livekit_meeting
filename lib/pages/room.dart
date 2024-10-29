@@ -9,6 +9,7 @@ import '../method_channels/replay_kit_channel.dart';
 
 import '../exts.dart';
 import '../options/global_options.dart';
+import '../rpc/external_api.dart';
 import '../rpc/meeting_rpc.dart';
 import '../utils.dart';
 import '../widgets/controls.dart';
@@ -90,6 +91,7 @@ class _RoomPageState extends State<RoomPage> {
       if (event.reason != null) {
         print('Room disconnected: reason => ${event.reason}');
       }
+      ExternalApi.instance.onHangup();
       WidgetsBindingCompatible.instance?.addPostFrameCallback((timeStamp) {
         final globalOptions = context.read<GlobalOptions>();
         final autoConnect = globalOptions.autoConnect;
