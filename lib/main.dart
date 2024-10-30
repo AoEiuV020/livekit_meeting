@@ -5,6 +5,7 @@ import 'package:logging/logging.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'app.dart';
+import 'options/flag_options.dart';
 import 'options/global_options.dart';
 import 'options/parse.dart';
 import 'rpc/external_api.dart';
@@ -23,7 +24,7 @@ void meetingMain(List<String> args) async {
     globalOptions = await parseGlobalOptions(args);
   } catch (error, stackTrace) {
     print('Could not parse global options: $error\n$stackTrace');
-    globalOptions = GlobalOptions();
+    globalOptions = GlobalOptions(flagOptions: FlagOptions());
   }
 
   WidgetsFlutterBinding.ensureInitialized();

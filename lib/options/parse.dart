@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:args/args.dart';
 
+import 'flag_options.dart';
 import 'global_options.dart';
 import 'livekit_demo_options.dart';
 import 'parse_util.dart' if (dart.library.html) 'parse_util_web.dart';
@@ -34,7 +35,9 @@ Future<GlobalOptions> parseGlobalOptions(List<String> args) async {
     );
     autoConnect = results.flag('autoConnect');
   }
+  final flagOptions = FlagOptions();
   return GlobalOptions(
+    flagOptions: flagOptions,
     autoConnect: autoConnect,
     livekitDemoOptions: livekitDemoOptions,
   );
