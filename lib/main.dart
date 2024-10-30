@@ -5,8 +5,6 @@ import 'package:logging/logging.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'app.dart';
-import 'options/flag_options.dart';
-import 'options/global_options.dart';
 import 'options/parse.dart';
 import 'rpc/external_api.dart';
 import 'utils.dart';
@@ -19,12 +17,13 @@ void meetingMain(List<String> args) async {
     print('${format.format(record.time)}: ${record.message}');
   });
 
-  GlobalOptions globalOptions;
+  List<InheritedProvider> providerList;
   try {
-    globalOptions = await parseGlobalOptions(args);
+    providerList = await parseGlobalOptions(args);
   } catch (error, stackTrace) {
     print('Could not parse global options: $error\n$stackTrace');
-    globalOptions = GlobalOptions(flagOptions: FlagOptions());
+    // 这里如果直接崩溃的话连窗口都没有，啥也看不到， 所以强制不崩溃，
+    providerList = [];
   }
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,9 +38,7 @@ void meetingMain(List<String> args) async {
   await ExternalApi.instance.init();
 
   runApp(MultiProvider(
-    providers: [
-      Provider.value(value: globalOptions),
-    ],
+    providers: providerList,
     child: const MeetingApp(),
   ));
 }

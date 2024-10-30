@@ -10,7 +10,6 @@ import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:provider/provider.dart';
 
 import '../options/flag_options.dart';
-import '../options/global_options.dart';
 import '../rpc/external_api.dart';
 import '../exts.dart';
 import '../rpc/meeting_rpc.dart';
@@ -124,7 +123,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
   Future<void> _unpublishAll() async {
     final result = await context.showUnPublishDialog();
     if (result == true) await participant.unpublishAllTracks();
-    final buttonOptions = context.read<GlobalOptions>().flagOptions.button;
+    final buttonOptions = context.read<ButtonFlagOptions>();
     buttonOptions.disableAudio = true;
     buttonOptions.disableVideo = true;
     buttonOptions.disableScreenShare = true;
@@ -540,7 +539,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: context.read<GlobalOptions>().flagOptions.button,
+      value: context.read<ButtonFlagOptions>(),
       child: Builder(builder: (context) {
         final buttonFlagOptions = context.read<ButtonFlagOptions>();
         return Padding(

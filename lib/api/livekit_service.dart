@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'bean/server_token.dart';
 
 class LivekitService {
-  final String baseUrl;
+  String baseUrl;
   static const pathPrefix = 'api';
   final Dio dio;
 

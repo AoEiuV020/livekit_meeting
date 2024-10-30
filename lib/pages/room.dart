@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../method_channels/replay_kit_channel.dart';
 
 import '../exts.dart';
-import '../options/global_options.dart';
+import '../options/flag_options.dart';
 import '../rpc/external_api.dart';
 import '../rpc/meeting_rpc.dart';
 import '../utils.dart';
@@ -93,8 +93,7 @@ class _RoomPageState extends State<RoomPage> {
       }
       ExternalApi.instance.onHangup();
       WidgetsBindingCompatible.instance?.addPostFrameCallback((timeStamp) {
-        final globalOptions = context.read<GlobalOptions>();
-        final autoConnect = globalOptions.autoConnect;
+        final autoConnect = context.read<FlagOptions>().autoConnect;
         if (autoConnect) {
           Navigator.popUntil(context, (_) => false);
           roomCloseApp();

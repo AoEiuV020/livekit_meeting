@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart';
 
 class FlagOptions extends ChangeNotifier {
-  ButtonFlagOptions button = ButtonFlagOptions();
+  bool autoConnect = false;
+  void updateFlags() {
+    notifyListeners();
+  }
 }
 
 class ButtonFlagOptions extends ChangeNotifier {
