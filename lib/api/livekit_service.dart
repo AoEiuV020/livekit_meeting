@@ -3,14 +3,23 @@ import 'package:dio/dio.dart';
 import 'bean/server_token.dart';
 
 class LivekitService {
-  String baseUrl;
   static const pathPrefix = 'api';
-  final Dio dio;
+  String _baseUrl = '';
+  String get baseUrl => _baseUrl;
+  set baseUrl(String baseUrl) {
+    _baseUrl = baseUrl;
+    if (baseUrl.isEmpty) return;
+    _dio = Dio(BaseOptions(
+      baseUrl: '$baseUrl/$pathPrefix',
+    ));
+  }
 
-  LivekitService(this.baseUrl)
-      : dio = Dio(BaseOptions(
-          baseUrl: '$baseUrl/$pathPrefix',
-        ));
+  Dio? _dio;
+  Dio get dio => _dio!;
+
+  LivekitService(String baseUrl) {
+    baseUrl = baseUrl;
+  }
   Future<ServerToken> getToken(String roomName, String participantName) async {
     final response = await getRequest('/connection-details',
         {'roomName': roomName, 'participantName': participantName});
