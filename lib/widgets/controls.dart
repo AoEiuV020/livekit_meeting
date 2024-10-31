@@ -538,54 +538,48 @@ class _ControlsWidgetState extends State<ControlsWidget> {
       ];
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: context.read<ButtonFlagOptions>(),
-      child: Builder(builder: (context) {
-        final buttonFlagOptions = context.read<ButtonFlagOptions>();
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 15,
-            horizontal: 15,
+    final buttonFlagOptions = context.watch<ButtonFlagOptions>();
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 15,
+        horizontal: 15,
+      ),
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        spacing: 5,
+        runSpacing: 5,
+        children: [
+          IconButton(
+            onPressed: _unpublishAll,
+            icon: const Icon(Icons.cancel),
+            tooltip: 'Unpublish all',
           ),
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 5,
-            runSpacing: 5,
-            children: [
-              IconButton(
-                onPressed: _unpublishAll,
-                icon: const Icon(Icons.cancel),
-                tooltip: 'Unpublish all',
-              ),
-              if (!buttonFlagOptions.disableAudio) ...buildAudioButton(context),
-              if (!buttonFlagOptions.disableAudio)
-                ...buildAudioRouteButton(context),
-              if (!buttonFlagOptions.disableAudio)
-                ...buildSpeakerphoneButton(context),
-              if (!buttonFlagOptions.disableVideo) ...buildVideoButton(context),
-              if (!buttonFlagOptions.disableScreenShare)
-                ...buildScreenSharingButton(context),
-              if (!buttonFlagOptions.disableHangup)
-                ...buildHangupButton(context),
-              IconButton(
-                onPressed: _onTapSendData,
-                icon: const Icon(Icons.message),
-                tooltip: 'send demo data',
-              ),
-              IconButton(
-                onPressed: _onTapUpdateSubscribePermission,
-                icon: const Icon(Icons.settings),
-                tooltip: 'Subscribe permission',
-              ),
-              IconButton(
-                onPressed: _onTapSimulateScenario,
-                icon: const Icon(Icons.bug_report),
-                tooltip: 'Simulate scenario',
-              ),
-            ],
+          if (!buttonFlagOptions.disableAudio) ...buildAudioButton(context),
+          if (!buttonFlagOptions.disableAudio)
+            ...buildAudioRouteButton(context),
+          if (!buttonFlagOptions.disableAudio)
+            ...buildSpeakerphoneButton(context),
+          if (!buttonFlagOptions.disableVideo) ...buildVideoButton(context),
+          if (!buttonFlagOptions.disableScreenShare)
+            ...buildScreenSharingButton(context),
+          if (!buttonFlagOptions.disableHangup) ...buildHangupButton(context),
+          IconButton(
+            onPressed: _onTapSendData,
+            icon: const Icon(Icons.message),
+            tooltip: 'send demo data',
           ),
-        );
-      }),
+          IconButton(
+            onPressed: _onTapUpdateSubscribePermission,
+            icon: const Icon(Icons.settings),
+            tooltip: 'Subscribe permission',
+          ),
+          IconButton(
+            onPressed: _onTapSimulateScenario,
+            icon: const Icon(Icons.bug_report),
+            tooltip: 'Simulate scenario',
+          ),
+        ],
+      ),
     );
   }
 }
