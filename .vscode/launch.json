@@ -29,6 +29,8 @@
                 "--dart-entrypoint-args=--serverUrl=https://meet.livekit.io",
                 "--dart-entrypoint-args=--room=123456",
                 "--dart-entrypoint-args=--name=vscode",
+                "--dart-entrypoint-args=--startWithAudioMuted",
+                "--dart-entrypoint-args=--startWithVideoMuted",
                 "--web-browser-flag=--disable-web-security",
                 "--web-port=9080",
                 "--web-launch-url=http://localhost:9080/?autoConnect&serverUrl=https%3A%2F%2Fmeet.livekit.io&room=123456&name=vscode",

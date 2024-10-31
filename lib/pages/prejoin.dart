@@ -6,9 +6,11 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:livekit_client/livekit_client.dart';
+import 'package:provider/provider.dart';
 import '../ext/media_device_ext.dart';
 import '../exts.dart';
 
+import '../options/flag_options.dart';
 import '../theme.dart';
 import 'room.dart';
 
@@ -78,8 +80,9 @@ class _PreJoinPageState extends State<PreJoinPage> {
     _audioInputs = devices.where((d) => d.kind == 'audioinput').toList();
     _videoInputs = devices.where((d) => d.kind == 'videoinput').toList();
 
+    final flagOptions = context.read<FlagOptions>();
     if (_audioInputs.isNotEmpty) {
-      if (_selectedAudioDevice == null) {
+      if (!flagOptions.startWithAudioMuted && _selectedAudioDevice == null) {
         _selectedAudioDevice = _audioInputs.first;
         Future.delayed(const Duration(milliseconds: 100), () async {
           await _changeLocalAudioTrack();
@@ -90,6 +93,10 @@ class _PreJoinPageState extends State<PreJoinPage> {
 
     if (_videoInputs.isNotEmpty) {
       if (_selectedVideoDevice == null) {
+        if (flagOptions.startWithVideoMuted) {
+          _join(context);
+          return;
+        }
         // 优先选择前置摄像头
         _selectedVideoDevice = _videoInputs.firstWhereOrNull((d) => d.front);
         _selectedVideoDevice ??= _videoInputs.first;

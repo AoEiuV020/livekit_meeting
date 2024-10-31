@@ -22,9 +22,11 @@ Future<ArgResults> parseArgs(List<String> args) async {
       ..addOption('room')
       ..addOption('name')
       ..addOption('livekitDemoOptions')
-      ..addFlag('autoConnect', defaultsTo: false)
       ..addFlag('startWithAudioMuted', defaultsTo: false)
-      ..addFlag('startWithVideoMuted', defaultsTo: false);
+      ..addFlag('startWithVideoMuted', defaultsTo: false)
+      ..addFlag('disableAudioMutedButton', defaultsTo: false)
+      ..addFlag('disableVideoMutedButton', defaultsTo: false)
+      ..addFlag('autoConnect', defaultsTo: false);
     parseResult = parser.parse(args);
   } catch (error, stackTrace) {
     print('Could not parse args: $error\n$stackTrace');
@@ -39,12 +41,14 @@ Future<List<InheritedProvider>> parseGlobalOptions(List<String> args) async {
 
   FlagOptions flagOptions = FlagOptions();
   flagOptions.autoConnect = parseResult.flag('autoConnect');
+  flagOptions.startWithAudioMuted = parseResult.flag('startWithAudioMuted');
+  flagOptions.startWithVideoMuted = parseResult.flag('startWithVideoMuted');
   // Provider必须指定泛型，
   result.add(ChangeNotifierProvider<FlagOptions>.value(value: flagOptions));
 
   ButtonFlagOptions buttonFlagOptions = ButtonFlagOptions();
-  buttonFlagOptions.disableAudio = parseResult.flag('startWithAudioMuted');
-  buttonFlagOptions.disableVideo = parseResult.flag('startWithVideoMuted');
+  buttonFlagOptions.disableAudio = parseResult.flag('disableAudioMutedButton');
+  buttonFlagOptions.disableVideo = parseResult.flag('disableVideoMutedButton');
   result.add(ChangeNotifierProvider<ButtonFlagOptions>.value(
       value: buttonFlagOptions));
 
