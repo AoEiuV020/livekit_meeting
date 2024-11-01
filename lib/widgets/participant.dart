@@ -142,10 +142,12 @@ abstract class _ParticipantWidgetState<T extends ParticipantWidget>
             children: [
               // Video
               activeVideoTrack != null && !activeVideoTrack!.muted
-                  ? VideoTrackRenderer(
-                      renderMode: VideoRenderMode.auto,
-                      activeVideoTrack!,
-                      fit: RTCVideoViewObjectFit.RTCVideoViewObjectFitContain,
+                  ? IgnorePointer(
+                      child: VideoTrackRenderer(
+                        renderMode: VideoRenderMode.auto,
+                        activeVideoTrack!,
+                        fit: RTCVideoViewObjectFit.RTCVideoViewObjectFitContain,
+                      ),
                     )
                   : const NoVideoWidget(),
               // Bottom bar
