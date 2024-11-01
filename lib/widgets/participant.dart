@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:livekit_client/livekit_client.dart';
+import '../exts.dart';
 import '../theme.dart';
 
 import 'no_video.dart';
@@ -78,7 +79,6 @@ class RemoteParticipantWidget extends ParticipantWidget {
 
 abstract class _ParticipantWidgetState<T extends ParticipantWidget>
     extends State<T> {
-  bool _visible = true;
   VideoTrack? get activeVideoTrack;
   AudioTrack? get activeAudioTrack;
   TrackPublication? get videoPublication;
@@ -135,48 +135,49 @@ abstract class _ParticipantWidgetState<T extends ParticipantWidget>
         decoration: BoxDecoration(
           color: Theme.of(ctx).cardColor,
         ),
-        child: Stack(
-          children: [
-            // Video
-            InkWell(
-              onTap: () => setState(() => _visible = !_visible),
-              child: activeVideoTrack != null && !activeVideoTrack!.muted
+        child: InkWell(
+          onTap: () => context
+              .showErrorDialog('clicked video: ${widget.participant.identity}'),
+          child: Stack(
+            children: [
+              // Video
+              activeVideoTrack != null && !activeVideoTrack!.muted
                   ? VideoTrackRenderer(
                       renderMode: VideoRenderMode.auto,
                       activeVideoTrack!,
                       fit: RTCVideoViewObjectFit.RTCVideoViewObjectFitContain,
                     )
                   : const NoVideoWidget(),
-            ),
-            // Bottom bar
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ...extraWidgets(isScreenShare),
-                  ParticipantInfoWidget(
-                    title: widget.participant.name.isNotEmpty
-                        ? '${widget.participant.name} (${widget.participant.identity})'
-                        : widget.participant.identity,
-                    audioAvailable: audioPublication?.muted == false &&
-                        audioPublication?.subscribed == true,
-                    connectionQuality: widget.participant.connectionQuality,
-                    isScreenShare: isScreenShare,
-                    enabledE2EE: widget.participant.isEncrypted,
-                  ),
-                ],
+              // Bottom bar
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ...extraWidgets(isScreenShare),
+                    ParticipantInfoWidget(
+                      title: widget.participant.name.isNotEmpty
+                          ? '${widget.participant.name} (${widget.participant.identity})'
+                          : widget.participant.identity,
+                      audioAvailable: audioPublication?.muted == false &&
+                          audioPublication?.subscribed == true,
+                      connectionQuality: widget.participant.connectionQuality,
+                      isScreenShare: isScreenShare,
+                      enabledE2EE: widget.participant.isEncrypted,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            if (widget.showStatsLayer)
-              Positioned(
-                  top: 130,
-                  right: 30,
-                  child: ParticipantStatsWidget(
-                    participant: widget.participant,
-                  )),
-          ],
+              if (widget.showStatsLayer)
+                Positioned(
+                    top: 130,
+                    right: 30,
+                    child: ParticipantStatsWidget(
+                      participant: widget.participant,
+                    )),
+            ],
+          ),
         ),
       );
 }
