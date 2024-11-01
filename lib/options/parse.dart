@@ -14,23 +14,23 @@ import 'parse_util.dart' if (dart.library.html) 'parse_util_web.dart';
 
 Future<ArgResults> parseArgs(List<String> args) async {
   ArgResults parseResult;
+  // ArgParser必须一次指定所有可能出现的选项， 出现未知选择就会报错，
+  var parser = ArgParser()
+    ..addOption('serverUrl')
+    ..addOption('room')
+    ..addOption('name')
+    ..addOption('livekitDemoOptions')
+    ..addFlag('startWithAudioMuted', defaultsTo: false)
+    ..addFlag('startWithVideoMuted', defaultsTo: false)
+    ..addFlag('disableAudioMutedButton', defaultsTo: false)
+    ..addFlag('disableVideoMutedButton', defaultsTo: false)
+    ..addFlag('autoConnect', defaultsTo: false);
   try {
     args = await prepareArgs(args);
-    // ArgParser必须一次指定所有可能出现的选项， 出现未知选择就会报错，
-    var parser = ArgParser()
-      ..addOption('serverUrl')
-      ..addOption('room')
-      ..addOption('name')
-      ..addOption('livekitDemoOptions')
-      ..addFlag('startWithAudioMuted', defaultsTo: false)
-      ..addFlag('startWithVideoMuted', defaultsTo: false)
-      ..addFlag('disableAudioMutedButton', defaultsTo: false)
-      ..addFlag('disableVideoMutedButton', defaultsTo: false)
-      ..addFlag('autoConnect', defaultsTo: false);
     parseResult = parser.parse(args);
   } catch (error, stackTrace) {
     print('Could not parse args: $error\n$stackTrace');
-    parseResult = ArgParser().parse([]);
+    parseResult = parser.parse([]);
   }
   return parseResult;
 }
