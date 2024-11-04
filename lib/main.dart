@@ -14,7 +14,8 @@ void meetingMain(List<String> args) async {
   // configure logs for debugging
   Logger.root.level = Level.FINE;
   Logger.root.onRecord.listen((record) {
-    print('${format.format(record.time)}: ${record.message}');
+    debugPrint(
+        '${format.format(record.time)}: ${record.loggerName}: ${record.level.name} ${record.message}');
   });
 
   List<InheritedProvider> providerList;

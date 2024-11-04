@@ -251,7 +251,10 @@ class _PreJoinPageState extends State<PreJoinPage> {
 
       unawaited(Navigator.pushAndRemoveUntil<void>(
         context,
-        MaterialPageRoute(builder: (_) => RoomPage(room, listener)),
+        MaterialPageRoute(
+          settings: const RouteSettings(name: '/room'),
+          builder: (_) => RoomPage(room, listener),
+        ),
         (route) => false,
       ));
     } catch (error) {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -63,7 +65,6 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
         _nameCtrl.text = lkPlatform().name;
       }
       await _connect(context);
-      Navigator.pop(context);
     }
   }
 
@@ -125,24 +126,23 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
       service.baseUrl = url;
       final serverToken = await service.getToken(roomName, name);
 
-      await Navigator.push<void>(
-        ctx,
-        MaterialPageRoute(
-            builder: (_) => PreJoinPage(
-                  args: JoinArgs(
-                    url: serverToken.serverUrl,
-                    token: serverToken.token,
-                    e2ee: _e2ee,
-                    e2eeKey: null,
-                    simulcast: _simulcast,
-                    adaptiveStream: _adaptiveStream,
-                    dynacast: _dynacast,
-                    preferredCodec: _preferredCodec,
-                    enableBackupVideoCodec:
-                        ['VP9', 'AV1'].contains(_preferredCodec),
-                  ),
-                )),
-      );
+      var route = MaterialPageRoute(
+        settings: const RouteSettings(name: '/prejoin'),
+          builder: (_) => PreJoinPage(
+                args: JoinArgs(
+                  url: serverToken.serverUrl,
+                  token: serverToken.token,
+                  e2ee: _e2ee,
+                  e2eeKey: null,
+                  simulcast: _simulcast,
+                  adaptiveStream: _adaptiveStream,
+                  dynacast: _dynacast,
+                  preferredCodec: _preferredCodec,
+                  enableBackupVideoCodec:
+                      ['VP9', 'AV1'].contains(_preferredCodec),
+                ),
+              ));
+      unawaited(Navigator.pushReplacement(ctx, route));
     } catch (error) {
       print('Could not connect $error');
       await ctx.showErrorDialog(error);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'pages/livekit_demo.dart';
+import 'route.dart';
 import 'theme.dart';
 
 class MeetingApp extends StatefulWidget {
@@ -23,6 +24,7 @@ class _MeetingAppState extends State<MeetingApp> {
   Widget build(BuildContext context) => MaterialApp(
         title: 'LiveKit Flutter Example',
         theme: LiveKitTheme().buildThemeData(context),
+        navigatorObservers: [RouteLoggerObserver()],
         onGenerateRoute: (RouteSettings routeSettings) {
           return MaterialPageRoute<void>(
             settings: routeSettings,
