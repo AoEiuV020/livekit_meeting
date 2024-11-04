@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -57,6 +58,10 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
     _nameCtrl.text =
         options.name ?? prefs.getString(_storeKeyName) ?? lkPlatform().name;
     if (context.read<FlagOptions>().autoConnect) {
+      if (kDebugMode && options.name == 'vscode') {
+        // 针对vscode调试传入的固定参数，让不同平台使用不同name，不这样也不会冲突，
+        _nameCtrl.text = lkPlatform().name;
+      }
       await _connect(context);
       Navigator.pop(context);
     }
