@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+
 import 'package:livekit_client/livekit_client.dart';
 import 'package:provider/provider.dart';
-import '../method_channels/replay_kit_channel.dart';
 
 import '../exts.dart';
+import '../method_channels/replay_kit_channel.dart';
 import '../options/flag_options.dart';
 import '../rpc/external_api.dart';
 import '../rpc/meeting_rpc.dart';

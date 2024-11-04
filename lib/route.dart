@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+
 import 'package:logging/logging.dart';
 
 class RouteLoggerObserver extends RouteObserver<PageRoute<dynamic>> {

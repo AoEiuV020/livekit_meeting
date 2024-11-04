@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_window_close/flutter_window_close.dart';
+import 'package:intl/intl.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:logging/logging.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
 import 'app.dart';
 import 'options/parse.dart';
 import 'rpc/external_api.dart';

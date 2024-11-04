@@ -2,18 +2,19 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:livekit_client/livekit_client.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../api/livekit_service.dart';
+import '../exts.dart';
 import '../options/flag_options.dart';
 import '../options/livekit_demo_options.dart';
-import 'prejoin.dart';
 import '../widgets/text_field.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:permission_handler/permission_handler.dart';
-
-import '../exts.dart';
+import 'prejoin.dart';
 
 class LivekitDemoPage extends StatefulWidget {
   //

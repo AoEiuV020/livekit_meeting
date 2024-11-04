@@ -1,17 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
 import 'package:flutter_background/flutter_background.dart';
-import 'package:livekit_client/livekit_client.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:livekit_client/livekit_client.dart';
 import 'package:provider/provider.dart';
 
+import '../exts.dart';
 import '../options/flag_options.dart';
 import '../rpc/external_api.dart';
-import '../exts.dart';
 import '../rpc/meeting_rpc.dart';
 
 class ControlsWidget extends StatefulWidget {

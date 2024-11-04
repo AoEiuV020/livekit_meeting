@@ -1,9 +1,10 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:livekit_client/livekit_client.dart';
-import '../theme.dart';
 
+import '../theme.dart';
 import 'no_video.dart';
 import 'participant_info.dart';
 import 'participant_stats.dart';

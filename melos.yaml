@@ -22,6 +22,9 @@ scripts:
     exec: dart fix --apply
   format:
     exec: dart format .
+  sort:
+    exec: dart pub global run import_sorter:main --no-comments
+  precommit: melos fix && melos format && melos sort
   test:
     run: flutter test --no-pub --coverage
     exec:
