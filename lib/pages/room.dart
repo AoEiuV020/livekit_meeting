@@ -87,7 +87,7 @@ class _RoomPageState extends State<RoomPage> {
 
   /// for more information, see [event types](https://docs.livekit.io/client/events/#events)
   void _setUpListeners() => _listener
-    ..on<RoomDisconnectedEvent>((event) async {
+    ..once<RoomDisconnectedEvent>((event) async {
       if (event.reason != null) {
         print('Room disconnected: reason => ${event.reason}');
       }
