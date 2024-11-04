@@ -127,7 +127,7 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
       final serverToken = await service.getToken(roomName, name);
 
       var route = MaterialPageRoute(
-        settings: const RouteSettings(name: '/prejoin'),
+          settings: const RouteSettings(name: '/prejoin'),
           builder: (_) => PreJoinPage(
                 args: JoinArgs(
                   url: serverToken.serverUrl,
