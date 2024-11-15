@@ -9,9 +9,6 @@
             "cwd": "example",
             "request": "launch",
             "type": "dart",
-            "env": {
-                "DISPLAY": ":0"
-            },
             "args": [
                 "--web-browser-flag=--disable-web-security",
             ]
@@ -21,9 +18,6 @@
             "cwd": "example",
             "request": "launch",
             "type": "dart",
-            "env": {
-                "DISPLAY": ":0"
-            },
             "args": [
                 "--dart-entrypoint-args=--autoConnect",
                 "--dart-entrypoint-args=--serverUrl=https://meet.livekit.io",
