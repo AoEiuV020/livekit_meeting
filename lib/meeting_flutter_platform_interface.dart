@@ -1,8 +1,11 @@
+import 'package:logging/logging.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'meeting_flutter_method_channel.dart';
 
 abstract class MeetingFlutterPlatform extends PlatformInterface {
+  final logger = Logger('MeetingFlutterPlatform');
+
   /// Constructs a MeetingFlutterPlatform.
   MeetingFlutterPlatform() : super(token: _token);
 
@@ -25,5 +28,13 @@ abstract class MeetingFlutterPlatform extends PlatformInterface {
 
   Future<String?> getPlatformVersion() {
     throw UnimplementedError('platformVersion() has not been implemented.');
+  }
+
+  void registerMethod(String method, Function callback) {
+    throw UnimplementedError('registerMethod() has not been implemented.');
+  }
+
+  Future sendRequest(String method, parameters) {
+    throw UnimplementedError('sendRequest() has not been implemented.');
   }
 }

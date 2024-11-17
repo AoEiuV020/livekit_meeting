@@ -25,37 +25,28 @@ class LivekitDemoFragment : FlutterFragment() {
                 ).build()
     }
 
-    private var _channel: MethodChannel? = null
-    val channel get() = _channel!!
-    var eventListener: EventListener? = null
+    val channel get() = MeetingFlutterPlugin.channel
+    var eventListener: EventListener?
+        get() = MeetingFlutterPlugin.eventListener
+        set(value) {
+            MeetingFlutterPlugin.eventListener = value
+        }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         // 必须加上这个才能使用flutter插件，
         GeneratedPluginRegister.registerGeneratedPlugins(flutterEngine)
-        initChannel(flutterEngine)
+        initChannel()
     }
 
-    private fun initChannel(flutterEngine: FlutterEngine) {
-        // 创建MethodChannel
-        _channel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "meeting_rpc")
-        channel.setMethodCallHandler { call, result ->
-            // 处理来自Flutter端的调用
-            try {
-                var ret = eventListener?.onEvent(call.method, call.arguments)
-                if (ret is Unit) {
-                    ret = null
-                }
-                result.success(ret)
-            } catch (e: NoSuchMethodException) {
-                result.notImplemented()
-            } catch (e: MeetingRpcException) {
-                result.error(e.errorCode, e.message, e.errorDetails)
-            } catch (e: Exception) {
-                result.error("-1", e.message, null)
-            }
-        }
+    private fun initChannel() {
+        // 默认启用拦截挂断，
         invokeMethod("setInterceptHangupEnabled", mapOf("enabled" to true), null)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        eventListener = null
     }
 
     @UiThread
@@ -77,33 +68,6 @@ class LivekitDemoFragment : FlutterFragment() {
 
     fun toggleCamera() {
         invokeMethod("toggleCamera", null, null)
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    abstract class EventListener {
-        private fun obj(arguments: Any?): Map<String, Any> = (arguments as Map<String, Any>)
-        open fun onEvent(method: String, arguments: Any?): Any? = when (method) {
-            "interceptHangup" -> interceptHangup()
-            "onHangup" -> onHangup()
-            "onAudioMuteChanged" -> onAudioMuteChanged(obj(arguments)["muted"] as Boolean)
-            "onVideoMuteChanged" -> onVideoMuteChanged(obj(arguments)["muted"] as Boolean)
-            else -> throw NoSuchMethodException()
-        }
-
-        open fun interceptHangup(): Boolean {
-            return false
-        }
-
-        open fun onVideoMuteChanged(muted: Boolean) {
-
-        }
-
-        open fun onAudioMuteChanged(muted: Boolean) {
-
-        }
-
-        open fun onHangup() {
-        }
     }
 
 }

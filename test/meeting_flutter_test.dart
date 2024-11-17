@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:logging/src/logger.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'package:meeting_flutter/meeting_flutter.dart';
@@ -10,6 +11,17 @@ class MockMeetingFlutterPlatform
     implements MeetingFlutterPlatform {
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
+
+  @override
+  Logger get logger => throw UnimplementedError();
+
+  @override
+  void registerMethod(String method, Function callback) {}
+
+  @override
+  Future sendRequest(String method, parameters) {
+    throw UnimplementedError();
+  }
 }
 
 void main() {

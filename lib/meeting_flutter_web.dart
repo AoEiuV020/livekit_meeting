@@ -23,4 +23,15 @@ class MeetingFlutterWeb extends MeetingFlutterPlatform {
     final version = web.window.navigator.userAgent;
     return version;
   }
+
+  @override
+  void registerMethod(String method, Function callback) {
+    logger.warning('web does not support registerMethod');
+  }
+
+  @override
+  Future sendRequest(String method, parameters) {
+    logger.warning('web does not support sendRequest');
+    return Future.value(false);
+  }
 }

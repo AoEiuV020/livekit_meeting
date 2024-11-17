@@ -134,7 +134,7 @@ class LivekitDemoActivity : AppCompatActivity() {
         fragment.onTrimMemory(level)
     }
 
-    inner class EventListener : LivekitDemoFragment.EventListener() {
+    inner class EventListener : BaseEventListener() {
         override fun onEvent(method: String, arguments: Any?) {
             super.onEvent(method, arguments)
             Log.e(TAG, "onEvent: $method, $arguments")

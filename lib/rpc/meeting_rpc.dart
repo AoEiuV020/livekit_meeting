@@ -1,4 +1,4 @@
-import 'channel_service.dart';
+import 'platform_service.dart';
 import 'service.dart';
 
 typedef ZeroArgumentFunction = Function();
@@ -7,7 +7,7 @@ class MeetingRpc {
   static final MeetingRpc _instance = MeetingRpc._internal();
   static MeetingRpc get instance => _instance;
   MeetingRpc._internal() {
-    service = ChannelService();
+    service = PlatformService();
   }
 
   Service? service;
