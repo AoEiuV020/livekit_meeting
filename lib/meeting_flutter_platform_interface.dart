@@ -3,9 +3,9 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'meeting_flutter_method_channel.dart';
 
-abstract class MeetingFlutterPlatform extends PlatformInterface {
-  final logger = Logger('MeetingFlutterPlatform');
+final logger = Logger('MeetingFlutterPlatform');
 
+abstract class MeetingFlutterPlatform extends PlatformInterface {
   /// Constructs a MeetingFlutterPlatform.
   MeetingFlutterPlatform() : super(token: _token);
 

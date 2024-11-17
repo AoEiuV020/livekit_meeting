@@ -22,6 +22,12 @@ class MethodChannelMeetingFlutter extends MeetingFlutterPlatform {
       } else {
         // 没有匹配的 handler，
         logger.severe('No handler found for method: ${call.method}');
+        // 没有专用的回调， 对面notImplemented压根没法触发，
+        throw PlatformException(
+          code: 'notImplemented',
+          message: 'no handler: ${call.method}',
+          details: call.method,
+        );
       }
     });
   }
@@ -39,13 +45,11 @@ class MethodChannelMeetingFlutter extends MeetingFlutterPlatform {
 
   @override
   void registerMethod(String method, Function callback) {
-    logger.fine('registerMethod: $method');
     _addMethodCallHandler(method, callback);
   }
 
   @override
   Future sendRequest(String method, parameters) {
-    logger.fine('sendRequest: $method, $parameters');
     return methodChannel.invokeMethod(method, parameters);
   }
 }

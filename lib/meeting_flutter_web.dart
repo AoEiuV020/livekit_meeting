@@ -3,15 +3,42 @@
 // package as the core of your plugin.
 // ignore: avoid_web_libraries_in_flutter
 
+import 'dart:async';
+import 'dart:js_interop';
+
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:stream_channel/stream_channel.dart';
 import 'package:web/web.dart' as web;
 
 import 'meeting_flutter_platform_interface.dart';
+import 'rpc/json_rpc_service.dart';
 
 /// A web implementation of the MeetingFlutterPlatform of the MeetingFlutter plugin.
 class MeetingFlutterWeb extends MeetingFlutterPlatform {
+  final JsonRpcService jsonRpcService;
+
   /// Constructs a MeetingFlutterWeb
-  MeetingFlutterWeb();
+  factory MeetingFlutterWeb() {
+    final StreamController<String> inputController =
+        StreamController<String>.broadcast();
+    final StreamController<String> outputController =
+        StreamController<String>.broadcast();
+    // TODO: 确认一下空字符串传json的效果，
+    final inputStream = web.window.onMessage
+        .map((event) => event.data?.toJSBox.toDart.toString() ?? '');
+    inputController.addStream(inputStream);
+    outputController.stream
+        .listen((s) => web.window.parent?.postMessage(s.toJS));
+    final channel =
+        StreamChannel(inputController.stream, outputController.sink);
+    // 用两次， 收消息时json解析会有两次，功能不影响，
+    final jsonRpcService = JsonRpcService.fromStream(channel, channel);
+    return MeetingFlutterWeb._(jsonRpcService);
+  }
+
+  MeetingFlutterWeb._(this.jsonRpcService) {
+    jsonRpcService.listen();
+  }
 
   static void registerWith(Registrar registrar) {
     MeetingFlutterPlatform.instance = MeetingFlutterWeb();
@@ -26,12 +53,11 @@ class MeetingFlutterWeb extends MeetingFlutterPlatform {
 
   @override
   void registerMethod(String method, Function callback) {
-    logger.warning('web does not support registerMethod');
+    jsonRpcService.registerMethod(method, callback);
   }
 
   @override
   Future sendRequest(String method, parameters) {
-    logger.warning('web does not support sendRequest');
-    return Future.value(false);
+    return jsonRpcService.sendRequest(method, parameters);
   }
 }
