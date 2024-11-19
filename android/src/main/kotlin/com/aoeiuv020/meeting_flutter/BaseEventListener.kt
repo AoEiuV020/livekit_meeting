@@ -5,7 +5,7 @@ abstract class BaseEventListener : EventListener {
     private fun obj(arguments: Any?): Map<String, Any> = (arguments as Map<String, Any>)
     override fun onEvent(method: String, arguments: Any?): Any? = when (method) {
         "interceptHangup" -> interceptHangup()
-        "onHangup" -> onHangup()
+        "onDisconnected" -> onDisconnected()
         "onAudioMuteChanged" -> onAudioMuteChanged(obj(arguments)["muted"] as Boolean)
         "onVideoMuteChanged" -> onVideoMuteChanged(obj(arguments)["muted"] as Boolean)
         else -> throw NoSuchMethodException()
@@ -23,6 +23,6 @@ abstract class BaseEventListener : EventListener {
 
     }
 
-    open fun onHangup() {
+    open fun onDisconnected() {
     }
 }

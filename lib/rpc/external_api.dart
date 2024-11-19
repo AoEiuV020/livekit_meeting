@@ -29,7 +29,7 @@ class ExternalApi {
     MeetingRpc.instance.sendRequest('onVideoMuteChanged', {'muted': muted});
   }
 
-  void onHangup() {
-    MeetingRpc.instance.sendRequest('onHangup');
+  void onDisconnected() {
+    MeetingRpc.instance.sendRequest('onDisconnected');
   }
 }

@@ -92,7 +92,7 @@ class _RoomPageState extends State<RoomPage> {
       if (event.reason != null) {
         print('Room disconnected: reason => ${event.reason}');
       }
-      ExternalApi.instance.onHangup();
+      ExternalApi.instance.onDisconnected();
       WidgetsBindingCompatible.instance?.addPostFrameCallback((timeStamp) {
         final autoConnect = context.read<FlagOptions>().autoConnect;
         if (autoConnect) {
