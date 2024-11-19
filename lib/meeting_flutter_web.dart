@@ -23,9 +23,8 @@ class MeetingFlutterWeb extends MeetingFlutterPlatform {
         StreamController<String>.broadcast();
     final StreamController<String> outputController =
         StreamController<String>.broadcast();
-    // TODO: 确认一下空字符串传json的效果，
     final inputStream = web.window.onMessage
-        .map((event) => event.data?.toJSBox.toDart.toString() ?? '');
+        .map((event) => event.data?.toJSBox.toDart.toString() ?? '{}');
     inputController.addStream(inputStream);
     outputController.stream
         .listen((s) => web.window.parent?.postMessage(s.toJS));
