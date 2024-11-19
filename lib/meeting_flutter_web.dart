@@ -26,8 +26,9 @@ class MeetingFlutterWeb extends MeetingFlutterPlatform {
     final inputStream = web.window.onMessage
         .map((event) => event.data?.toJSBox.toDart.toString() ?? '{}');
     inputController.addStream(inputStream);
+    final parent = web.window.parentCrossOrigin?.parent;
     outputController.stream.listen((s) =>
-        web.window.parentCrossOrigin?.parent?.postMessage(s.toJS, '*'.toJS));
+        parent?.postMessage(s.toJS, '*'.toJS));
     final channel =
         StreamChannel(inputController.stream, outputController.sink);
     // 用两次， 收消息时json解析会有两次，功能不影响，
