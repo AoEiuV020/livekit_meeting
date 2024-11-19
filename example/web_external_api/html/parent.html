@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iframe Interaction Test</title>
+    <script src="/dist/meeting_external_api.js"></script>
+    <script>
+      let iframe;
+      let api;
+      // 向 iframe 发送消息
+      function sendMessageToIframe() {
+        api.hangup();
+      }
+
+      window.addEventListener("load", () => {
+        const loadIframeBtn = document.getElementById("loadIframeBtn");
+        const iframeContainer = document.getElementById("iframeContainer");
+        api = new MeetExternalAPI("http://localhost:9080", {
+          serverUrl: "https://meet.livekit.io",
+          room: "123456",
+          name: "webParent",
+        })
+        loadIframeBtn.addEventListener("click", () => {
+          // 创建 iframe
+          iframe = document.createElement("iframe");
+          iframe.src = api.getIframeUrl();
+          iframe.width = "600";
+          iframe.height = "400";
+          iframe.allow = "camera;microphone";
+
+          // 尽早获取 contentWindow 对象
+          iframeContainer.appendChild(iframe);
+          const iframeWindow = iframe.contentWindow;
+          if (iframeWindow) {
+            console.log(
+              "Iframe contentWindow available immediately:",
+              iframeWindow
+            );
+
+            api.bindIframe(iframeWindow);
+
+            // 接收来自 iframe 的消息
+            api.addListener("onDisconnected", () => {
+              const iframeResponse = document.getElementById("iframeResponse");
+              iframeResponse.textContent =
+                "收到来自 iframe 的消息: onDisconnected";
+            });
+          } else {
+            console.error("Failed to get iframe contentWindow.");
+          }
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <h1>父页面</h1>
+    <button onclick="sendMessageToIframe()">发送到 iframe</button>
+
+    <h3 id="iframeResponse">收到的消息将显示在这里</h3>
+
+    <button id="loadIframeBtn">Load Iframe</button>
+    <div id="iframeContainer"></div>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES6",                   // 浏览器支持的最低版本
+    "module": "commonjs",              // 使用 CommonJS 模块规范
+    "strict": true,                    // 开启严格模式
+    "esModuleInterop": true,           // 支持默认导入
+    "outDir": "./dist",                // 编译后的文件输出目录
+    "rootDir": "./src",                // 源代码目录
+    "declaration": true,               // 生成类型声明文件
+    "moduleResolution": "node"         // 模块解析方式
+  },
+  "include": ["src/**/*"],             // 包含的源文件
+  "exclude": ["node_modules"]          // 排除目录
+}
