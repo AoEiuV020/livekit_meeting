@@ -4,11 +4,11 @@
 // ignore: avoid_web_libraries_in_flutter
 
 import 'dart:async';
+import 'dart:html' as web;
 import 'dart:js_interop';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:stream_channel/stream_channel.dart';
-import 'package:web/web.dart' as web;
 
 import 'meeting_flutter_platform_interface.dart';
 import 'rpc/json_rpc_service.dart';
@@ -27,7 +27,7 @@ class MeetingFlutterWeb extends MeetingFlutterPlatform {
         .map((event) => event.data?.toJSBox.toDart.toString() ?? '{}');
     inputController.addStream(inputStream);
     outputController.stream
-        .listen((s) => web.window.parent?.postMessage(s.toJS));
+        .listen((s) => web.window.parent?.postMessage(s.toJS, '*'));
     final channel =
         StreamChannel(inputController.stream, outputController.sink);
     // 用两次， 收消息时json解析会有两次，功能不影响，
