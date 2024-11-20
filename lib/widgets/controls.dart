@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 import '../exts.dart';
 import '../options/flag_options.dart';
 import '../rpc/external_api.dart';
-import '../rpc/meeting_rpc.dart';
 
 class ControlsWidget extends StatefulWidget {
   //
@@ -56,11 +55,12 @@ class _ControlsWidgetState extends State<ControlsWidget> {
     Hardware.instance.enumerateDevices().then(_loadDevices);
     position =
         widget.room.roomOptions.defaultCameraCaptureOptions.cameraPosition;
-    MeetingRpc.instance
-        .registerMethod('setAudioMute', (param) => _setAudioMute(param));
-    MeetingRpc.instance
-        .registerMethod('setVideoMute', (param) => _setVideoMute(param));
-    MeetingRpc.instance.registerMethod('toggleCamera', () => _toggleCamera());
+    ExternalApi.instance.registerMethod(
+        ExternalApiMethod.setAudioMute, (param) => _setAudioMute(param));
+    ExternalApi.instance.registerMethod(
+        ExternalApiMethod.setVideoMute, (param) => _setVideoMute(param));
+    ExternalApi.instance
+        .registerMethod(ExternalApiMethod.toggleCamera, () => _toggleCamera());
     _listener
       ..on<TrackMutedEvent>((event) {
         if (event.participant != participant) return;
@@ -83,9 +83,9 @@ class _ControlsWidgetState extends State<ControlsWidget> {
   @override
   void dispose() {
     _listener.dispose();
-    MeetingRpc.instance.unregisterMethod('setAudioMute');
-    MeetingRpc.instance.unregisterMethod('setVideoMute');
-    MeetingRpc.instance.unregisterMethod('toggleCamera');
+    ExternalApi.instance.unregisterMethod(ExternalApiMethod.setAudioMute);
+    ExternalApi.instance.unregisterMethod(ExternalApiMethod.setVideoMute);
+    ExternalApi.instance.unregisterMethod(ExternalApiMethod.toggleCamera);
     _subscription?.cancel();
     participant.removeListener(_onChange);
     super.dispose();

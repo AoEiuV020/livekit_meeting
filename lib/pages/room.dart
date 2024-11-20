@@ -11,7 +11,6 @@ import '../exts.dart';
 import '../method_channels/replay_kit_channel.dart';
 import '../options/flag_options.dart';
 import '../rpc/external_api.dart';
-import '../rpc/meeting_rpc.dart';
 import '../utils.dart';
 import '../widgets/controls.dart';
 import '../widgets/participant.dart';
@@ -66,13 +65,13 @@ class _RoomPageState extends State<RoomPage> {
             duration: const Duration(seconds: 5));
       };
     }
-    MeetingRpc.instance
-        .registerMethod('hangup', () => widget.room.disconnect());
+    ExternalApi.instance.registerMethod(
+        ExternalApiMethod.hangUp, () => widget.room.disconnect());
   }
 
   @override
   void dispose() {
-    MeetingRpc.instance.unregisterMethod('hangup');
+    ExternalApi.instance.unregisterMethod(ExternalApiMethod.hangUp);
     // always dispose listener
     (() async {
       if (lkPlatformIs(PlatformType.iOS)) {

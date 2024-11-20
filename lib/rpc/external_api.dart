@@ -8,7 +8,7 @@ class ExternalApi {
   bool interceptHangupEnabled = false;
 
   init() {
-    MeetingRpc.instance.registerMethod('setInterceptHangupEnabled',
+    registerMethod(ExternalApiMethod.setInterceptHangupEnabled,
         (params) => setInterceptHangupEnabled(params['enabled']));
   }
 
@@ -32,4 +32,20 @@ class ExternalApi {
   void onDisconnected() {
     MeetingRpc.instance.sendRequest('onDisconnected');
   }
+
+  void registerMethod(ExternalApiMethod method, Function callback) {
+    MeetingRpc.instance.registerMethod(method.name, callback);
+  }
+
+  void unregisterMethod(ExternalApiMethod method) {
+    MeetingRpc.instance.unregisterMethod(method.name);
+  }
+}
+
+enum ExternalApiMethod {
+  setInterceptHangupEnabled,
+  setAudioMute,
+  setVideoMute,
+  hangUp,
+  toggleCamera,
 }
