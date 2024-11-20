@@ -43,7 +43,7 @@ class LivekitDemoActivity : AppCompatActivity() {
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
         when (keyCode) {
-            KeyEvent.KEYCODE_1 -> fragment.hangup()
+            KeyEvent.KEYCODE_1 -> fragment.hangUp()
             KeyEvent.KEYCODE_2 -> fragment.setVideoMute(true)
             KeyEvent.KEYCODE_3 -> fragment.setVideoMute(false)
             KeyEvent.KEYCODE_4 -> fragment.setAudioMute(true)
@@ -140,12 +140,12 @@ class LivekitDemoActivity : AppCompatActivity() {
             Log.e(TAG, "onEvent: $method, $arguments")
         }
 
-        override fun interceptHangup(): Boolean {
+        override fun interceptHangUp(): Boolean {
             AlertDialog.Builder(this@LivekitDemoActivity)
                 .setTitle("确认挂断")
                 .setMessage("确定离开当前会议吗？")
                 .setPositiveButton("是") { dialog, _ ->
-                    fragment.hangup()
+                    fragment.hangUp()
                     dialog.dismiss()
                 }
                 .setNegativeButton("否") { dialog, _ ->

@@ -281,7 +281,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
   }
 
   Future<void> _onTapDisconnect() async {
-    final externalIntercept = await ExternalApi.instance.interceptHangup();
+    final externalIntercept = await ExternalApi.instance.interceptHangUp();
     if (externalIntercept) return;
     final result = await context.showDisconnectDialog();
     if (result == true) await widget.room.disconnect();

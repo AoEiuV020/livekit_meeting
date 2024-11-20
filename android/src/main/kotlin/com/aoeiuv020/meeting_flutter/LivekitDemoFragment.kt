@@ -54,8 +54,8 @@ class LivekitDemoFragment : FlutterFragment() {
         channel.invokeMethod(method, arguments, callback)
     }
 
-    fun hangup() {
-        invokeMethod("hangup", null, null)
+    fun hangUp() {
+        invokeMethod("hangUp", null, null)
     }
 
     fun setAudioMute(muted: Boolean) {

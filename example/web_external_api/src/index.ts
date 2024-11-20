@@ -21,8 +21,8 @@ class MeetExternalAPI {
   destroy() {
     this.rpc.destroy();
   }
-  hangup() {
-    this.rpc.sendRequest("hangup");
+  hangUp() {
+    this.rpc.sendRequest("hangUp");
   }
   setAudioMute(muted: boolean) {
     this.rpc.sendRequest("setAudioMute", { muted });
@@ -31,9 +31,9 @@ class MeetExternalAPI {
     this.rpc.sendRequest("setVideoMute", { muted });
   }
 
-  interceptHangup(listener: () => boolean | Promise<boolean>) {
+  interceptHangUp(listener: () => boolean | Promise<boolean>) {
     this.rpc.sendRequest("setInterceptHangupEnabled", { enabled: true });
-    this.rpc.registerMethod("interceptHangup", listener);
+    this.rpc.registerMethod("interceptHangUp", listener);
   }
 
   // 封装 addListener 方法
