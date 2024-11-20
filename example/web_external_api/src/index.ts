@@ -91,3 +91,4 @@ class LivekitDemoOptions {
 }
 
 module.exports = MeetExternalAPI;
+export default MeetExternalAPI;
