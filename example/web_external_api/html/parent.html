@@ -20,13 +20,11 @@
           serverUrl: "https://meet.livekit.io",
           room: "123456",
           name: "webParent",
-        })
+        });
         loadIframeBtn.addEventListener("click", () => {
           // 创建 iframe
           iframe = document.createElement("iframe");
           iframe.src = api.getIframeUrl();
-          iframe.width = "600";
-          iframe.height = "400";
           iframe.allow = "camera;microphone;display-capture";
 
           // 尽早获取 contentWindow 对象
@@ -52,15 +50,35 @@
         });
       });
     </script>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      #iframeContainer {
+        flex: 1; /* 占用剩余空间 */
+      }
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none; /* 移除边框 */
+      }
+    </style>
   </head>
 
   <body>
-    <h1>父页面</h1>
-    <button onclick="sendMessageToIframe()">发送到 iframe</button>
-
-    <h3 id="iframeResponse">收到的消息将显示在这里</h3>
-
-    <button id="loadIframeBtn">Load Iframe</button>
-    <div id="iframeContainer"></div>
+    <div class="container">
+      <h1>父页面</h1>
+      <button onclick="sendMessageToIframe()">发送到 iframe</button>
+      <h3 id="iframeResponse">收到的消息将显示在这里</h3>
+      <button id="loadIframeBtn">Load Iframe</button>
+      <div id="iframeContainer"></div>
+    </div>
   </body>
 </html>
