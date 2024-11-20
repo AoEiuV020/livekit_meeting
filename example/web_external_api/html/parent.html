@@ -27,7 +27,7 @@
           iframe.src = api.getIframeUrl();
           iframe.width = "600";
           iframe.height = "400";
-          iframe.allow = "camera;microphone";
+          iframe.allow = "camera;microphone;display-capture";
 
           // 尽早获取 contentWindow 对象
           iframeContainer.appendChild(iframe);
