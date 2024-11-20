@@ -11,6 +11,7 @@
             "type": "dart",
             "args": [
                 "--web-browser-flag=--disable-web-security",
+                "--web-hostname=127.0.0.1",
             ]
         },
         {
