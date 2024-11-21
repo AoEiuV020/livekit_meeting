@@ -32,7 +32,7 @@ class MeetExternalAPI {
   }
 
   interceptHangUp(listener: () => boolean | Promise<boolean>) {
-    this.rpc.sendRequest("setInterceptHangupEnabled", { enabled: true });
+    this.rpc.sendRequest("setInterceptHangUpEnabled", { enabled: true });
     this.rpc.registerMethod("interceptHangUp", listener);
   }
 

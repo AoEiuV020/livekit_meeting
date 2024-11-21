@@ -41,7 +41,7 @@ class LivekitDemoFragment : FlutterFragment() {
 
     private fun initChannel() {
         // 默认启用拦截挂断，
-        invokeMethod("setInterceptHangupEnabled", mapOf("enabled" to true), null)
+        invokeMethod("setInterceptHangUpEnabled", mapOf("enabled" to true), null)
     }
 
     override fun onDetach() {

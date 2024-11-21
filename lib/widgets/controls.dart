@@ -523,7 +523,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
           ),
       ];
 
-  List<Widget> buildHangupButton(BuildContext context) => [
+  List<Widget> buildHangUpButton(BuildContext context) => [
         PopScope(
           canPop: false,
           onPopInvokedWithResult: (didPop, result) {
@@ -563,7 +563,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
           if (!buttonFlagOptions.disableVideo) ...buildVideoButton(context),
           if (!buttonFlagOptions.disableScreenShare)
             ...buildScreenSharingButton(context),
-          if (!buttonFlagOptions.disableHangup) ...buildHangupButton(context),
+          if (!buttonFlagOptions.disableHangUp) ...buildHangUpButton(context),
           IconButton(
             onPressed: _onTapSendData,
             icon: const Icon(Icons.message),

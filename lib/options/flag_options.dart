@@ -13,7 +13,7 @@ class ButtonFlagOptions extends ChangeNotifier {
   bool disableAudio = false;
   bool disableVideo = false;
   bool disableScreenShare = false;
-  bool disableHangup = false;
+  bool disableHangUp = false;
   void updateFlags() {
     notifyListeners();
   }

@@ -5,19 +5,19 @@ class ExternalApi {
   static ExternalApi get instance => _instance;
   ExternalApi._internal();
 
-  bool interceptHangupEnabled = false;
+  bool interceptHangUpEnabled = false;
 
   init() {
-    registerMethod(ExternalApiMethod.setInterceptHangupEnabled,
-        (params) => setInterceptHangupEnabled(params['enabled']));
+    registerMethod(ExternalApiMethod.setInterceptHangUpEnabled,
+        (params) => setInterceptHangUpEnabled(params['enabled']));
   }
 
-  void setInterceptHangupEnabled(bool enabled) {
-    interceptHangupEnabled = enabled;
+  void setInterceptHangUpEnabled(bool enabled) {
+    interceptHangUpEnabled = enabled;
   }
 
   Future<bool> interceptHangUp() async {
-    if (!interceptHangupEnabled) return false;
+    if (!interceptHangUpEnabled) return false;
     final response = await MeetingRpc.instance.sendRequest('interceptHangUp');
     return response['hangUp'] as bool;
   }
@@ -44,7 +44,7 @@ class ExternalApi {
 }
 
 enum ExternalApiMethod {
-  setInterceptHangupEnabled,
+  setInterceptHangUpEnabled,
   setAudioMute,
   setVideoMute,
   hangUp,
