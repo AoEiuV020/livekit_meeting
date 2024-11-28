@@ -61,12 +61,13 @@ class RpcExceptionConverter {
       // 处理特定的字符串错误码
       switch (error.code) {
         case 'notImplemented':
+          // 这case可能没有实际用到，
           return MethodNotFound(
               error.message ?? 'Method not found', error.details);
         default:
           return ServerError(
-            RpcErrorCode.serverErrorMin,
-            error.message ?? 'Platform error',
+            RpcErrorCode.serverErrorMax,
+            error.message ?? 'Unknown error ${error.code}',
             error.details,
           );
       }

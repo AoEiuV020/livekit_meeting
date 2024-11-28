@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'meeting_flutter_platform_interface.dart';
+import 'rpc/exceptions.dart';
 
 /// An implementation of [MeetingFlutterPlatform] that uses method channels.
 class MethodChannelMeetingFlutter extends MeetingFlutterPlatform {
@@ -23,11 +24,7 @@ class MethodChannelMeetingFlutter extends MeetingFlutterPlatform {
         // 没有匹配的 handler，
         logger.severe('No handler found for method: ${call.method}');
         // 没有专用的回调， 对面notImplemented压根没法触发，
-        throw PlatformException(
-          code: 'notImplemented',
-          message: 'no handler: ${call.method}',
-          details: call.method,
-        );
+        throw MethodNotFound('no handler: ${call.method}');
       }
     });
   }
