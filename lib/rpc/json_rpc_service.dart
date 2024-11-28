@@ -7,6 +7,7 @@ import 'package:json_rpc_2/json_rpc_2.dart';
 import 'package:json_rpc_2/src/utils.dart';
 import 'package:stream_channel/stream_channel.dart';
 
+import 'exception_converter.dart';
 import 'json_rpc_validator.dart';
 import 'service.dart';
 
@@ -74,13 +75,21 @@ class JsonRpcService implements Service {
   }
 
   @override
-  Future sendRequest(String method, parameters) {
-    return rpcClient.sendRequest(method, parameters);
+  Future sendRequest(String method, parameters) async {
+    try {
+      return await rpcClient.sendRequest(method, parameters);
+    } catch (e) {
+      throw RpcExceptionConverter.convertJsonRpcException(e);
+    }
   }
 
   @override
   void sendNotification(String method, parameters) {
-    rpcClient.sendNotification(method, parameters);
+    try {
+      rpcClient.sendNotification(method, parameters);
+    } catch (e) {
+      throw RpcExceptionConverter.convertJsonRpcException(e);
+    }
   }
 
   listen() {
