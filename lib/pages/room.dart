@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
 
@@ -60,9 +59,8 @@ class _RoomPageState extends State<RoomPage> {
 
     if (lkPlatformIsDesktop()) {
       onWindowShouldClose = () async {
-        unawaited(widget.room.disconnect());
-        await _listener.waitFor<RoomDisconnectedEvent>(
-            duration: const Duration(seconds: 5));
+        // 如果是断开连接后主动关闭窗口，则没有RoomDisconnectedEvent，所以直接等待disconnect，不等事件，
+        await widget.room.disconnect();
       };
     }
     ExternalApi.instance.registerMethod(
