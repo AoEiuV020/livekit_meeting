@@ -26,7 +26,8 @@ class MeetingFlutterWeb extends MeetingFlutterPlatform {
     final inputStream = web.window.onMessage
         .map((event) => event.data?.toJSBox.toDart.toString() ?? '{}');
     inputController.addStream(inputStream);
-    final parent = web.window.parentCrossOrigin?.parent;
+    final parent = isRunningInIframe() ? web.window.parentCrossOrigin : null;
+
     outputController.stream
         .listen((s) => parent?.postMessage(s.toJS, '*'.toJS));
     final channel =
@@ -59,5 +60,14 @@ class MeetingFlutterWeb extends MeetingFlutterPlatform {
   @override
   Future sendRequest(String method, parameters) {
     return jsonRpcService.sendRequest(method, parameters);
+  }
+
+  static bool isRunningInIframe() {
+    try {
+      return web.window.self != web.window.top;
+    } catch (e) {
+      // 针对iframe内外跨域的情况， 无法访问top， 所以捕获异常， 返回true
+      return true;
+    }
   }
 }
