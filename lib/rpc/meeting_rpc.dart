@@ -1,4 +1,5 @@
 import 'package:logging/logging.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import 'platform_service.dart';
 import 'service.dart';
@@ -10,7 +11,14 @@ class MeetingRpc {
   static final MeetingRpc _instance = MeetingRpc._internal();
   static MeetingRpc get instance => _instance;
   MeetingRpc._internal() {
-    service = PlatformService();
+    if (UniversalPlatform.isAndroid ||
+        UniversalPlatform.isIOS ||
+        UniversalPlatform.isWeb) {
+      service = PlatformService();
+    } else {
+      // TODO: 添加其他平台的实现
+      logger.severe('Unsupported platform ${UniversalPlatform.value.name}');
+    }
   }
 
   Service? service;

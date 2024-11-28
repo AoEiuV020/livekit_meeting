@@ -35,6 +35,7 @@ dependencies:
   dio: ^5.7.0
   args: ^2.6.0
   stream_channel: ^2.1.2
+  universal_platform: ^1.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
