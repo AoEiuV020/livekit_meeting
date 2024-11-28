@@ -37,4 +37,8 @@ abstract class MeetingFlutterPlatform extends PlatformInterface {
   Future sendRequest(String method, parameters) {
     throw UnimplementedError('sendRequest() has not been implemented.');
   }
+
+  void sendNotification(String method, parameters) {
+    throw UnimplementedError('sendNotification() has not been implemented.');
+  }
 }

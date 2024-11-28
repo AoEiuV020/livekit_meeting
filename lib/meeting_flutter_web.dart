@@ -61,6 +61,11 @@ class MeetingFlutterWeb extends MeetingFlutterPlatform {
     return jsonRpcService.sendRequest(method, parameters);
   }
 
+  @override
+  void sendNotification(String method, parameters) {
+    jsonRpcService.sendNotification(method, parameters);
+  }
+
   static bool isRunningInIframe() {
     try {
       return web.window.self != web.window.top;

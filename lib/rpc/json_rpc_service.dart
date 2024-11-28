@@ -78,6 +78,11 @@ class JsonRpcService implements Service {
     return rpcClient.sendRequest(method, parameters);
   }
 
+  @override
+  void sendNotification(String method, parameters) {
+    rpcClient.sendNotification(method, parameters);
+  }
+
   listen() {
     unawaited(rpcClient.listen());
     unawaited(rpcServer.listen());

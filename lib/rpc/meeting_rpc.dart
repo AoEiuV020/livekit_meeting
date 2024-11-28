@@ -62,4 +62,9 @@ class MeetingRpc {
     return service?.sendRequest(method, parameters) ??
         Future.error('Not connected');
   }
+
+  void sendNotification(String method, [dynamic parameters]) {
+    logger.fine('sendNotification: $method, $parameters');
+    service?.sendNotification(method, parameters);
+  }
 }

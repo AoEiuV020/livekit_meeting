@@ -52,4 +52,9 @@ class MethodChannelMeetingFlutter extends MeetingFlutterPlatform {
   Future sendRequest(String method, parameters) {
     return methodChannel.invokeMethod(method, parameters);
   }
+
+  @override
+  void sendNotification(String method, parameters) {
+    methodChannel.invokeMethod(method, parameters);
+  }
 }

@@ -23,15 +23,17 @@ class ExternalApi {
   }
 
   void onAudioMuteChanged(bool muted) {
-    MeetingRpc.instance.sendRequest('onAudioMuteChanged', {'muted': muted});
+    MeetingRpc.instance
+        .sendNotification('onAudioMuteChanged', {'muted': muted});
   }
 
   void onVideoMuteChanged(bool muted) {
-    MeetingRpc.instance.sendRequest('onVideoMuteChanged', {'muted': muted});
+    MeetingRpc.instance
+        .sendNotification('onVideoMuteChanged', {'muted': muted});
   }
 
   void onDisconnected() {
-    MeetingRpc.instance.sendRequest('onDisconnected');
+    MeetingRpc.instance.sendNotification('onDisconnected');
   }
 
   void registerMethod(ExternalApiMethod method, Function callback) {

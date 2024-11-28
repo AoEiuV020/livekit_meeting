@@ -12,4 +12,8 @@ class MeetingFlutter {
   Future sendRequest(String method, parameters) {
     return MeetingFlutterPlatform.instance.sendRequest(method, parameters);
   }
+
+  void sendNotification(String method, parameters) {
+    MeetingFlutterPlatform.instance.sendNotification(method, parameters);
+  }
 }
