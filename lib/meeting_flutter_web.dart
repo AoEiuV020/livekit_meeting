@@ -32,8 +32,7 @@ class MeetingFlutterWeb extends MeetingFlutterPlatform {
         .listen((s) => parent?.postMessage(s.toJS, '*'.toJS));
     final channel =
         StreamChannel(inputController.stream, outputController.sink);
-    // 用两次， 收消息时json解析会有两次，功能不影响，
-    final jsonRpcService = JsonRpcService.fromStream(channel, channel);
+    final jsonRpcService = JsonRpcService.fromSingleStream(channel);
     return MeetingFlutterWeb._(jsonRpcService);
   }
 
