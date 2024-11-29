@@ -52,6 +52,11 @@ class MethodChannelMeetingFlutter extends MeetingFlutterPlatform {
 
   @override
   void sendNotification(String method, parameters) {
-    methodChannel.invokeMethod(method, parameters);
+    try {
+      methodChannel.invokeMethod(method, parameters);
+    } catch (e) {
+      // sendNotification不等待结果， 不处理错误，
+      logger.severe('sendNotification error: $e');
+    }
   }
 }
