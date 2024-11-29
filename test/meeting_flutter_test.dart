@@ -18,6 +18,11 @@ class MockMeetingFlutterPlatform
   Future sendRequest(String method, parameters) {
     throw UnimplementedError();
   }
+
+  @override
+  void sendNotification(String method, parameters) {
+    throw UnimplementedError();
+  }
 }
 
 void main() {

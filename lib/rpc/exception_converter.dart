@@ -7,12 +7,6 @@ import 'exceptions.dart';
 
 /// RPC 异常转换工具类
 class RpcExceptionConverter {
-  /// 检查字符串是否可以转换为整数
-  static bool _isNumeric(String? str) {
-    if (str == null) return false;
-    return int.tryParse(str) != null;
-  }
-
   /// 处理错误码并转换为对应的异常
   static MeetingRpcException _handleErrorCode(int code, String? message,
       [Object? data]) {
