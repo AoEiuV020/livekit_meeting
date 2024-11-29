@@ -13,6 +13,7 @@ import '../api/livekit_service.dart';
 import '../exts.dart';
 import '../options/flag_options.dart';
 import '../options/livekit_demo_options.dart';
+import '../utils/device_utils.dart';
 import '../widgets/text_field.dart';
 import 'prejoin.dart';
 
@@ -62,8 +63,8 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
         options.name ?? prefs.getString(_storeKeyName) ?? lkPlatform().name;
     if (context.read<FlagOptions>().autoConnect) {
       if (kDebugMode && options.name == 'vscode') {
-        // 针对vscode调试传入的固定参数，让不同平台使用不同name，不这样也不会冲突，
-        _nameCtrl.text = lkPlatform().name;
+        // 只在调试模式且name为vscode时使用设备名
+        _nameCtrl.text = await DeviceUtils.getDeviceIdentifier();
       }
       await _connect(context);
     }
