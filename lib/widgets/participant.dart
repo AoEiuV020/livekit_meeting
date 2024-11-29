@@ -142,10 +142,17 @@ abstract class _ParticipantWidgetState<T extends ParticipantWidget>
             InkWell(
               onTap: () => setState(() => _visible = !_visible),
               child: activeVideoTrack != null && !activeVideoTrack!.muted
-                  ? VideoTrackRenderer(
-                      renderMode: VideoRenderMode.auto,
-                      activeVideoTrack!,
-                      fit: RTCVideoViewObjectFit.RTCVideoViewObjectFitContain,
+                  ? InteractiveViewer(
+                      clipBehavior: Clip.none,
+                      boundaryMargin: const EdgeInsets.all(20.0),
+                      minScale: 0.01,
+                      maxScale: 40.0,
+                      trackpadScrollCausesScale: true,
+                      child: VideoTrackRenderer(
+                        renderMode: VideoRenderMode.auto,
+                        activeVideoTrack!,
+                        fit: RTCVideoViewObjectFit.RTCVideoViewObjectFitContain,
+                      ),
                     )
                   : const NoVideoWidget(),
             ),
