@@ -3,6 +3,7 @@
 
 // 定义按钮的ID
 #define ID_BUTTON 1001
+#define ID_SEND_MSG_BUTTON 1002
 
 // 窗口过程函数声明
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -45,9 +46,21 @@ int WINAPI WinMain(
         L"BUTTON",
         L"打开新窗口",
         WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
-        350, 280, 100, 30,
+        300, 280, 100, 30,
         hwnd,
         (HMENU)ID_BUTTON,
+        hInstance,
+        NULL
+    );
+
+    // 创建发送消息按钮
+    CreateWindowW(
+        L"BUTTON",
+        L"发送消息",
+        WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+        420, 280, 100, 30,
+        hwnd,
+        (HMENU)ID_SEND_MSG_BUTTON,
         hInstance,
         NULL
     );
@@ -65,17 +78,46 @@ int WINAPI WinMain(
 
 // 主窗口的过程函数
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+    static WCHAR receivedText[256] = L"等待消息...";  // 存储接收到的消息
+
     switch (uMsg) {
+        case WM_PAINT: {
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hwnd, &ps);
+
+            // 在按钮上方显示接收到的消息
+            SetTextColor(hdc, RGB(0, 0, 0));
+            SetBkMode(hdc, TRANSPARENT);
+            TextOutW(hdc, 300, 240, receivedText, lstrlenW(receivedText));
+
+            EndPaint(hwnd, &ps);
+            return 0;
+        }
+
         case WM_COMMAND: {
-            // 处理按钮点击
             if (LOWORD(wParam) == ID_BUTTON) {
                 HWND secondWindow = GetSecondWindowHandle();
-                if (!secondWindow) {  // 如果第二个窗口不存在
+                if (!secondWindow) {
                     CreateSecondWindow((HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE));
                 } else {
-                    SetFocus(secondWindow);  // 如果已存在，将焦点设置到第二个窗口
+                    SetFocus(secondWindow);
                 }
             }
+            else if (LOWORD(wParam) == ID_SEND_MSG_BUTTON) {
+                HWND secondWindow = GetSecondWindowHandle();
+                if (secondWindow) {
+                    // 发送消息到第二个窗口
+                    PostMessageW(secondWindow, WM_CUSTOM_MESSAGE1, 0, 0);
+                }
+            }
+            return 0;
+        }
+
+        case WM_CUSTOM_MESSAGE2: {
+            // 接收来自第二个窗口的消息
+            lstrcpyW(receivedText, L"收到来自第二窗口的消息！");
+            // 强制重绘窗口以更新文本
+            InvalidateRect(hwnd, NULL, TRUE);
             return 0;
         }
 
