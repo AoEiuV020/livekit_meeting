@@ -14,7 +14,7 @@ HWND GetSecondWindowHandle() {
     return g_hwndSecond;
 }
 
-void CreateSecondWindow(HINSTANCE hInstance) {
+void CreateSecondWindow(HINSTANCE hInstance, HWND parentWindow) {
     // 注册第二个窗口类
     const wchar_t SECOND_CLASS_NAME[] = L"Second Window Class";
     
@@ -28,18 +28,21 @@ void CreateSecondWindow(HINSTANCE hInstance) {
 
     // 创建第二个窗口
     g_hwndSecond = CreateWindowExW(
-        0,
+        0,                    // 基本窗口样式
         SECOND_CLASS_NAME,
         L"Second Window",
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT, 400, 300,
-        NULL,
+        NULL,                 // 父窗口先设为NULL
         NULL,
         hInstance,
         NULL
     );
 
     if (g_hwndSecond) {
+        // 设置窗口所有者
+        SetWindowLongPtr(g_hwndSecond, GWLP_HWNDPARENT, (LONG_PTR)parentWindow);
+
         // 创建发送消息按钮
         CreateWindowW(
             L"BUTTON",
@@ -76,14 +79,9 @@ LRESULT CALLBACK SecondWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 
         case WM_COMMAND: {
             if (LOWORD(wParam) == ID_SEND_BACK_BUTTON) {
-                // 获取主窗口句柄（这里假设主窗口是第二窗口的所有者）
-                HWND mainWindow = GetWindow(hwnd, GW_OWNER);
-                if (!mainWindow) {
-                    // 如果没有所有者窗口，尝试找到主窗口
-                    mainWindow = FindWindowW(L"Simple Window Class", L"Main Window");
-                }
+                // 使用 GWLP_HWNDPARENT 获取所有者窗口句柄
+                HWND mainWindow = (HWND)GetWindowLongPtr(hwnd, GWLP_HWNDPARENT);
                 if (mainWindow) {
-                    // 发送消息到主窗口
                     PostMessageW(mainWindow, WM_CUSTOM_MESSAGE2, 0, 0);
                 }
             }
