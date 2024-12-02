@@ -1,9 +1,13 @@
 #include <windows.h>
 #include "second_window.h"
 #include <stdio.h>
+#include <shlwapi.h>  // 用于路径操作
+#pragma comment(lib, "shlwapi.lib")
+
 // 定义按钮的ID
 #define ID_BUTTON 1001
 #define ID_SEND_MSG_BUTTON 1002
+#define ID_LAUNCH_EXE 1003  // 新按钮ID
 
 // 窗口过程函数声明
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -61,6 +65,18 @@ int WINAPI WinMain(
         140, 20, 100, 30,
         hwnd,
         (HMENU)ID_SEND_MSG_BUTTON,
+        hInstance,
+        NULL
+    );
+
+    // 创建启动EXE按钮
+    CreateWindowW(
+        L"BUTTON",
+        L"启动Flutter程序",
+        WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+        260, 20, 100, 30,  // 放在第二个按钮右边
+        hwnd,
+        (HMENU)ID_LAUNCH_EXE,
         hInstance,
         NULL
     );
@@ -124,6 +140,54 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
                     InvalidateRect(hwnd, NULL, TRUE);
                     PostMessageW(secondWindow, WM_CUSTOM_MESSAGE1, 0, (LPARAM)jsonMsg);
                 }
+            }
+            else if (LOWORD(wParam) == ID_LAUNCH_EXE) {
+                // 获取当前程序的路径
+                wchar_t currentPath[MAX_PATH];
+                GetModuleFileNameW(NULL, currentPath, MAX_PATH);
+                PathRemoveFileSpecW(currentPath);  // 移除文件名，只保留路径
+
+                // 构造目标EXE的相对路径
+                wchar_t targetPath[MAX_PATH];
+                wcscpy_s(targetPath, currentPath);
+                PathAppendW(targetPath, L"..\\..\\..\\..\\..\\..\\..\\example\\build\\windows\\x64\\runner\\Debug\\meeting_flutter_example.exe");
+
+                // 打印绝对路径到日志
+                FILE* file = NULL;
+                fopen_s(&file, "launch_log.txt", "a");
+                if (file) {
+                    fwprintf(file, L"Attempting to launch: %s\n", targetPath);
+                    fclose(file);
+                }
+
+                // 启动进程
+                STARTUPINFOW si = { sizeof(si) };
+                PROCESS_INFORMATION pi;
+                
+                if (CreateProcessW(
+                    targetPath,     // 应用程序路径
+                    NULL,           // 命令行参数
+                    NULL,           // 进程安全属性
+                    NULL,           // 线程安全属性
+                    FALSE,          // 不继承句柄
+                    0,              // 创建标志
+                    NULL,           // 使用父进程的环境
+                    NULL,           // 使用父进程的工作目录
+                    &si,            // 启动信息
+                    &pi             // 进程信息
+                )) {
+                    // 关闭进程和线程句柄
+                    CloseHandle(pi.hProcess);
+                    CloseHandle(pi.hThread);
+                    
+                    lstrcpyW(receivedText, L"Flutter程序启动成功");
+                } else {
+                    // 获取错误信息
+                    wchar_t errorMsg[256];
+                    swprintf(errorMsg, 256, L"启动失败，错误码: %d", GetLastError());
+                    lstrcpyW(receivedText, errorMsg);
+                }
+                InvalidateRect(hwnd, NULL, TRUE);
             }
             return 0;
         }

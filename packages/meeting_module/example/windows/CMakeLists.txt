@@ -18,4 +18,5 @@ add_executable(${PROJECT_NAME} WIN32
 target_link_libraries(${PROJECT_NAME} PRIVATE
     user32  # Windows用户界面基本功能
     gdi32   # 图形设备接口
+    shlwapi # 路径操作函数
 )
