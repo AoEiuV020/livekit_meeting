@@ -133,14 +133,12 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
                         st.wHour, st.wMinute, st.wSecond);
 
                     // 构造JSON消息
-                    wchar_t* jsonMsg = (wchar_t*)GlobalAlloc(GPTR, 256 * sizeof(wchar_t));
-                    if (jsonMsg) {
-                        swprintf(jsonMsg, 256, L"{\"greeting\":\"你好，这是来自主窗口的消息\",\"time\":\"%s\"}", timeStr);
+                    wchar_t jsonMsg[256];
+                    swprintf(jsonMsg, 256, L"{\"greeting\":\"你好，这是来自主窗口的消息\",\"time\":\"%s\"}", timeStr);
 
-                        lstrcpyW(receivedText, L"已发送消息");
-                        InvalidateRect(hwnd, NULL, TRUE);
-                        PostMessageW(secondWindow, WM_CUSTOM_MESSAGE1, 0, (LPARAM)jsonMsg);
-                    }
+                    lstrcpyW(receivedText, L"已发送消息");
+                    InvalidateRect(hwnd, NULL, TRUE);
+                    SendMessageW(secondWindow, WM_CUSTOM_MESSAGE1, 0, (LPARAM)jsonMsg);
                 }
             }
             else if (LOWORD(wParam) == ID_LAUNCH_EXE) {
@@ -196,14 +194,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
         case WM_CUSTOM_MESSAGE2: {
             // 接收来自第二个窗口的消息
-            wchar_t* jsonMsg = (wchar_t*)lParam;
-            if (jsonMsg) {
-                lstrcpyW(receivedText, jsonMsg);  // 复制消息内容
-                GlobalFree(jsonMsg);  // 释放全局内存
-                
-                // 强制重绘窗口以更新文本
-                InvalidateRect(hwnd, NULL, TRUE);
-            }
+            const wchar_t* jsonMsg = (const wchar_t*)lParam;
+            lstrcpyW(receivedText, jsonMsg);
+            
+            // 强制重绘窗口以更新文本
+            InvalidateRect(hwnd, NULL, TRUE);
             return 0;
         }
 
