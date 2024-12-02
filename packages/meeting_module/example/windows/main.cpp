@@ -1,49 +1,59 @@
 #include <windows.h>
+#include "second_window.h"
 
-// çª—å£è¿‡ç¨‹å‡½æ•°çš„å‰å‘å£°æ˜
+// ¶¨Òå°´Å¥µÄID
+#define ID_BUTTON 1001
+
+// ´°¿Ú¹ı³Ìº¯ÊıÉùÃ÷
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(
-    HINSTANCE hInstance,      // å½“å‰åº”ç”¨ç¨‹åºå®ä¾‹å¥æŸ„
-    HINSTANCE hPrevInstance,  // å§‹ç»ˆä¸ºNULLï¼Œä¿ç•™å‚æ•°
-    LPSTR lpCmdLine,         // å‘½ä»¤è¡Œå‚æ•°
-    int nCmdShow             // çª—å£æ˜¾ç¤ºæ–¹å¼
+    HINSTANCE hInstance,
+    HINSTANCE hPrevInstance,
+    LPSTR lpCmdLine,
+    int nCmdShow
 ) {
-    // æ³¨å†Œçª—å£ç±»
     const wchar_t CLASS_NAME[] = L"Simple Window Class";
     
     WNDCLASSW wc = {};
-    wc.lpfnWndProc = WindowProc;        // è®¾ç½®çª—å£è¿‡ç¨‹å‡½æ•°
-    wc.hInstance = hInstance;            // åº”ç”¨ç¨‹åºå®ä¾‹å¥æŸ„
-    wc.lpszClassName = CLASS_NAME;       // çª—å£ç±»å
-    wc.hbrBackground = (HBRUSH)COLOR_WINDOW; // çª—å£èƒŒæ™¯è‰²
+    wc.lpfnWndProc = WindowProc;
+    wc.hInstance = hInstance;
+    wc.lpszClassName = CLASS_NAME;
+    wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
 
     RegisterClassW(&wc);
 
-    // åˆ›å»ºçª—å£
+    // ´´½¨Ö÷´°¿Ú
     HWND hwnd = CreateWindowExW(
-        0,                    // æ‰©å±•çª—å£æ ·å¼
-        CLASS_NAME,           // çª—å£ç±»å
-        L"Hello Window",      // çª—å£æ ‡é¢˜
-        WS_OVERLAPPEDWINDOW, // çª—å£æ ·å¼
-        
-        // ä½ç½®å’Œå¤§å°
+        0,
+        CLASS_NAME,
+        L"Main Window",
+        WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT, 800, 600,
-
-        NULL,       // çˆ¶çª—å£å¥æŸ„
-        NULL,       // èœå•å¥æŸ„
-        hInstance,  // åº”ç”¨ç¨‹åºå®ä¾‹å¥æŸ„
-        NULL        // é¢å¤–å‚æ•°
+        NULL,
+        NULL,
+        hInstance,
+        NULL
     );
 
     if (hwnd == NULL) {
         return 0;
     }
 
-    // æ˜¾ç¤ºçª—å£
+    // ´´½¨°´Å¥
+    CreateWindowW(
+        L"BUTTON",
+        L"´ò¿ªĞÂ´°¿Ú",
+        WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+        350, 280, 100, 30,
+        hwnd,
+        (HMENU)ID_BUTTON,
+        hInstance,
+        NULL
+    );
+
     ShowWindow(hwnd, nCmdShow);
 
-    // æ¶ˆæ¯å¾ªç¯
     MSG msg = {};
     while (GetMessage(&msg, NULL, 0, 0)) {
         TranslateMessage(&msg);
@@ -53,21 +63,19 @@ int WINAPI WinMain(
     return 0;
 }
 
-// çª—å£è¿‡ç¨‹å‡½æ•° - å¤„ç†çª—å£æ¶ˆæ¯
+// Ö÷´°¿ÚµÄ¹ı³Ìº¯Êı
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
-        case WM_PAINT: {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hwnd, &ps);
-
-            // è®¾ç½®æ–‡æœ¬é¢œè‰²å’ŒèƒŒæ™¯æ¨¡å¼
-            SetTextColor(hdc, RGB(0, 0, 0));
-            SetBkMode(hdc, TRANSPARENT);
-
-            // ä½¿ç”¨ TextOutW æ¥æ”¯æŒå®½å­—ç¬¦
-            TextOutW(hdc, 350, 280, L"Hello", 5);
-
-            EndPaint(hwnd, &ps);
+        case WM_COMMAND: {
+            // ´¦Àí°´Å¥µã»÷
+            if (LOWORD(wParam) == ID_BUTTON) {
+                HWND secondWindow = GetSecondWindowHandle();
+                if (!secondWindow) {  // Èç¹ûµÚ¶ş¸ö´°¿Ú²»´æÔÚ
+                    CreateSecondWindow((HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE));
+                } else {
+                    SetFocus(secondWindow);  // Èç¹ûÒÑ´æÔÚ£¬½«½¹µãÉèÖÃµ½µÚ¶ş¸ö´°¿Ú
+                }
+            }
             return 0;
         }
 

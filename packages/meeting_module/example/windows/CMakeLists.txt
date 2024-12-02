@@ -1,19 +1,21 @@
 cmake_minimum_required(VERSION 3.15)
 
-# è®¾ç½®é¡¹ç›®åç§°
+# ÉèÖÃÏîÄ¿Ãû³Æ
 project(simple_window)
 
-# è®¾ç½®C++æ ‡å‡†
+# ÉèÖÃC++±ê×¼
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# æ·»åŠ å¯æ‰§è¡Œæ–‡ä»¶
+# Ìí¼Ó¿ÉÖ´ĞĞÎÄ¼ş
 add_executable(${PROJECT_NAME} WIN32
     main.cpp
+    second_window.cpp
+    second_window.h
 )
 
-# é“¾æ¥å¿…è¦çš„Windowsåº“
+# Á´½Ó±ØÒªµÄWindows¿â
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    user32  # Windowsç”¨æˆ·ç•Œé¢åŸºæœ¬åŠŸèƒ½
-    gdi32   # å›¾å½¢è®¾å¤‡æ¥å£
+    user32  # WindowsÓÃ»§½çÃæ»ù±¾¹¦ÄÜ
+    gdi32   # Í¼ĞÎÉè±¸½Ó¿Ú
 )
