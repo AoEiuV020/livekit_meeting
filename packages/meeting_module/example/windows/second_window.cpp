@@ -1,5 +1,5 @@
 #include "second_window.h"
-
+#include <stdio.h>
 // 定义按钮ID
 #define ID_SEND_BACK_BUTTON 2001
 
@@ -48,7 +48,7 @@ void CreateSecondWindow(HINSTANCE hInstance, HWND parentWindow) {
             L"BUTTON",
             L"发送回主窗口",
             WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
-            150, 200, 100, 30,
+            20, 20, 100, 30,  // 移到左上角
             g_hwndSecond,
             (HMENU)ID_SEND_BACK_BUTTON,
             hInstance,
@@ -70,8 +70,9 @@ LRESULT CALLBACK SecondWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
             SetTextColor(hdc, RGB(0, 0, 0));
             SetBkMode(hdc, TRANSPARENT);
             
-            // 显示接收到的消息
-            TextOutW(hdc, 150, 120, g_receivedText, lstrlenW(g_receivedText));
+            // 在左上角显示消息，使用 DrawText 支持自动换行
+            RECT rect = { 20, 60, 360, 180 };  // 限制文本区域
+            DrawTextW(hdc, g_receivedText, -1, &rect, DT_WORDBREAK | DT_LEFT);
 
             EndPaint(hwnd, &ps);
             return 0;
@@ -79,10 +80,23 @@ LRESULT CALLBACK SecondWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 
         case WM_COMMAND: {
             if (LOWORD(wParam) == ID_SEND_BACK_BUTTON) {
-                // 使用 GWLP_HWNDPARENT 获取所有者窗口句柄
                 HWND mainWindow = (HWND)GetWindowLongPtr(hwnd, GWLP_HWNDPARENT);
                 if (mainWindow) {
-                    PostMessageW(mainWindow, WM_CUSTOM_MESSAGE2, 0, 0);
+                    // 获取当前时间
+                    SYSTEMTIME st;
+                    GetLocalTime(&st);
+                    wchar_t timeStr[30];
+                    swprintf(timeStr, 30, L"%04d-%02d-%02d %02d:%02d:%02d",
+                        st.wYear, st.wMonth, st.wDay,
+                        st.wHour, st.wMinute, st.wSecond);
+
+                    // 构造JSON消息
+                    wchar_t jsonMsg[256];
+                    swprintf(jsonMsg, 256, L"{\"greeting\":\"你好，这是来自第二窗口的消息\",\"time\":\"%s\"}", timeStr);
+
+                    lstrcpyW(g_receivedText, L"已发送消息");
+                    InvalidateRect(hwnd, NULL, TRUE);
+                    PostMessageW(mainWindow, WM_CUSTOM_MESSAGE2, 0, (LPARAM)jsonMsg);
                 }
             }
             return 0;
@@ -90,8 +104,8 @@ LRESULT CALLBACK SecondWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 
         case WM_CUSTOM_MESSAGE1: {
             // 接收来自主窗口的消息
-            lstrcpyW(g_receivedText, L"收到来自主窗口的消息！");
-            // 强制重绘窗口以更新文本
+            const wchar_t* jsonMsg = (const wchar_t*)lParam;
+            lstrcpyW(g_receivedText, jsonMsg);
             InvalidateRect(hwnd, NULL, TRUE);
             return 0;
         }
