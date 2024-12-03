@@ -11,7 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  meeting_flutter: any
+  meeting_flutter:
+    path: ../
 dev_dependencies:
   integration_test:
     sdk: flutter
