@@ -4,15 +4,15 @@ PODS:
     - FlutterMacOS
   - device_info_plus (0.0.1):
     - FlutterMacOS
-  - flutter_webrtc (0.11.8):
+  - flutter_webrtc (0.12.2):
     - FlutterMacOS
-    - WebRTC-SDK (= 125.6422.05)
+    - WebRTC-SDK (= 125.6422.06)
   - flutter_window_close (0.0.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
-  - livekit_client (2.2.8):
+  - livekit_client (2.3.1):
     - FlutterMacOS
-    - WebRTC-SDK (= 125.6422.05)
+    - WebRTC-SDK (= 125.6422.06)
   - meeting_flutter (0.0.1):
     - FlutterMacOS
   - path_provider_foundation (0.0.1):
@@ -21,7 +21,7 @@ PODS:
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - WebRTC-SDK (125.6422.05)
+  - WebRTC-SDK (125.6422.06)
 
 DEPENDENCIES:
   - connectivity_plus (from `Flutter/ephemeral/.symlinks/plugins/connectivity_plus/darwin`)
@@ -61,14 +61,14 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   connectivity_plus: 4c41c08fc6d7c91f63bc7aec70ffe3730b04f563
   device_info_plus: 5401765fde0b8d062a2f8eb65510fb17e77cf07f
-  flutter_webrtc: 11e330c9bf77be94424cc23cddacd0b0431df46d
+  flutter_webrtc: 53c9e1285ab32dfb58afb1e1471416a877e23d7a
   flutter_window_close: a0f4f388e956ebafa866e3e171ce837c166eab9c
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
-  livekit_client: 1592c5ed7ac2c25fc3baadabbb34d2af80169225
+  livekit_client: 8838dc52cb95b452968efb84e87cad895c261d9d
   meeting_flutter: c4b98705bb4fc06725a6a44438a52a823ed8e14b
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
-  WebRTC-SDK: 1990a1a595bd0b59c17485ce13ff17f575732c12
+  WebRTC-SDK: 79942c006ea64f6fb48d7da8a4786dfc820bc1db
 
 PODFILE CHECKSUM: 236401fc2c932af29a9fcf0e97baeeb2d750d367
 
