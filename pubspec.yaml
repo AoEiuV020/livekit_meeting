@@ -37,6 +37,8 @@ dependencies:
   universal_platform: ^1.1.0
   device_info_plus: ^9.1.2
 
+  path: any
+  path_provider: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

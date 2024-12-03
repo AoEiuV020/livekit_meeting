@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import 'package:livekit_client/livekit_client.dart';
+import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 import '../exts.dart';
@@ -31,6 +32,8 @@ class RoomPage extends StatefulWidget {
 }
 
 class _RoomPageState extends State<RoomPage> {
+  static final _logger = Logger('RoomPage');
+
   List<ParticipantTrack> participantTracks = [];
   EventsListener<RoomEvent> get _listener => widget.listener;
   bool get fastConnection => widget.room.engine.fastConnectOptions != null;
@@ -38,13 +41,14 @@ class _RoomPageState extends State<RoomPage> {
   @override
   void initState() {
     super.initState();
-    // add callback for a `RoomEvent` as opposed to a `ParticipantEvent`
+    _logger.info('初始化房间页面');
     widget.room.addListener(_onRoomDidUpdate);
-    // add callbacks for finer grained events
     _setUpListeners();
     _sortParticipants();
+
     WidgetsBindingCompatible.instance?.addPostFrameCallback((_) {
       if (!fastConnection) {
+        _logger.info('快速连接不可用，请求发布媒体流');
         _askPublish();
       }
     });
@@ -84,87 +88,88 @@ class _RoomPageState extends State<RoomPage> {
   }
 
   /// for more information, see [event types](https://docs.livekit.io/client/events/#events)
-  void _setUpListeners() => _listener
-    ..once<RoomDisconnectedEvent>((event) async {
-      if (event.reason != null) {
-        print('Room disconnected: reason => ${event.reason}');
-      }
-      ExternalApi.instance.onDisconnected();
-      WidgetsBindingCompatible.instance?.addPostFrameCallback((timeStamp) {
-        final autoConnect = context.read<FlagOptions>().autoConnect;
-        if (autoConnect) {
-          Navigator.popUntil(context, (_) => false);
-          roomCloseApp();
-        } else {
-          Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
+  void _setUpListeners() {
+    _logger.info('设置房间事件监听器');
+
+    _listener
+      ..once<RoomDisconnectedEvent>((event) async {
+        _logger.info('房间已断开连接: ${event.reason}');
+        ExternalApi.instance.onDisconnected();
+        WidgetsBindingCompatible.instance?.addPostFrameCallback((timeStamp) {
+          final autoConnect = context.read<FlagOptions>().autoConnect;
+          if (autoConnect) {
+            Navigator.popUntil(context, (_) => false);
+            roomCloseApp();
+          } else {
+            Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
+          }
+        });
+      })
+      ..on<ParticipantEvent>((event) {
+        _logger.info('收到参与者事件: ${event.runtimeType}');
+        _sortParticipants();
+      })
+      ..on<RoomRecordingStatusChanged>((event) {
+        _logger.info('录制状态变更: ${event.activeRecording}');
+        context.showRecordingStatusChangedDialog(event.activeRecording);
+      })
+      ..on<RoomAttemptReconnectEvent>((event) {
+        _logger.info('尝试重新连接 ${event.attempt}/${event.maxAttemptsRetry}, '
+            '(下次尝试延迟 ${event.nextRetryDelaysInMs}ms)');
+      })
+      ..on<LocalTrackSubscribedEvent>((event) {
+        _logger.info('本地轨道已订阅: ${event.trackSid}');
+      })
+      ..on<LocalTrackPublishedEvent>((_) => _sortParticipants())
+      ..on<LocalTrackUnpublishedEvent>((_) => _sortParticipants())
+      ..on<TrackSubscribedEvent>((_) => _sortParticipants())
+      ..on<TrackUnsubscribedEvent>((_) => _sortParticipants())
+      ..on<TrackE2EEStateEvent>(_onE2EEStateEvent)
+      ..on<ParticipantNameUpdatedEvent>((event) {
+        _logger.info(
+            '参与者名称已更新: ${event.participant.identity}, 新名称 => ${event.name}');
+        _sortParticipants();
+      })
+      ..on<ParticipantMetadataUpdatedEvent>((event) {
+        _logger.info(
+            '参与者元数据已更新: ${event.participant.identity}, 元数据 => ${event.metadata}');
+      })
+      ..on<RoomMetadataChangedEvent>((event) {
+        _logger.info('房间元数据已更改: ${event.metadata}');
+      })
+      ..on<DataReceivedEvent>((event) {
+        String decoded = '解码失败';
+        try {
+          decoded = utf8.decode(event.data);
+        } catch (err) {
+          _logger.severe('数据解码失败: $err');
+        }
+        context.showDataReceivedDialog(decoded);
+      })
+      ..on<AudioPlaybackStatusChanged>((event) async {
+        if (!widget.room.canPlaybackAudio) {
+          _logger.warning('iOS Safari 音频播放失败');
+          bool? yesno = await context.showPlayAudioManuallyDialog();
+          if (yesno == true) {
+            await widget.room.startAudio();
+          }
         }
       });
-    })
-    ..on<ParticipantEvent>((event) {
-      // sort participants on many track events as noted in documentation linked above
-      _sortParticipants();
-    })
-    ..on<RoomRecordingStatusChanged>((event) {
-      context.showRecordingStatusChangedDialog(event.activeRecording);
-    })
-    ..on<RoomAttemptReconnectEvent>((event) {
-      print(
-          'Attempting to reconnect ${event.attempt}/${event.maxAttemptsRetry}, '
-          '(${event.nextRetryDelaysInMs}ms delay until next attempt)');
-    })
-    ..on<LocalTrackSubscribedEvent>((event) {
-      print('Local track subscribed: ${event.trackSid}');
-    })
-    ..on<LocalTrackPublishedEvent>((_) => _sortParticipants())
-    ..on<LocalTrackUnpublishedEvent>((_) => _sortParticipants())
-    ..on<TrackSubscribedEvent>((_) => _sortParticipants())
-    ..on<TrackUnsubscribedEvent>((_) => _sortParticipants())
-    ..on<TrackE2EEStateEvent>(_onE2EEStateEvent)
-    ..on<ParticipantNameUpdatedEvent>((event) {
-      print(
-          'Participant name updated: ${event.participant.identity}, name => ${event.name}');
-      _sortParticipants();
-    })
-    ..on<ParticipantMetadataUpdatedEvent>((event) {
-      print(
-          'Participant metadata updated: ${event.participant.identity}, metadata => ${event.metadata}');
-    })
-    ..on<RoomMetadataChangedEvent>((event) {
-      print('Room metadata changed: ${event.metadata}');
-    })
-    ..on<DataReceivedEvent>((event) {
-      String decoded = 'Failed to decode';
-      try {
-        decoded = utf8.decode(event.data);
-      } catch (err) {
-        print('Failed to decode: $err');
-      }
-      context.showDataReceivedDialog(decoded);
-    })
-    ..on<AudioPlaybackStatusChanged>((event) async {
-      if (!widget.room.canPlaybackAudio) {
-        print('Audio playback failed for iOS Safari ..........');
-        bool? yesno = await context.showPlayAudioManuallyDialog();
-        if (yesno == true) {
-          await widget.room.startAudio();
-        }
-      }
-    });
+  }
 
   void _askPublish() async {
     final result = await context.showPublishDialog();
     if (result != true) return;
-    // video will fail when running in ios simulator
     try {
       await widget.room.localParticipant?.setCameraEnabled(true);
     } catch (error) {
-      print('could not publish video: $error');
+      _logger.severe('无法发布视频: $error');
       await context.showErrorDialog(error);
     }
     try {
       await widget.room.localParticipant?.setMicrophoneEnabled(true);
     } catch (error) {
-      print('could not publish audio: $error');
+      _logger.severe('无法发布音频: $error');
       await context.showErrorDialog(error);
     }
   }
@@ -174,13 +179,18 @@ class _RoomPageState extends State<RoomPage> {
   }
 
   void _onE2EEStateEvent(TrackE2EEStateEvent e2eeState) {
-    print('e2ee state: $e2eeState');
+    _logger.info('端到端加密状态: $e2eeState');
   }
 
   void _sortParticipants() {
+    _logger.info('对参与者进行排序');
     List<ParticipantTrack> userMediaTracks = [];
     List<ParticipantTrack> screenTracks = [];
+
+    _logger.info('远程参与者数量: ${widget.room.remoteParticipants.length}');
+
     for (var participant in widget.room.remoteParticipants.values) {
+      _logger.fine('处理参与者轨道: ${participant.identity}');
       for (var t in participant.videoTrackPublications) {
         if (t.isScreenShare) {
           screenTracks.add(ParticipantTrack(
@@ -254,6 +264,7 @@ class _RoomPageState extends State<RoomPage> {
     setState(() {
       participantTracks = [...screenTracks, ...userMediaTracks];
     });
+    _logger.info('参与者排序完成，总轨道数: ${participantTracks.length}');
   }
 
   @override

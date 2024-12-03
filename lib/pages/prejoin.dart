@@ -7,6 +7,7 @@ import 'package:collection/collection.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:livekit_client/livekit_client.dart';
+import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 import '../ext/media_device_ext.dart';
@@ -49,6 +50,8 @@ class PreJoinPage extends StatefulWidget {
 }
 
 class _PreJoinPageState extends State<PreJoinPage> {
+  static final _logger = Logger('PreJoinPage');
+
   List<MediaDevice> _audioInputs = [];
   List<MediaDevice> _videoInputs = [];
   StreamSubscription? _subscription;
@@ -78,11 +81,16 @@ class _PreJoinPageState extends State<PreJoinPage> {
   }
 
   void _loadDevices(List<MediaDevice> devices) async {
+    _logger.info('加载可用媒体设备');
     _audioInputs = devices.where((d) => d.kind == 'audioinput').toList();
     _videoInputs = devices.where((d) => d.kind == 'videoinput').toList();
 
+    _logger.info(
+        '发现 ${_audioInputs.length} 个音频输入设备和 ${_videoInputs.length} 个视频输入设备');
+
     final flagOptions = context.read<FlagOptions>();
     if (_audioInputs.isNotEmpty) {
+      _logger.info('设置音频设备');
       if (!flagOptions.startWithAudioMuted && _selectedAudioDevice == null) {
         _selectedAudioDevice = _audioInputs.first;
         Future.delayed(const Duration(milliseconds: 100), () async {
@@ -151,21 +159,24 @@ class _PreJoinPageState extends State<PreJoinPage> {
   }
 
   Future<void> _changeLocalVideoTrack() async {
+    _logger.info('更改本地视频轨道');
     if (_videoTrack != null) {
+      _logger.info('停止现有视频轨道');
       await _videoTrack!.stop();
       _videoTrack = null;
     }
 
     if (_selectedVideoDevice != null) {
+      _logger.info('使用设备创建新视频轨道: ${_selectedVideoDevice?.label}');
       _videoTrack =
           await LocalVideoTrack.createCameraTrack(CameraCaptureOptions(
-        // 默认认为是后置摄像头避免被镜像，
         cameraPosition: _selectedVideoDevice?.front ?? false
             ? CameraPosition.front
             : CameraPosition.back,
         deviceId: _selectedVideoDevice!.deviceId,
         params: _selectedVideoParameters,
       ));
+      _logger.info('启动视频轨道');
       await _videoTrack!.start();
     }
   }

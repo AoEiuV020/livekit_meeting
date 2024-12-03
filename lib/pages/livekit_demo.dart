@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:livekit_client/livekit_client.dart';
+import 'package:logging/logging.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,10 +44,14 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
   final bool _e2ee = false;
   final String _preferredCodec = 'H264';
 
+  static final _logger = Logger('LivekitDemoPage');
+
   @override
   void initState() {
     super.initState();
+    _logger.info('初始化 LivekitDemoPage');
     if (lkPlatformIs(PlatformType.android)) {
+      _logger.info('检查 Android 权限');
       _checkPermissions();
     }
     _initInput();
@@ -81,22 +86,22 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
   Future<void> _checkPermissions() async {
     var status = await Permission.bluetooth.request();
     if (status.isPermanentlyDenied) {
-      print('Bluetooth Permission disabled');
+      _logger.warning('蓝牙权限被禁用');
     }
 
     status = await Permission.bluetoothConnect.request();
     if (status.isPermanentlyDenied) {
-      print('Bluetooth Connect Permission disabled');
+      _logger.warning('蓝牙连接权限被禁用');
     }
 
     status = await Permission.camera.request();
     if (status.isPermanentlyDenied) {
-      print('Camera Permission disabled');
+      _logger.warning('相机权限被禁用');
     }
 
     status = await Permission.microphone.request();
     if (status.isPermanentlyDenied) {
-      print('Microphone Permission disabled');
+      _logger.warning('麦克风权限被禁用');
     }
   }
 
@@ -109,24 +114,24 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
   }
 
   Future<void> _connect(BuildContext ctx) async {
-    //
     try {
+      _logger.info('开始连接过程');
       setState(() {
         _busy = true;
       });
 
-      // Save URL and Token for convenience
       await _writePrefs();
-
-      print('Connecting with url: ${_uriCtrl.text}, '
-          'room: ${_roomCtrl.text}...');
 
       final url = _uriCtrl.text;
       final roomName = _roomCtrl.text;
       final name = _nameCtrl.text;
+
+      _logger.info('正在连接房间: $roomName, URL: $url, 用户名: $name');
+
       final service = context.read<LivekitService>();
       service.baseUrl = url;
       final serverToken = await service.getToken(roomName, name);
+      _logger.info('成功获取服务器令牌');
 
       var route = MaterialPageRoute(
           settings: const RouteSettings(name: '/prejoin'),
@@ -146,7 +151,7 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
               ));
       unawaited(Navigator.pushReplacement(ctx, route));
     } catch (error) {
-      print('Could not connect $error');
+      _logger.severe('连接失败', error);
       await ctx.showErrorDialog(error);
     } finally {
       setState(() {
