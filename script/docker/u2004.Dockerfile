@@ -82,9 +82,13 @@ WORKDIR /workspace
 # 设置用户缓存目录
 RUN mkdir -p /home/developer/.pub-cache
 
-# 安装 melos
+# 禁用flutter cli动画
+RUN flutter config --no-cli-animations
+
+# 安装全局dart包
 RUN dart pub global activate melos
-ENV PATH="$HOME/.pub-cache/bin:${PATH}"
+ENV PATH="/home/developer/.pub-cache/bin:${PATH}"
+
 
 # 创建并设置 entrypoint 脚本
 USER root

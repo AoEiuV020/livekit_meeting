@@ -11,7 +11,7 @@ fi
 CONTAINER_NAME="flutter-dev"
 
 # 获取容器状态
-CONTAINER_STATUS=$(docker container inspect -f '{{.State.Status}}' "$CONTAINER_NAME" 2>/dev/null || echo "not_exist")
+CONTAINER_STATUS=$(docker container inspect -f '{{.State.Status}}' "$CONTAINER_NAME" 2>/dev/null >&2 || echo "not_exist")
 
 case "$CONTAINER_STATUS" in
   "not_exist")
@@ -26,11 +26,8 @@ esac
 # 直接从 Dockerfile 构建并运行容器
 docker build -t flutter-build-temp -f "$ROOT/script/docker/u2004.Dockerfile" "$ROOT/script/docker" && \
 docker run -it --rm --name "$CONTAINER_NAME" \
-           --device /dev/fuse \
-           --cap-add SYS_ADMIN \
+           --privileged=True \
            -v "$ROOT:/workspace" \
-           -v "$HOME/.pub-cache/hosted:/home/developer/.pub-cache/hosted" \
-           flutter-build-temp
+           -v "$HOME/.pub-cache/:/home/developer/.pub-cache/" \
+           flutter-build-temp $@
 echo "docker 打包完成"
-echo "移动打包文件到 example/build/deploy/"
-mv "$ROOT"/example/build/output/* "$ROOT/example/build/deploy/"
