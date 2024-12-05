@@ -34,36 +34,21 @@ check_flatpak_runtime
 echo 设置变量
 APP_NAME="Meeting"
 OUTPUT_DIR="$example_path/build/output"
-APPDIR="$example_path/build/appimage/$APP_NAME.AppDir"
-APPIMAGE_FILE="$OUTPUT_DIR/$APP_NAME.AppImage"
+APPDIR="$example_path/build/linux/x64/release/bundle"
+APP_ICON="$example_path/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png"
 FLATPAK_BUILD_DIR="$example_path/build/flatpak"
-
-echo 检查 AppImage 文件是否存在
-if [ ! -f "$APPIMAGE_FILE" ]; then
-    echo "错误: AppImage 文件不存在: $APPIMAGE_FILE"
-    echo "请先运行 linux_appimage.sh 生成 AppImage"
-    exit 1
-fi
 
 echo "删除构建目录"
 rm -rf "$FLATPAK_BUILD_DIR"
 
-echo 解压 AppImage
-APPIMAGE_EXTRACT_DIR="$FLATPAK_BUILD_DIR/appimage_extract"
-mkdir -p "$APPIMAGE_EXTRACT_DIR"
-cd "$FLATPAK_BUILD_DIR"
-"$APPIMAGE_FILE" --appimage-extract
-mv squashfs-root/* "$APPIMAGE_EXTRACT_DIR"
-
 echo 创建构建目录
 FLATPAK_BUNDLE_DIR="$FLATPAK_BUILD_DIR/bundle"
 mkdir -p "$FLATPAK_BUNDLE_DIR/app"
-mkdir -p "$FLATPAK_BUNDLE_DIR/lib"
 mkdir -p "$FLATPAK_BUNDLE_DIR/share/applications"
 mkdir -p "$FLATPAK_BUNDLE_DIR/share/icons/hicolor/256x256/apps"
 
-echo "复制解压后的内容"
-cp -r "$APPIMAGE_EXTRACT_DIR"/* "$FLATPAK_BUNDLE_DIR/app/"
+echo "复制App"
+cp -r "$APPDIR"/* "$FLATPAK_BUNDLE_DIR/app/"
 
 echo 创建 desktop 文件
 cat > "$FLATPAK_BUNDLE_DIR/share/applications/com.chat.weichat.Meeting.desktop" << EOF
@@ -76,7 +61,7 @@ Categories=Utility;
 EOF
 
 echo 复制图标
-cp "$APPIMAGE_EXTRACT_DIR/usr/share/icons/hicolor/256x256/apps/$APP_NAME.png" "$FLATPAK_BUNDLE_DIR/share/icons/hicolor/256x256/apps/com.chat.weichat.Meeting.png"
+cp "$APP_ICON" "$FLATPAK_BUNDLE_DIR/share/icons/hicolor/256x256/apps/com.chat.weichat.Meeting.png"
 
 echo 创建 manifest 文件
 cat > "$FLATPAK_BUILD_DIR/com.chat.weichat.Meeting.yml" << EOF
@@ -84,20 +69,25 @@ app-id: com.chat.weichat.Meeting
 runtime: org.freedesktop.Platform
 runtime-version: '23.08'
 sdk: org.freedesktop.Sdk
-command: AppRun
+command: meeting
+tags:
+  - proprietary
 finish-args:
+  - --device=all
   - --share=ipc
+  - --share=network
+  - --socket=cups
+  - --socket=pcsc # FIDO2
+  - --socket=pulseaudio
   - --socket=x11
   - --socket=wayland
-  - --filesystem=host
-  - --device=dri
-  - --share=network
 modules:
   - name: meeting
     buildsystem: simple
     build-commands:
       - mkdir -p /app/bin
-      - cp -r app/* /app/bin/
+      - cp -r app /app/app
+      - ln -s /app/app/meeting_flutter_example /app/bin/meeting
       - cp -r share /app/
     sources:
       - type: dir
