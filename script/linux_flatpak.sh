@@ -2,7 +2,7 @@
 . "$(dirname $0)/env.sh"
 example_path="$ROOT"/example
 
-# 检查依赖
+echo 检查依赖
 check_dependency() {
     if ! command -v "$1" >/dev/null 2>&1; then
         echo "错误: 未找到 $1，请先安装。"
@@ -23,40 +23,49 @@ check_flatpak_runtime() {
     fi
 }
 
-# 检查必要的依赖
+echo 检查必要的依赖
 check_dependency "flatpak" "flatpak"
 check_dependency "flatpak-builder" "flatpak-builder"
 check_dependency "eu-strip" "elfutils"
 
-# 检查 Flatpak 运行时
+echo 检查 Flatpak 运行时
 check_flatpak_runtime
 
-# 设置变量
+echo 设置变量
 APP_NAME="Meeting"
 OUTPUT_DIR="$example_path/build/output"
 APPDIR="$example_path/build/appimage/$APP_NAME.AppDir"
 APPIMAGE_FILE="$OUTPUT_DIR/$APP_NAME.AppImage"
 FLATPAK_BUILD_DIR="$example_path/build/flatpak"
 
-# 检查 AppImage 文件是否存在
+echo 检查 AppImage 文件是否存在
 if [ ! -f "$APPIMAGE_FILE" ]; then
     echo "错误: AppImage 文件不存在: $APPIMAGE_FILE"
     echo "请先运行 linux_appimage.sh 生成 AppImage"
     exit 1
 fi
 
-# 创建构建目录
+echo "删除构建目录"
 rm -rf "$FLATPAK_BUILD_DIR"
+
+echo 解压 AppImage
+APPIMAGE_EXTRACT_DIR="$FLATPAK_BUILD_DIR/appimage_extract"
+mkdir -p "$APPIMAGE_EXTRACT_DIR"
+cd "$FLATPAK_BUILD_DIR"
+"$APPIMAGE_FILE" --appimage-extract
+mv squashfs-root/* "$APPIMAGE_EXTRACT_DIR"
+
+echo 创建构建目录
 FLATPAK_BUNDLE_DIR="$FLATPAK_BUILD_DIR/bundle"
-mkdir -p "$FLATPAK_BUNDLE_DIR/bin"
+mkdir -p "$FLATPAK_BUNDLE_DIR/app"
+mkdir -p "$FLATPAK_BUNDLE_DIR/lib"
 mkdir -p "$FLATPAK_BUNDLE_DIR/share/applications"
 mkdir -p "$FLATPAK_BUNDLE_DIR/share/icons/hicolor/256x256/apps"
 
-# 复制 AppImage 文件
-cp "$APPIMAGE_FILE" "$FLATPAK_BUNDLE_DIR/bin/meeting"
-chmod +x "$FLATPAK_BUNDLE_DIR/bin/meeting"
+echo "复制解压后的内容"
+cp -r "$APPIMAGE_EXTRACT_DIR"/* "$FLATPAK_BUNDLE_DIR/app/"
 
-# 创建 desktop 文件
+echo 创建 desktop 文件
 cat > "$FLATPAK_BUNDLE_DIR/share/applications/com.chat.weichat.Meeting.desktop" << EOF
 [Desktop Entry]
 Name=$APP_NAME
@@ -66,16 +75,16 @@ Type=Application
 Categories=Utility;
 EOF
 
-# 复制图标
-cp "$APPDIR/usr/share/icons/hicolor/256x256/apps/$APP_NAME.png" "$FLATPAK_BUNDLE_DIR/share/icons/hicolor/256x256/apps/com.chat.weichat.Meeting.png"
+echo 复制图标
+cp "$APPIMAGE_EXTRACT_DIR/usr/share/icons/hicolor/256x256/apps/$APP_NAME.png" "$FLATPAK_BUNDLE_DIR/share/icons/hicolor/256x256/apps/com.chat.weichat.Meeting.png"
 
-# 创建 manifest 文件
+echo 创建 manifest 文件
 cat > "$FLATPAK_BUILD_DIR/com.chat.weichat.Meeting.yml" << EOF
 app-id: com.chat.weichat.Meeting
 runtime: org.freedesktop.Platform
 runtime-version: '23.08'
 sdk: org.freedesktop.Sdk
-command: meeting
+command: AppRun
 finish-args:
   - --share=ipc
   - --socket=x11
@@ -88,8 +97,7 @@ modules:
     buildsystem: simple
     build-commands:
       - mkdir -p /app/bin
-      - cp bin/meeting /app/bin/
-      - chmod +x /app/bin/meeting
+      - cp -r app/* /app/bin/
       - cp -r share /app/
     sources:
       - type: dir
