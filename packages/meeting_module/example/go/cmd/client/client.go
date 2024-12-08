@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"example/ipc"
+	"example/common/ipc"
 	"fmt"
 )
 
