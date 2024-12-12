@@ -1,16 +1,11 @@
+import UIKit
 import Flutter
 import FlutterPluginRegistrant
 
-@objc public class LivekitDemoViewController: FlutterViewController {
-    private let serverUrl: String
-    private let room: String
-    private let name: String
-    
-    @objc public init(serverUrl: String, room: String, name: String) {
-        self.serverUrl = serverUrl
-        self.room = room
-        self.name = name
-        
+@objcMembers // 使所有属性和方法都可见于 Objective-C
+public class LivekitDemoViewController: FlutterViewController {
+    // 初始化时接收参数
+    public init(serverUrl: String, room: String, name: String) {
         let flutterEngine = FlutterEngine(name: "my flutter engine")
         let entrypointArgs: [String] = [
             "--autoConnect",
@@ -26,6 +21,7 @@ import FlutterPluginRegistrant
     }
     
     required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
+    
 }
