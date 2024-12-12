@@ -6,8 +6,72 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BE4464D82D0B4E0D001E9F58 /* App.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C12D0B4DDA001E9F58 /* App.xcframework */; };
+		BE4464D92D0B4E0D001E9F58 /* App.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C12D0B4DDA001E9F58 /* App.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE4464DA2D0B4E0D001E9F58 /* connectivity_plus.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C22D0B4DDA001E9F58 /* connectivity_plus.xcframework */; };
+		BE4464DB2D0B4E0D001E9F58 /* connectivity_plus.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C22D0B4DDA001E9F58 /* connectivity_plus.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE4464DC2D0B4E0D001E9F58 /* device_info_plus.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C32D0B4DDA001E9F58 /* device_info_plus.xcframework */; };
+		BE4464DD2D0B4E0D001E9F58 /* device_info_plus.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C32D0B4DDA001E9F58 /* device_info_plus.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE4464DE2D0B4E0D001E9F58 /* flutter_webrtc.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C52D0B4DDA001E9F58 /* flutter_webrtc.xcframework */; };
+		BE4464DF2D0B4E0D001E9F58 /* flutter_webrtc.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C52D0B4DDA001E9F58 /* flutter_webrtc.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE4464E02D0B4E0D001E9F58 /* Flutter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C42D0B4DDA001E9F58 /* Flutter.xcframework */; };
+		BE4464E12D0B4E0D001E9F58 /* Flutter.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C42D0B4DDA001E9F58 /* Flutter.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE4464E22D0B4E0D001E9F58 /* FlutterPluginRegistrant.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C62D0B4DDA001E9F58 /* FlutterPluginRegistrant.xcframework */; };
+		BE4464E32D0B4E0D001E9F58 /* FlutterPluginRegistrant.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C62D0B4DDA001E9F58 /* FlutterPluginRegistrant.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE4464E42D0B4E0D001E9F58 /* livekit_client.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C72D0B4DDA001E9F58 /* livekit_client.xcframework */; };
+		BE4464E52D0B4E0D001E9F58 /* livekit_client.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C72D0B4DDA001E9F58 /* livekit_client.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE4464E62D0B4E0D001E9F58 /* meeting_flutter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C82D0B4DDA001E9F58 /* meeting_flutter.xcframework */; };
+		BE4464E72D0B4E0D001E9F58 /* meeting_flutter.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C82D0B4DDA001E9F58 /* meeting_flutter.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE4464E82D0B4E0D001E9F58 /* path_provider_foundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C92D0B4DDA001E9F58 /* path_provider_foundation.xcframework */; };
+		BE4464E92D0B4E0D001E9F58 /* path_provider_foundation.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464C92D0B4DDA001E9F58 /* path_provider_foundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE4464EA2D0B4E0D001E9F58 /* permission_handler_apple.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464CA2D0B4DDA001E9F58 /* permission_handler_apple.xcframework */; };
+		BE4464EB2D0B4E0D001E9F58 /* permission_handler_apple.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464CA2D0B4DDA001E9F58 /* permission_handler_apple.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE4464EC2D0B4E0D001E9F58 /* shared_preferences_foundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464CB2D0B4DDA001E9F58 /* shared_preferences_foundation.xcframework */; };
+		BE4464ED2D0B4E0D001E9F58 /* shared_preferences_foundation.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE4464CB2D0B4DDA001E9F58 /* shared_preferences_foundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE4465172D0B52BC001E9F58 /* WebRTC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4465142D0B526A001E9F58 /* WebRTC.xcframework */; };
+		BE4465182D0B52BC001E9F58 /* WebRTC.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE4465142D0B526A001E9F58 /* WebRTC.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BE4464EE2D0B4E0D001E9F58 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BE4464E72D0B4E0D001E9F58 /* meeting_flutter.xcframework in Embed Frameworks */,
+				BE4464E92D0B4E0D001E9F58 /* path_provider_foundation.xcframework in Embed Frameworks */,
+				BE4464E12D0B4E0D001E9F58 /* Flutter.xcframework in Embed Frameworks */,
+				BE4464DD2D0B4E0D001E9F58 /* device_info_plus.xcframework in Embed Frameworks */,
+				BE4464ED2D0B4E0D001E9F58 /* shared_preferences_foundation.xcframework in Embed Frameworks */,
+				BE4464DF2D0B4E0D001E9F58 /* flutter_webrtc.xcframework in Embed Frameworks */,
+				BE4464DB2D0B4E0D001E9F58 /* connectivity_plus.xcframework in Embed Frameworks */,
+				BE4464EB2D0B4E0D001E9F58 /* permission_handler_apple.xcframework in Embed Frameworks */,
+				BE4465182D0B52BC001E9F58 /* WebRTC.xcframework in Embed Frameworks */,
+				BE4464E52D0B4E0D001E9F58 /* livekit_client.xcframework in Embed Frameworks */,
+				BE4464E32D0B4E0D001E9F58 /* FlutterPluginRegistrant.xcframework in Embed Frameworks */,
+				BE4464D92D0B4E0D001E9F58 /* App.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		BE44648E2D0B4D9E001E9F58 /* meetingmoduleexample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = meetingmoduleexample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE4464C12D0B4DDA001E9F58 /* App.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = App.xcframework; sourceTree = "<group>"; };
+		BE4464C22D0B4DDA001E9F58 /* connectivity_plus.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = connectivity_plus.xcframework; sourceTree = "<group>"; };
+		BE4464C32D0B4DDA001E9F58 /* device_info_plus.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = device_info_plus.xcframework; sourceTree = "<group>"; };
+		BE4464C42D0B4DDA001E9F58 /* Flutter.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:S8QB4VV633:FLUTTER.IO LLC"; lastKnownFileType = wrapper.xcframework; path = Flutter.xcframework; sourceTree = "<group>"; };
+		BE4464C52D0B4DDA001E9F58 /* flutter_webrtc.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = flutter_webrtc.xcframework; sourceTree = "<group>"; };
+		BE4464C62D0B4DDA001E9F58 /* FlutterPluginRegistrant.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = FlutterPluginRegistrant.xcframework; sourceTree = "<group>"; };
+		BE4464C72D0B4DDA001E9F58 /* livekit_client.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = livekit_client.xcframework; sourceTree = "<group>"; };
+		BE4464C82D0B4DDA001E9F58 /* meeting_flutter.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = meeting_flutter.xcframework; sourceTree = "<group>"; };
+		BE4464C92D0B4DDA001E9F58 /* path_provider_foundation.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = path_provider_foundation.xcframework; sourceTree = "<group>"; };
+		BE4464CA2D0B4DDA001E9F58 /* permission_handler_apple.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = permission_handler_apple.xcframework; sourceTree = "<group>"; };
+		BE4464CB2D0B4DDA001E9F58 /* shared_preferences_foundation.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = shared_preferences_foundation.xcframework; sourceTree = "<group>"; };
+		BE4465142D0B526A001E9F58 /* WebRTC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = WebRTC.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +100,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE4464DC2D0B4E0D001E9F58 /* device_info_plus.xcframework in Frameworks */,
+				BE4464E02D0B4E0D001E9F58 /* Flutter.xcframework in Frameworks */,
+				BE4464E82D0B4E0D001E9F58 /* path_provider_foundation.xcframework in Frameworks */,
+				BE4464E62D0B4E0D001E9F58 /* meeting_flutter.xcframework in Frameworks */,
+				BE4464EC2D0B4E0D001E9F58 /* shared_preferences_foundation.xcframework in Frameworks */,
+				BE4464D82D0B4E0D001E9F58 /* App.xcframework in Frameworks */,
+				BE4464EA2D0B4E0D001E9F58 /* permission_handler_apple.xcframework in Frameworks */,
+				BE4464DE2D0B4E0D001E9F58 /* flutter_webrtc.xcframework in Frameworks */,
+				BE4465172D0B52BC001E9F58 /* WebRTC.xcframework in Frameworks */,
+				BE4464DA2D0B4E0D001E9F58 /* connectivity_plus.xcframework in Frameworks */,
+				BE4464E42D0B4E0D001E9F58 /* livekit_client.xcframework in Frameworks */,
+				BE4464E22D0B4E0D001E9F58 /* FlutterPluginRegistrant.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				BE4464902D0B4D9E001E9F58 /* meetingmoduleexample */,
+				BE4464C02D0B4DDA001E9F58 /* Frameworks */,
 				BE44648F2D0B4D9E001E9F58 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,6 +135,43 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		BE4464C02D0B4DDA001E9F58 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BE4465152D0B526A001E9F58 /* WebRTC-SDK */,
+				BE4464CC2D0B4DDA001E9F58 /* Debug */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BE4464CC2D0B4DDA001E9F58 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				BE4464C12D0B4DDA001E9F58 /* App.xcframework */,
+				BE4464C22D0B4DDA001E9F58 /* connectivity_plus.xcframework */,
+				BE4464C32D0B4DDA001E9F58 /* device_info_plus.xcframework */,
+				BE4464C42D0B4DDA001E9F58 /* Flutter.xcframework */,
+				BE4464C52D0B4DDA001E9F58 /* flutter_webrtc.xcframework */,
+				BE4464C62D0B4DDA001E9F58 /* FlutterPluginRegistrant.xcframework */,
+				BE4464C72D0B4DDA001E9F58 /* livekit_client.xcframework */,
+				BE4464C82D0B4DDA001E9F58 /* meeting_flutter.xcframework */,
+				BE4464C92D0B4DDA001E9F58 /* path_provider_foundation.xcframework */,
+				BE4464CA2D0B4DDA001E9F58 /* permission_handler_apple.xcframework */,
+				BE4464CB2D0B4DDA001E9F58 /* shared_preferences_foundation.xcframework */,
+			);
+			name = Debug;
+			path = ../../build/ios/framework/Debug;
+			sourceTree = "<group>";
+		};
+		BE4465152D0B526A001E9F58 /* WebRTC-SDK */ = {
+			isa = PBXGroup;
+			children = (
+				BE4465142D0B526A001E9F58 /* WebRTC.xcframework */,
+			);
+			name = "WebRTC-SDK";
+			path = "../../../../example/ios/Pods/WebRTC-SDK";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -68,6 +182,7 @@
 				BE44648A2D0B4D9E001E9F58 /* Sources */,
 				BE44648B2D0B4D9E001E9F58 /* Frameworks */,
 				BE44648C2D0B4D9E001E9F58 /* Resources */,
+				BE4464EE2D0B4E0D001E9F58 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -229,6 +344,10 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Users/aoeiuv/git/meeting_flutter/packages/meeting_module/build/ios/framework/Debug,
+					"/Users/aoeiuv/git/meeting_flutter/example/ios/Pods/WebRTC-SDK",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -249,6 +368,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -290,6 +410,10 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Users/aoeiuv/git/meeting_flutter/packages/meeting_module/build/ios/framework/Debug,
+					"/Users/aoeiuv/git/meeting_flutter/example/ios/Pods/WebRTC-SDK",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -303,6 +427,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
