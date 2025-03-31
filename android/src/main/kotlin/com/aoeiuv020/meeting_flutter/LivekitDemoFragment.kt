@@ -4,6 +4,7 @@ import android.util.Base64
 import androidx.annotation.UiThread
 import com.aoeiuv020.meeting_flutter.util.JsonUtil
 import io.flutter.embedding.android.FlutterFragment
+import io.flutter.embedding.android.RenderMode
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.plugins.util.GeneratedPluginRegister
 import io.flutter.plugin.common.MethodChannel
@@ -13,7 +14,11 @@ class LivekitDemoFragment : FlutterFragment() {
     companion object {
         @JvmStatic
         fun create(options: LivekitDemoOptions): LivekitDemoFragment =
+            createBuilder(options).build()
+        @JvmStatic
+        fun createBuilder(options: LivekitDemoOptions): NewEngineFragmentBuilder =
             NewEngineFragmentBuilder(LivekitDemoFragment::class.java)
+                .renderMode(RenderMode.texture)
                 .dartEntrypointArgs(
                     listOf(
                         "--livekitDemoOptions",
@@ -22,7 +27,7 @@ class LivekitDemoFragment : FlutterFragment() {
                             Base64.NO_WRAP
                         )
                     )
-                ).build()
+                )
     }
 
     val channel get() = MeetingFlutterPlugin.channel
