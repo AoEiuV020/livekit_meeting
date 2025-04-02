@@ -4,6 +4,7 @@ import 'package:args/args.dart';
 import 'package:provider/provider.dart';
 
 import '../api/livekit_service.dart';
+import '../meeting_flutter_json_rpc_method_channel.dart';
 import 'flag_options.dart';
 import 'livekit_demo_options.dart';
 import 'parse_util.dart' if (dart.library.html) 'parse_util_web.dart';
@@ -20,6 +21,7 @@ Future<ArgResults> parseArgs(List<String> args) async {
     ..addOption('room')
     ..addOption('name')
     ..addOption('livekitDemoOptions')
+    ..addFlag('jsonRpcMode', defaultsTo: false)
     ..addFlag('startWithAudioMuted', defaultsTo: false)
     ..addFlag('startWithVideoMuted', defaultsTo: false)
     ..addFlag('disableAudioMutedButton', defaultsTo: false)
@@ -39,6 +41,9 @@ Future<List<InheritedProvider>> parseGlobalOptions(List<String> args) async {
   ArgResults parseResult = await parseArgs(args);
   List<InheritedProvider> result = [];
 
+  if (parseResult.flag('jsonRpcMode')) {
+    MeetingFlutterJsonRpcMethodChannel.registerWith();
+  }
   FlagOptions flagOptions = FlagOptions();
   flagOptions.autoConnect = parseResult.flag('autoConnect');
   flagOptions.startWithAudioMuted = parseResult.flag('startWithAudioMuted');
