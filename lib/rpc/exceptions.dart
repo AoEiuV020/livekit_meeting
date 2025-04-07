@@ -1,3 +1,5 @@
+import '../exception.dart';
+
 /// JSON-RPC 2.0 预定义错误码
 class RpcErrorCode {
   static const int parseError = -32700;
@@ -12,16 +14,12 @@ class RpcErrorCode {
 }
 
 /// RPC 基础异常类
-class MeetingRpcException implements Exception {
+class MeetingRpcException extends MeetingException {
   final int code;
-  final String message;
   final Object? data;
 
-  const MeetingRpcException(this.code, this.message, [this.data]);
-
-  @override
-  String toString() =>
-      'MeetingRpcException($code): $message${data != null ? ' - $data' : ''}';
+  const MeetingRpcException(this.code, String message, [this.data])
+      : super(message);
 }
 
 /// 解析错误

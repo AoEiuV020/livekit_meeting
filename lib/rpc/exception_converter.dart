@@ -32,6 +32,9 @@ class RpcExceptionConverter {
 
   /// 转换 json_rpc_2 包的异常为统一的异常类型
   static MeetingRpcException convertJsonRpcException(Object error) {
+    if (error is MeetingRpcException) {
+      return error;
+    }
     if (error is RpcException) {
       return _handleErrorCode(error.code, error.message, error.data);
     }

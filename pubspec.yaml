@@ -36,6 +36,7 @@ dependencies:
   stream_channel: ^2.1.2
   universal_platform: ^1.1.0
   device_info_plus: ^9.1.2
+  web_socket_channel: ^3.0.1
 
   path: any
   path_provider: any

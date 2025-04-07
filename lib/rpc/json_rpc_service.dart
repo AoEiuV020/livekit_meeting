@@ -50,6 +50,12 @@ class JsonRpcService implements Service {
         // 其他消息类型， 直接丢弃
         log('unsupported message: $message');
       }
+    }, onDone: () {
+      serverController.close();
+      clientController.close();
+    }, onError: (e, s) {
+      serverController.addError(e, s);
+      clientController.addError(e, s);
     });
 
     // 创建server和client的channel
@@ -71,7 +77,13 @@ class JsonRpcService implements Service {
 
   @override
   void registerMethod(String method, Function callback) {
-    rpcServer.registerMethod(method, callback);
+    if (callback is ZeroArgumentFunction) {
+      rpcServer.registerMethod(method, callback);
+    } else {
+      rpcServer.registerMethod(method, (Parameters params) {
+        return callback(params.value);
+      });
+    }
   }
 
   @override
@@ -95,5 +107,18 @@ class JsonRpcService implements Service {
   listen() {
     unawaited(rpcClient.listen());
     unawaited(rpcServer.listen());
+  }
+
+  dispose() {
+    try {
+      rpcClient.close();
+    } catch (e) {
+      log('dispose client error: $e');
+    }
+    try {
+      rpcServer.close();
+    } catch (e) {
+      log('dispose server error: $e');
+    }
   }
 }
