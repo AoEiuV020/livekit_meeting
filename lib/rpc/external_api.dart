@@ -19,7 +19,7 @@ class ExternalApi {
   Future<bool> interceptHangUp() async {
     if (!interceptHangUpEnabled) return false;
     final response = await MeetingRpc.instance.sendRequest('interceptHangUp');
-    return response['hangUp'] as bool;
+    return response['intercept'] as bool;
   }
 
   void onAudioMuteChanged(bool muted) {
