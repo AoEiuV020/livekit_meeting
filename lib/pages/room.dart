@@ -99,7 +99,9 @@ class _RoomPageState extends State<RoomPage> {
           final autoConnect = context.read<FlagOptions>().autoConnect;
           if (autoConnect) {
             Navigator.popUntil(context, (_) => false);
-            roomCloseApp();
+            if (!context.read<FlagOptions>().keepWindowOpen) {
+              roomCloseApp();
+            }
           } else {
             Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
           }

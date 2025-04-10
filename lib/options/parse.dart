@@ -21,6 +21,7 @@ Future<ArgResults> parseArgs(List<String> args) async {
     ..addOption('room')
     ..addOption('name')
     ..addOption('livekitDemoOptions')
+    ..addFlag('keepWindowOpen', defaultsTo: false)
     ..addFlag('jsonRpcMode', defaultsTo: false)
     ..addFlag('startWithAudioMuted', defaultsTo: false)
     ..addFlag('startWithVideoMuted', defaultsTo: false)
@@ -48,6 +49,7 @@ Future<List<InheritedProvider>> parseGlobalOptions(List<String> args) async {
   flagOptions.autoConnect = parseResult.flag('autoConnect');
   flagOptions.startWithAudioMuted = parseResult.flag('startWithAudioMuted');
   flagOptions.startWithVideoMuted = parseResult.flag('startWithVideoMuted');
+  flagOptions.keepWindowOpen = parseResult.flag('keepWindowOpen');
   // Provider必须指定泛型，
   result.add(ChangeNotifierProvider<FlagOptions>.value(value: flagOptions));
 

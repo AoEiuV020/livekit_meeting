@@ -4,6 +4,7 @@ class FlagOptions extends ChangeNotifier {
   bool autoConnect = false;
   bool startWithAudioMuted = false;
   bool startWithVideoMuted = false;
+  bool keepWindowOpen = false;
   void updateFlags() {
     notifyListeners();
   }
