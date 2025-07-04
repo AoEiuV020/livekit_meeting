@@ -69,7 +69,7 @@ class LiveKitTheme {
             return Colors.white.withOpacity(0.3);
           }),
         ),
-        dialogTheme: DialogTheme(
+        dialogTheme: DialogThemeData(
           backgroundColor: cardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
