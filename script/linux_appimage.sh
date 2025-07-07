@@ -1,6 +1,33 @@
 #!/bin/sh
 . "$(dirname $0)/env.sh"
+
+# 检测CPU架构
+ARCH=$(uname -m)
+case $ARCH in
+    x86_64)
+        FLUTTER_ARCH="x64"
+        LINUXDEPLOY_ARCH="x86_64"
+        ;;
+    aarch64|arm64)
+        FLUTTER_ARCH="arm64"
+        LINUXDEPLOY_ARCH="aarch64"
+        ;;
+    *)
+        echo "错误: 不支持的架构: $ARCH"
+        exit 1
+        ;;
+esac
+
+echo "检测到架构: $ARCH, Flutter架构: $FLUTTER_ARCH, LinuxDeploy架构: $LINUXDEPLOY_ARCH"
+
+# 设置变量
+APP_NAME="Meeting"
 example_path="$ROOT"/example
+EXECUTABLE_NAME="meeting_app"
+BUNDLE_DIR="$example_path/build/linux/$FLUTTER_ARCH/release/bundle"
+APPDIR="$example_path/build/appimage/$APP_NAME.AppDir"
+APP_ICON="$example_path/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png"
+OUTPUT_DIR="$example_path/build/linux"
 
 # 检查依赖
 check_dependency() {
@@ -16,9 +43,24 @@ check_dependency() {
 # 检查并安装 linuxdeploy
 install_linuxdeploy() {
     if ! command -v linuxdeploy >/dev/null 2>&1; then
-        echo "正在安装 linuxdeploy..."
+        echo "正在安装 linuxdeploy ($LINUXDEPLOY_ARCH)..."
         check_dependency "wget" "wget"
-        sudo wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage -O /usr/local/bin/linuxdeploy
+        
+        # 根据架构下载对应的linuxdeploy
+        case $LINUXDEPLOY_ARCH in
+            x86_64)
+                LINUXDEPLOY_URL="https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
+                ;;
+            aarch64)
+                LINUXDEPLOY_URL="https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-aarch64.AppImage"
+                ;;
+            *)
+                echo "错误: 不支持的linuxdeploy架构: $LINUXDEPLOY_ARCH"
+                exit 1
+                ;;
+        esac
+        
+        sudo wget "$LINUXDEPLOY_URL" -O /usr/local/bin/linuxdeploy
         sudo chmod +x /usr/local/bin/linuxdeploy
         if ! command -v linuxdeploy >/dev/null 2>&1; then
             echo "错误: linuxdeploy 安装失败"
@@ -31,13 +73,6 @@ install_linuxdeploy() {
 # 检查必要的依赖
 check_dependency "wget" "wget"
 install_linuxdeploy
-
-# 设置变量
-APP_NAME="Meeting"
-BUNDLE_DIR="$example_path/build/linux/x64/release/bundle"
-APPDIR="$example_path/build/appimage/$APP_NAME.AppDir"
-APP_ICON="$example_path/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png"
-OUTPUT_DIR="$example_path/build/output"
 
 # 检查必要文件是否存在
 if [ ! -d "$BUNDLE_DIR" ]; then
@@ -84,7 +119,7 @@ echo "创建 AppRun 文件"
 cat > "$APPDIR/AppRun" << EOF
 #!/bin/sh
 cd "\$(dirname "\$0")/usr/bin"
-exec "./meeting_flutter_example" "\$@"
+exec "./$EXECUTABLE_NAME" "\$@"
 EOF
 
 echo "设置执行权限"
@@ -92,7 +127,8 @@ chmod +x "$APPDIR/AppRun"
 
 echo "构建 AppImage"
 # export NO_STRIP=true
-linuxdeploy --appdir "$APPDIR" --output appimage
+linuxdeploy --appdir "$APPDIR" \
+    --output appimage
 
 if [ $? -ne 0 ]; then
     echo "错误: AppImage 构建失败"

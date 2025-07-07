@@ -8,7 +8,8 @@ if [ -z "$ROOT" ]; then
 fi
 
 # 给容器指定一个名字
-CONTAINER_NAME="flutter-dev"
+CONTAINER_NAME="flutter-container"
+IMAGE_NAME="flutter-build"
 
 # 获取容器状态
 CONTAINER_STATUS=$(docker container inspect -f '{{.State.Status}}' "$CONTAINER_NAME" 2>/dev/null >&2 || echo "not_exist")
@@ -24,10 +25,15 @@ case "$CONTAINER_STATUS" in
 esac
 
 # 直接从 Dockerfile 构建并运行容器
-docker build -t flutter-build-temp -f "$ROOT/script/docker/u2004.Dockerfile" "$ROOT/script/docker" && \
-docker run -it --rm --name "$CONTAINER_NAME" \
+docker build --pull -t "$IMAGE_NAME" -f "$ROOT/script/docker/u2004.Dockerfile" "$ROOT/script/docker" && \
+docker run -i --rm --name "$CONTAINER_NAME" \
            --privileged=True \
            -v "$ROOT:/workspace" \
            -v "$HOME/.pub-cache/:/home/developer/.pub-cache/" \
-           flutter-build-temp $@
-echo "docker 打包完成"
+           "$IMAGE_NAME" $@
+if [ $? -ne 0 ]; then
+  echo "错误：容器运行失败"
+  exit 1
+fi
+
+echo "docker 打包成功完成"

@@ -26,44 +26,32 @@ RUN apt-get update && apt-get install -y \
     # deb打包相关
     dpkg-dev \
     debhelper \
+    # 安装 Flutter Linux 开发依赖
+    libgtk-3-dev \
+    liblzma-dev \
+    libstdc++-10-dev \
+    # 安装 flatpak 相关
+    flatpak \
+    flatpak-builder \
     # 清理缓存
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # 安装 linuxdeploy 相关
-RUN wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage \
-    && chmod +x linuxdeploy-x86_64.AppImage \
-    && mv linuxdeploy-x86_64.AppImage /usr/local/bin/linuxdeploy
-
-# 安装 flatpak 相关
-RUN apt-get update && apt-get install -y \
-    flatpak \
-    flatpak-builder \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN ARCH=$(uname -m) \
+    && wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-${ARCH}.AppImage \
+    && chmod +x linuxdeploy-${ARCH}.AppImage \
+    && mv linuxdeploy-${ARCH}.AppImage /usr/local/bin/linuxdeploy
 
 # 安装 Flutter SDK
-RUN git clone --depth 1 --branch 3.24.5 https://github.com/flutter/flutter.git /opt/flutter \
-    && /opt/flutter/bin/flutter doctor
+RUN git clone --depth 1 --branch 3.32.5 https://github.com/flutter/flutter.git /opt/flutter
 
 # 设置 Flutter 环境变量
 ENV PATH="/opt/flutter/bin:${PATH}"
 
-# 安装 Flutter Linux 开发依赖
-RUN apt-get update && apt-get install -y \
-    libgtk-3-dev \
-    liblzma-dev \
-    libstdc++-10-dev \
-    && flutter precache --linux \
-    && flutter doctor -v \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# 安装项目依赖 libmpv-dev
-RUN apt-get update && apt-get install -y \
-    libmpv-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# flutter 预缓存
+RUN flutter precache --linux \
+    && flutter doctor -v
 
 # 创建用户 developer (UID=1000)
 RUN useradd -m -u 1000 -s /bin/bash developer \
