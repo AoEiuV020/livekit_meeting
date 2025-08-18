@@ -30,7 +30,7 @@ class LivekitDemoPage extends StatefulWidget {
 
 class _LivekitDemoPageState extends State<LivekitDemoPage> {
   //
-  static const _storeKeyUri = 'uri';
+  static const _storeKeyUri = 'http';
   static const _storeKeyRoom = 'room';
   static const _storeKeyName = 'name';
 
