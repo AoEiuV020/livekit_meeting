@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
-import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 import '../theme.dart';
@@ -151,7 +150,6 @@ abstract class _ParticipantWidgetState<T extends ParticipantWidget>
                       child: VideoTrackRenderer(
                         renderMode: VideoRenderMode.auto,
                         activeVideoTrack!,
-                        fit: RTCVideoViewObjectFit.RTCVideoViewObjectFitContain,
                       ),
                     )
                   : const NoVideoWidget(),

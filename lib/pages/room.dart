@@ -8,7 +8,6 @@ import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 import '../exts.dart';
-import '../method_channels/replay_kit_channel.dart';
 import '../options/flag_options.dart';
 import '../rpc/external_api.dart';
 import '../utils.dart';
@@ -37,7 +36,6 @@ class _RoomPageState extends State<RoomPage> {
   List<ParticipantTrack> participantTracks = [];
   EventsListener<RoomEvent> get _listener => widget.listener;
   bool get fastConnection => widget.room.engine.fastConnectOptions != null;
-  bool _flagStartedReplayKit = false;
   @override
   void initState() {
     super.initState();
@@ -57,10 +55,6 @@ class _RoomPageState extends State<RoomPage> {
       Hardware.instance.setSpeakerphoneOn(true);
     }
 
-    if (lkPlatformIs(PlatformType.iOS)) {
-      ReplayKitChannel.listenMethodChannel(widget.room);
-    }
-
     if (lkPlatformIsDesktop()) {
       onWindowShouldClose = () async {
         // 如果是断开连接后主动关闭窗口，则没有RoomDisconnectedEvent，所以直接等待disconnect，不等事件，
@@ -76,9 +70,6 @@ class _RoomPageState extends State<RoomPage> {
     ExternalApi.instance.unregisterMethod(ExternalApiMethod.hangUp);
     // always dispose listener
     (() async {
-      if (lkPlatformIs(PlatformType.iOS)) {
-        ReplayKitChannel.closeReplayKit();
-      }
       widget.room.removeListener(_onRoomDidUpdate);
       await _listener.dispose();
       await widget.room.dispose();
@@ -238,26 +229,11 @@ class _RoomPageState extends State<RoomPage> {
     if (localParticipantTracks != null) {
       for (var t in localParticipantTracks) {
         if (t.isScreenShare) {
-          if (lkPlatformIs(PlatformType.iOS)) {
-            if (!_flagStartedReplayKit) {
-              _flagStartedReplayKit = true;
-
-              ReplayKitChannel.startReplayKit();
-            }
-          }
           screenTracks.add(ParticipantTrack(
             participant: widget.room.localParticipant!,
             type: ParticipantTrackType.kScreenShare,
           ));
         } else {
-          if (lkPlatformIs(PlatformType.iOS)) {
-            if (_flagStartedReplayKit) {
-              _flagStartedReplayKit = false;
-
-              ReplayKitChannel.closeReplayKit();
-            }
-          }
-
           userMediaTracks.add(
               ParticipantTrack(participant: widget.room.localParticipant!));
         }

@@ -42,7 +42,7 @@ class _LivekitDemoPageState extends State<LivekitDemoPage> {
   final bool _dynacast = true;
   bool _busy = false;
   final bool _e2ee = false;
-  final String _preferredCodec = 'H264';
+  final String _preferredCodec = 'AV1';
 
   static final _logger = Logger('LivekitDemoPage');
 
