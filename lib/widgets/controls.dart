@@ -8,6 +8,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter_background/flutter_background.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:livekit_client/livekit_client.dart';
+// ignore: implementation_imports
+import 'package:livekit_client/src/managers/broadcast_manager.dart';
 import 'package:provider/provider.dart';
 
 import '../exts.dart';
@@ -258,6 +260,11 @@ class _ControlsWidgetState extends State<ControlsWidget> {
   }
 
   Future<void> _disableScreenShare() async {
+    if (lkPlatformIs(PlatformType.iOS)) {
+      // ios没法直接停止屏幕共享， 所以弹出系统对话框让用户点击停止共享， 和jitsi一致，
+      BroadcastManager().requestActivation();
+      return;
+    }
     await participant.setScreenShareEnabled(false);
     if (lkPlatformIs(PlatformType.android)) {
       // Android specific
