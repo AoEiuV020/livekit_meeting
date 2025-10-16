@@ -27,7 +27,7 @@ dependencies:
   intl: ^0.20.2
   flutter_window_close: ^1.0.0
 
-  livekit_client: ^2.5.0
+  livekit_client: ^2.5.2
 
   flutter_webrtc: any
   json_rpc_2: ^4.0.0
